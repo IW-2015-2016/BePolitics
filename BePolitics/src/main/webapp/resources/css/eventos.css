@@ -1,0 +1,147 @@
+
+
+
+.popup-position{
+	display: none;
+	position: fixed;
+	top:0;
+	left:0;
+	background-color: rgba(0,0,0,0.7);
+	width: 100%;
+	height: 100%;
+}
+#popup-wrapper{
+	    width: 625px;
+	margin: 70px auto;
+	text-align:left; 
+	 background: #CCCCCC;
+	border-radius: 4px;
+	 overflow-y: auto;
+    overflow-x: auto;
+}
+#popup-container{
+	width: 500px;
+	margin: 40px auto;
+	text-align: left;
+	border-radius: 4px;
+	
+}
+.fa-times{
+	margin:20px;
+	float:right;
+}
+
+#listaEventos{
+	
+
+	    margin: 40px;
+    overflow-x: auto;
+    height: 400px;
+}
+
+#listaEventos ul{
+	list-style-type:none;
+	
+}
+#listaEventos ul li:hover{
+	background: #fff;
+	
+	
+}
+
+.evento{
+		 border-radius: 7px;
+ border-color: gray;
+ border-style: solid;
+ border-width: 2px;
+	    background: #CCCCCC;
+	margin: 40px;
+	    padding: 20px 20px;
+
+	   
+}
+.evento a{
+	text-decoration:none;
+	diplay:block;
+	padding: 5px 5px 5px 4px;
+	font-weight: 700;
+	text-decoration:none; 	
+}
+.evento:hover{
+	background: #000;
+	color: #fff;
+	
+}
+.fa-plus-circle{
+	color: #000;
+	float: right;
+}
+.fa-bell{
+	color: #000;
+}
+.fa-newspaper-o{
+	color: #000;
+}
+.fa-btc{
+	color: #000;
+}
+.popup-botones{
+	
+	    float: right;
+    width: 300px;
+    height: 40px;
+    margin-bottom: 20px;
+        padding-top: 10px;
+}
+.linkPopup{
+	text-decoration: none;
+	display: inline;
+	margin-left:55px;
+	 background-color: #424242;
+	 border-radius: 5px;
+	   border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px 5px 5px 4px;
+    color: #fff;
+	font-weight: 700;
+    	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.linkPopup a {
+    
+    text-decoration: none;
+    
+    padding: 5px;
+    padding-left: 40px;
+    padding-right: 31px;
+    -webkit-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    
+}
+.linkPopup:hover{
+		 /* background: #b63b4d; */
+		 background: #000;
+		 color: #fff;
+
+}
+
+.contratar{
+	float: right;
+}
+#Anadir{
+	float: right;
+	padding-right: 20px;
+	
+}
+.btneditor{
+	float:right;
+}
+
+
+#listaEventos ul li{
+	font-weight: bold;
+	 color: #000;	
+}

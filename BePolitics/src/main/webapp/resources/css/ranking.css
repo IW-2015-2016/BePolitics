@@ -1,0 +1,101 @@
+#container {
+    
+    clear: both;
+     margin-top: 10px;
+    margin-left: 3px;
+}
+#container input {
+ height: 30px;
+ visibility: hidden;
+ 
+  
+ /*The element is invisible (but still takes up space)*/
+}
+#container label{
+ background: #fff; /* Fondo de las pestañas */
+    color: #595959; /* Color del texto de las pestañas */
+ cursor: pointer;
+ display: block;
+ float: left;
+ font: bold 20px/33px Helvetica, Arial;/* Tamaño del texto de las pestañas */
+ height: 40px;
+     width: 138px;
+ line-height: 30px;
+ margin-right: 0px;
+ margin-left: 22px;
+ padding: 2px;
+ text-align: center;
+ border-radius: 7px;
+ border-color: gray;
+ border-style: solid;
+ border-width: 2px;
+    
+ padding: 2px 20px;
+}
+
+#container input:hover + label {
+	background: #000;
+	color: #fff;
+	
+/*  background: #336666; Fondo de las pestañas al pasar el cursor por encima
+ color: #CCCCCC; Color del texto de las pestañas al pasar el cursor por encima
+ */}
+#container input:checked + label {
+ background: #CCCCCC;
+       color: #000;
+    position: relative;
+    z-index: 6;
+    padding: 3px 20px;
+}
+#content {
+    margin-top:10px;
+     background: #CCCCCC; /* Fondo del contenido */
+	 border-radius: 7px;
+    position: relative;
+     border-color: gray;
+     border-width: 2px;
+    z-index: 4;
+        height: 520px;
+	width: 864px;
+
+ /*
+ The z-index property specifies the stack order of an element.
+ An element with greater stack order is always in front of an element
+ with a lower stack order.
+ */
+}
+#content div {
+  margin: .4em 0 10px;
+ padding: 10px;
+background: #CCCCCC; 
+ width: 864px;
+}
+
+#content-1{
+    opacity: 0;
+    position: absolute;
+    padding: 10px;
+    
+    height: 520px;
+	width: 588px;
+	
+    overflow-y: auto;
+    overflow-x: auto;
+    
+}
+#content-2{
+    opacity: 0;
+    padding: 10px;
+    position: absolute;
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 520px;
+    width: 588px;
+}
+
+#container input#tab-1:checked ~ #content #content-1,
+#container input#tab-2:checked ~ #content #content-2 {
+ opacity: 1;
+ z-index: 100;
+}
+

@@ -1,0 +1,59 @@
+#divCentro{
+	
+	background: #fff;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+	
+}
+/* #registrado{
+	margin: 20px auto 20px;
+	background: #fff;
+	border-radius: 4px;
+} */
+#titulo h1{
+	color: #4d4d4d;
+	margin-top: 20px;
+	margin-left: 400px;
+	
+	
+}
+#login{
+    margin-top: 19px;
+    margin-left: 300px;
+}
+.nick-pass{
+	margin:15px;
+}
+
+.nick-pass input{
+	border-radius: 5px;
+	margin-left:20px;
+}
+.entra-registro{
+	margin-left:-30px;
+}
+.entra-registro input{
+	width: 152px;
+	display: inline;
+	padding: 5px 5px 5px 4px;
+	color: #fff;
+	font-weight: 700;
+	position: relative;
+	background-color: #424242;
+	border-radius: 5px;
+    margin-bottom: 3px;
+    margin-left:20px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    
+    
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.entra-registro input:hover{
+	background-color: black;
+	color: #fff;
+}

@@ -1,0 +1,35 @@
+
+#formNuevo input{
+	border-radius: 5px;
+	margin-left:20px;
+}
+
+#formNuevo{
+    margin-top: 19px;
+    margin-left: 300px;
+}
+
+.crea-cuenta input{
+	width: 152px;
+	display: inline;
+	padding: 5px 5px 5px 4px;
+	color: #fff;
+	font-weight: 700;
+	position: relative;
+	background-color: #424242;
+	border-radius: 5px;
+    margin-bottom: 3px;
+    margin-left:20px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    
+    
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.crea-cuenta input:hover{
+	background-color: black;
+	color: #fff;
+}

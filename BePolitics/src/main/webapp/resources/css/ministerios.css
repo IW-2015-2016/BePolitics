@@ -1,0 +1,71 @@
+
+.popup-position{
+	display: none;
+	position: fixed;
+	top:0;
+	left:0;
+	background-color: rgba(0,0,0,0.7);
+	width: 100%;
+	height: 100%;
+}
+#popup-wrapper{
+	    width: 625px;
+	margin: 70px auto;
+	text-align:left; 
+	 background: #CCCCCC;
+	border-radius: 4px;
+	 overflow-y: auto;
+    overflow-x: auto;
+}
+#popup-container{
+	width: 500px;
+	margin: 40px auto;
+	text-align: left;
+	border-radius: 4px;
+	
+}
+
+.ministryButton{
+	text-decoration: none;
+	display: block;
+	padding: 5px 5px 5px 4px;
+	color: #fff;
+	font-weight: 700;
+    background-color: #424242;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    
+    
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+.fa-times{
+	margin:20px;
+	float:right;
+}
+
+textarea {
+   resize: none;
+}
+#derecha {
+ float:right;
+}
+.texto {
+ float: left;
+ width:100%;
+ height: 300px;
+}
+
+.titulo{
+ width: 100%;
+ height: 20px;
+}
+.abajo{
+ float: bottom;
+ 
+}
