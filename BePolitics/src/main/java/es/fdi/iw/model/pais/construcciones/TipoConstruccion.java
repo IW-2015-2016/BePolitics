@@ -9,6 +9,8 @@ public enum TipoConstruccion {
 	MINISTERIO_DE_SANIDAD,
 	PROMOTORAS_INMOBILIARIAS,
 	CONFERENCIA_EPISCOPAL;
+	public static final int multiplicadorCoste[] = 		{3, 3, 5, 3, 4, 5, 3, 4};
+    	public static final int multiplicadorProduccion[] =  	{2, 2, 4, 2, 3, 4, 2, 3};
 	/**
          * Devuelve el número de construcciones que hay
          * @return el número máximo de construcciones
