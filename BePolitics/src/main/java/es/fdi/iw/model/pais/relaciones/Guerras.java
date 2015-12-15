@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import pais.Pais;
 import pais.eventos.EventosGuerra;
 /**
- * Representa todas las guerras que tiene un pa�s. Permite la creaci�n de nuevas guerras y la finalizaci�n.
- * cada guerra tiene asociada una clase EventosGuerra que contendr� todos los eventos de esa guerra pasados
+ * Representa todas las guerras que tiene un país. Permite la creación de nuevas guerras y la finalización.
+ * cada guerra tiene asociada una clase EventosGuerra que contendrá todos los eventos de esa guerra pasados
  * y el evento activo
  * 
  * @author Ismael
@@ -21,10 +21,10 @@ public class Guerras {
 	private ArrayList<Pair<Pais, EventosGuerra>> guerrasYEventos;
 	private Pais propietario;
 	/**
-	 * Se debe entregar el país al que pertenece la alianza
+	 * Se debe entregar el paÃ­s al que pertenece la alianza
 	 * 
 	 * @param pais el pais que posee la lista de alianzas
-	 * @throws IOException si el país está vacío
+	 * @throws IOException si el paÃ­s estÃ¡ vacÃ­o
 	 */
 	public Guerras(Pais pais) throws IOException{
 		this.guerrasYEventos = new ArrayList<Pair<Pais,EventosGuerra>>();
@@ -40,7 +40,7 @@ public class Guerras {
 		return this.propietario.getNombre();
 	}
 	/**
-	 * Entra en guerra con un pais. Si el pais ya estaba en guerra devolverá falso, si p es null, lanzará una excepción
+	 * Entra en guerra con un pais. Si el pais ya estaba en guerra devolverÃ¡ falso, si p es null, lanzarÃ¡ una excepciÃ³n
 	 * 
 	 * @param p
 	 * @return
@@ -49,7 +49,7 @@ public class Guerras {
 	public boolean entrarEnGuerra(Pais p) throws IOException{
 		if(p==null) throw new IOException();
 		
-		//Crea un par para buscar el pa�s
+		//Crea un par para buscar el país
 		Pair<Pais, EventosGuerra> par = new Pair<Pais, EventosGuerra>(p,null);
 		
 		if (this.guerrasYEventos.contains(par)) return false;
@@ -58,7 +58,7 @@ public class Guerras {
 	}
 	/**
 	 * Acaba una guerra
-	 * @param p el país con el que se quiere terminar la guerra
+	 * @param p el paÃ­s con el que se quiere terminar la guerra
 	 * @return true si se acaba la guerra, false si no existe o no se puede borrar
 	 */
 	public boolean acabaGuerra(Pais p){
@@ -67,7 +67,7 @@ public class Guerras {
 			return false;
 		}
 		if(this.guerrasYEventos.remove(par)){
-			//TODO añadir a los paises eventos de eliminación de la alianza en tiempo x
+			//TODO aÃ±adir a los paises eventos de eliminaciÃ³n de la alianza en tiempo x
 			
 			return true;
 		}
@@ -75,12 +75,55 @@ public class Guerras {
 	}
 	
 	/**
-	 * Comprueba si un país está en guerra con este
-	 * @param p el país
+	 * Comprueba si un paÃ­s estÃ¡ en guerra con este
+	 * @param p el paÃ­s
 	 * @return true si es enemigo, false en caso contrario
 	 */
 	public boolean esEnemigo(Pais p){
 		Pair<Pais, EventosGuerra> par = new Pair<Pais, EventosGuerra>(p,null);
 		return this.guerrasYEventos.contains(par);
+	}
+	/**
+	 * Dice si el país es propietario de esta lista de guerras
+	 * @param p el país
+	 * @return true si el país es igual al propietario
+	 */
+	public boolean esPropietario(Pais p){
+		return this.propietario.equals(p);
+		
+	}
+	/**
+	 * Contiene el evento actual de la guerra, 
+	 * @param p el pais
+	 * @return un evento si lo hay, si no lo hay o no se esta en guerra, devuelve null
+	 */
+	public Evento getEventoActual(Pais p){
+		
+		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
+		
+		if (idx>0) return null;
+		//Obtiene el par país/EventosGuerra, saca EventosGuerra y de este el evento actual. 
+		return ((EventosGuerra)
+					((Pair<Pais,EventosGuerra>)
+							this.guerrasYEventos.get(idx)
+					).getRight()
+				).getEventoActual();	
+	}
+	/**
+	 * Obtiene una list de los eventos pasados con todos los países
+	 * @param p un país
+	 * @return la lista de eventos si el país está en guerra, null en caso contrario
+	 */
+	public ArrayList<Evento> getEventosPasados(Pais p){
+		
+		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
+		
+		if (idx>0) return null;
+		//Obtiene el par país/EventosGuerra, saca EventosGuerra y de este los eventos pasados. 
+		return ((EventosGuerra)
+					((Pair<Pais,EventosGuerra>)
+							this.guerrasYEventos.get(idx)
+					).getRight()
+				).getEventosPasados();	
 	}
 }
