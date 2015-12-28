@@ -11,7 +11,7 @@
 	<li class="evento"> 
 		Uno de tus políticos ha sido salpicado por la corrupción
 		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
+		<div class="contratar"><a href="eventosEditor" class= "ministryButton">Modificar</a></div>
 	</li>
 	<li class="evento"> 
 		Tu país ha generado un extra de recursos ¿vender,guardar?

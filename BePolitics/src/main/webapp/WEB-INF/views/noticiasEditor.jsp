@@ -18,19 +18,21 @@
     <div id="popup-wrapper">
      <p><a href="javascript:void(0)" onclick="toggle_visibility('popup-box1')"><i class="fa fa-times"></i></a></p>
             <div id="popup-container">
-            <div >
+            <div>
+            <h4>Título</h4>
             <textarea class="titulo"><h2>Satanás afirma que Juega BePolitics</h2></textarea>
-            <textarea class="fecha"><h4>28/11/2015</h4></textarea>
-        </div>    
-                
-                <textarea class="texto">
-<p>Tras unas polémicas declaraciones en las que el señor de las tinieblas afirmaba que mirar fijamente a una cabra podría llevar al infierno según las leyes divinas, Satanás dedicó unos minutos a hablar de sus hobbies
-</p> 
-<p>
-Según una transcripción de la entrevista que tuvo en primicia la cadena que lo entrevistó, Satán decía: "Disfruto mucho metiendo a los sims en una piscina y quitando la escalera, pongo faltas de ortografía en foros y juego a BePolitics, al final los mejores actos de maldad son los cotidianos"                 
-</p>
-<p> No podemos esperar a la próxima aparición de tan controvertido y extravagante personaje</p>
-                </textarea>
+            <h4>Fecha</h4>
+            <input type="date" name="fecha">
+        	</div>    
+            <h4>Noticia</h4>    
+            <textarea class="texto">
+			<p>Tras unas polémicas declaraciones en las que el señor de las tinieblas afirmaba que mirar fijamente a una cabra podría llevar al infierno según las leyes divinas, Satanás dedicó unos minutos a hablar de sus hobbies
+			</p> 
+			<p>
+			Según una transcripción de la entrevista que tuvo en primicia la cadena que lo entrevistó, Satán decía: "Disfruto mucho metiendo a los sims en una piscina y quitando la escalera, pongo faltas de ortografía en foros y juego a BePolitics, al final los mejores actos de maldad son los cotidianos"                 
+			</p>
+			<p> No podemos esperar a la próxima aparición de tan controvertido y extravagante personaje</p>
+			</textarea>
                 
             </div>
             <div class="abajo">
