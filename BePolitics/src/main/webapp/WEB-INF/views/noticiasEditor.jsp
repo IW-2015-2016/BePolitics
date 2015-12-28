@@ -20,6 +20,7 @@
             <div id="popup-container">
             <div >
             <textarea class="titulo"><h2>Satanás afirma que Juega BePolitics</h2></textarea>
+            <textarea class="fecha"><h4>28/11/2015</h4></textarea>
         </div>    
                 
                 <textarea class="texto">

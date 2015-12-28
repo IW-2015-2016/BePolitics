@@ -11,6 +11,7 @@
 a{
 	color: #b63b4d;
 }
+
 body{
 	/*el width de body = divMenu Width + divCentro width*/
 	max-width: 1218px;
@@ -35,6 +36,12 @@ footer{
 	float: left;
 	width: 1217px;
 	border-radius: 5px;
+}
+a.enlacefooter {
+    color: white;
+}
+div#info {
+    font-size: small;
 }
 div#botonNosotros{
 	float: right;
