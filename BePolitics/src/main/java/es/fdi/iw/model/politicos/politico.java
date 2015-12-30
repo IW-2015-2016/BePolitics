@@ -1,6 +1,6 @@
-package politicos;
+package es.fdi.iw.model.politicos;
 
-import modificadores.ModificadorProduccion;
+import es.fdi.iw.model.modificadores.ModificadorProduccion;
 
 /**
  * Esta clase representa un político. Sus stats deben estar siempre entre 0 y 100 y para ello

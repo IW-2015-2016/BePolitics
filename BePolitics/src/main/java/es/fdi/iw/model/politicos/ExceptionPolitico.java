@@ -1,4 +1,4 @@
-package politicos;
+package es.fdi.iw.model.politicos;
 
 import java.io.IOException;
 /**

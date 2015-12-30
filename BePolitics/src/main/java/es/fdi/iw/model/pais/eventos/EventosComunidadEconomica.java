@@ -1,5 +1,5 @@
-package pais.eventos;
+package es.fdi.iw.model.pais.eventos;
 
-public class EventosComunidadEconomica {
+public class EventosComunidadEconomica  implements Eventos{
 
 }

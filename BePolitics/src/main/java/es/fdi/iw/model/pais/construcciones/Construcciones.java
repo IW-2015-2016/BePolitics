@@ -1,11 +1,14 @@
-package pais.construcciones;
+package es.fdi.iw.model.pais.construcciones;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pais.TipoRecurso;
-import pais.TipoRecurso;
-import politicos.Politico;
+
+import es.fdi.iw.model.pais.Recursos;
+import es.fdi.iw.model.pais.TipoRecurso;
+import es.fdi.iw.model.politicos.Politico;
+
+
 /**
  * Esta clase representa todas las construcciones que puede haber en un país. En ella
  * hay métodos para subir el nivel o la producción, está guardado un multiplicador de costes
@@ -67,7 +70,7 @@ public class Construcciones {
      * @param r los recursos del paÃ­s
      * @return true si se lleva a cabo y false en caso contrario
      */
-    public boolean subeNivel(TipoConstruccion t, pais.Recursos r){
+    public boolean subeNivel(TipoConstruccion t, Recursos r){
         
         int idxConstruccion = TipoConstruccion.getIndex(t);
         // Comprueba si hay recursos

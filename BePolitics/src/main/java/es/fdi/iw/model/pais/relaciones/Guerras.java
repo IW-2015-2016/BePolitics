@@ -1,10 +1,13 @@
-package pais.relaciones;
+package es.fdi.iw.model.pais.relaciones;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import pais.Pais;
-import pais.eventos.EventosGuerra;
+import es.fdi.iw.model.pais.Pais;
+import es.fdi.iw.model.pais.eventos.Eventos;
+import es.fdi.iw.model.pais.eventos.EventosGuerra;
+
+
 /**
  * Representa todas las guerras que tiene un país. Permite la creación de nuevas guerras y la finalización.
  * cada guerra tiene asociada una clase EventosGuerra que contendrá todos los eventos de esa guerra pasados
@@ -97,7 +100,7 @@ public class Guerras {
 	 * @param p el pais
 	 * @return un evento si lo hay, si no lo hay o no se esta en guerra, devuelve null
 	 */
-	public Evento getEventoActual(Pais p){
+	public Eventos getEventoActual(Pais p){
 		
 		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
 		
@@ -114,7 +117,7 @@ public class Guerras {
 	 * @param p un país
 	 * @return la lista de eventos si el país está en guerra, null en caso contrario
 	 */
-	public ArrayList<Evento> getEventosPasados(Pais p){
+	public ArrayList<Eventos> getEventosPasados(Pais p){
 		
 		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
 		
