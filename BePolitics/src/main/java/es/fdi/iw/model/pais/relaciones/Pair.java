@@ -1,4 +1,4 @@
-package pais.relaciones;
+package es.fdi.iw.model.pais.relaciones;
 /**
  * Relaciona dos objetos. El de la izquierda será inmutable pero el de la derecha se puede
  * cambiar a discrección. La clase pair sólo compara en su método equals al objeto de la 

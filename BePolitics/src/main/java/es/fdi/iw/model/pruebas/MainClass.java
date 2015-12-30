@@ -1,7 +1,8 @@
-package pruebas;
+package es.fdi.iw.model.pruebas;
 
-import politicos.ExceptionPolitico;
-import politicos.Politico;
+import es.fdi.iw.model.politicos.ExceptionPolitico;
+import es.fdi.iw.model.politicos.Politico;
+
 
 public class MainClass {
 

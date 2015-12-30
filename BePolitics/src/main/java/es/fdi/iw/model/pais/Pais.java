@@ -1,16 +1,18 @@
-package pais;
+package es.fdi.iw.model.pais;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import pais.construcciones.Construcciones;
-import pais.relaciones.ComunidadEconomica;
-import pais.relaciones.Guerras;
-import politicos.Politico;
+import es.fdi.iw.model.pais.construcciones.Construcciones;
+import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
+import es.fdi.iw.model.pais.relaciones.Guerras;
+import es.fdi.iw.model.politicos.Politico;
+
+
 /**
  * Representa un país
  * 
- * @author Ismael
+ * @author Ismael 
  */
 public class Pais {
 	private ArrayList<Politico> politicos;

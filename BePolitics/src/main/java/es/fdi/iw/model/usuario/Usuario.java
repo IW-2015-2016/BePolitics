@@ -1,4 +1,4 @@
-package usuario;
+package es.fdi.iw.model.usuario;
 
 import java.util.Date;
 
@@ -28,7 +28,7 @@ public class Usuario {
 	private Date fechaRegistro; //Me parece interesante almacenar esto porque podemos activar los eventos según el tiempo jugado por ejemplo
 	
 	public Usuario(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
-			String pasword, Pais pais, TipoLider tipoLider, Rol rol, Date fechaRegistro) {
+			String pasword, Pais pais, TipoLider tipoLider, Rol rol, Date fechaRegistro) throws ExceptionUsuario {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellidos = apellidos;

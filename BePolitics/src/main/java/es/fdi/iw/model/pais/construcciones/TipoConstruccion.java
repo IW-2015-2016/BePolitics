@@ -1,4 +1,4 @@
-package pais.construcciones;
+package es.fdi.iw.model.pais.construcciones;
 
 public enum TipoConstruccion {
 	MINISTERIO_DE_INDUSTRIA,

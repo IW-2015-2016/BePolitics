@@ -1,8 +1,10 @@
-package modificadores;
+package es.fdi.iw.model.modificadores;
 
 import java.sql.Date;
 
-import pais.TipoRecurso;
+import es.fdi.iw.model.pais.TipoRecurso;
+
+
 /**
  * Modificadores a la producción. contienen un tipo de recurso, un porcentaje, un título,
  * una descripción, y una fecha de inicio y otra de fin. tienen como objetivo almacenar

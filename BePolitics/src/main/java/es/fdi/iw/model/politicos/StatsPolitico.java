@@ -1,4 +1,4 @@
-package politicos;
+package es.fdi.iw.model.politicos;
 /**
  * Guarda los stats que puede existir. Además los ordena.
  * 

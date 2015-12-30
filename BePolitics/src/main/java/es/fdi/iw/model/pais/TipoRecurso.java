@@ -1,4 +1,4 @@
-package pais;
+package es.fdi.iw.model.pais;
 
 import java.io.IOException;
 

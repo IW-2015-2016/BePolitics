@@ -1,9 +1,11 @@
-package pais.relaciones;
+package es.fdi.iw.model.pais.relaciones;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import pais.Pais;
+import es.fdi.iw.model.pais.Pais;
+
+
 /**
  * Una comunidad económica es una lista de países miembros y otra de administradores
  * un pais administrador podra echar a miembros o salir, un miembro solo puede salir
