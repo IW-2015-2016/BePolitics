@@ -1,12 +1,13 @@
 <footer>
-	<div id=info></div>
+	<div id=info>
 	<p>Creada por: futurDrama</p>
  	<p>Información de contacto: 
- 		<a href="mailto:someone@example.someone">info@bepolitics.com</a>.
+ 		<a class="enlacefooter" href="mailto:someone@example.someone">info@bepolitics.com</a>.
   	</p>
   	</div>
   	<div id=botonNosotros>
-  	<a href="#">Sobre Nosotros</a>.
+  	<p><a class="enlacefooter" ref="#">Sobre Nosotros.</a></p>
+  	</div>
   	</div>
 </footer>
 
