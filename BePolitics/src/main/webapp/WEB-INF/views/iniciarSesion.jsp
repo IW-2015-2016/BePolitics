@@ -6,7 +6,10 @@
 			<h1>Login</h1>
 		</div>
 		<div id="login">
-		    <form action="" method="POST">
+		    <form action="${prefix}entrar" method="POST">
+		    
+			<input type="hidden" id="source" name="source" 
+				value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 		    	<div class="nick-pass">
 		    		<label >Nick: </label>
 		    		<input type="text" name="nick">
@@ -16,7 +19,7 @@
 		        	<input type="password" name="contra">
 				</div>
 				<div class="entra-registro"> 
-					<input type="button" value="Entrar">    
+					<input name="submit"  value="Entrar" type="submit">    
 					<input type="reset" value="Restablecer">
 						<p><a href="vistaAdmin" >Entrar como Administrador</a></p>
 						<p><a href="vistaEditor" >Entrar como Editor</a>	</p>
