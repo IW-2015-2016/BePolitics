@@ -9,6 +9,11 @@ import java.util.ArrayList;
  */
 public interface Eventos {
 	/**
+	 * Devuelve el tipo de evento
+	 * @return
+	 */
+	public TipoEvento getTipoEvento();
+	/**
 	 * Devuelve el evento actual
 	 * 
 	 * @return El evento actual
@@ -19,6 +24,6 @@ public interface Eventos {
 	 * 
 	 * @return un ArrayList de eventos
 	 */
-	public abstract ArrayList<Eventos> getEventosPasados();
+	public abstract ArrayList<Evento> getEventosPasados();
 
 }
