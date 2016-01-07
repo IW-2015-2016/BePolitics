@@ -40,6 +40,7 @@ import es.fdi.iw.ContextInitializer;
 import es.fdi.iw.model.Author;
 import es.fdi.iw.model.Book;
 import es.fdi.iw.model.User;
+import es.fdi.iw.model.usuario.Usuario;
 
 /**
  * Una aplicación de ejemplo para IW.
@@ -467,6 +468,35 @@ public class HomeController {
 		
 		model.addAttribute("pageTitle", "Iniciar Sesión");
 		return "iniciarSesion";
+	}
+	@RequestMapping(value = "/entrar", method = RequestMethod.POST)
+	@Transactional
+	public String nuevaSesion(
+			@RequestParam("nick") String formNick,
+			@RequestParam("contra") String formContra,
+			@RequestParam("source") String formSource,
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model, HttpSession session){
+		
+		logger.info("Login attempt from '{}' while visiting '{}'", formNick, formSource);
+
+		// validate request
+		if (formNick == null || formContra == null|| formContra.length() < 6  ) {
+			model.addAttribute("loginError", "Rellene el campo Nick \n Contraseña : 6 caracteres mínimo");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}  
+		else{
+		Usuario u = null;
+		/*u = (Usuario)entityManager.createNamedQuery("usuarioByLogin")
+				.setParameter("loginParametro", formNick).getSingleResult();*/
+		
+		//model.addAttribute("loginError", "error en usuario o contraseña");
+		session.setAttribute("admin", formNick);
+		
+		//model.addAttribute("admin", "pedro");
+		return "home2";
+		}
+		return "home2";
 	}
 	@RequestMapping(value = "/eventosEditor", method = RequestMethod.GET)
    	public String eventosEditor(Locale locale, Model model, HttpSession session) {
