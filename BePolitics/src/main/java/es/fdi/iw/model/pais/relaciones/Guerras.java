@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import es.fdi.iw.model.pais.Pais;
+import es.fdi.iw.model.pais.eventos.Evento;
 import es.fdi.iw.model.pais.eventos.Eventos;
 import es.fdi.iw.model.pais.eventos.EventosGuerra;
 
@@ -117,7 +118,7 @@ public class Guerras {
 	 * @param p un país
 	 * @return la lista de eventos si el país está en guerra, null en caso contrario
 	 */
-	public ArrayList<Eventos> getEventosPasados(Pais p){
+	public ArrayList<Evento> getEventosPasados(Pais p){
 		
 		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
 		
