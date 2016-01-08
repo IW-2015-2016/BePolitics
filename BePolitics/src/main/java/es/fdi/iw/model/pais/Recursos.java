@@ -70,6 +70,14 @@ public class Recursos {
 	public void sumaRecurso(TipoRecurso r, int cantidad){
 			this.resources[TipoRecurso.getIndice(r)] +=cantidad;
 	}
-	
-	
+	/**
+	 * Recibe un array de recursos que se suma a los recursos actuales
+	 * @param recursos un array de enteros
+	 */
+	public void produce(int[] recursos){
+		for(int i=0; i<TipoRecurso.getNumTipoRecursos();i++){
+			this.resources[i]+=recursos[i];
+		}
+		
+	}
 }

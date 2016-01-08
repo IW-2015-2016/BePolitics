@@ -3,6 +3,7 @@ package es.fdi.iw.model.pais;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
 import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
 import es.fdi.iw.model.pais.relaciones.Guerras;
@@ -22,7 +23,7 @@ public class Pais {
 	private Guerras guerra;
 	private Construcciones construcciones;
 	private ComunidadEconomica comunidad;
-	
+	private ArrayList<ModificadorProduccion> modificadores;
 	
 	public Pais(String nom) {
 		this.nombre = nom;
@@ -37,9 +38,7 @@ public class Pais {
 		
 		
 		this.comunidad=null;
-		
-		
-		
+		this.recursos = new Recursos();
 		
 	}
 	
