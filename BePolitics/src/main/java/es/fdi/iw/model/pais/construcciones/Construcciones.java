@@ -124,4 +124,14 @@ public class Construcciones {
     public int getProduccionRecurso(TipoConstruccion c, TipoRecurso r){
     	return this.produccion_hora[TipoConstruccion.getIndex(c)][TipoRecurso.getIndice(r)];
     }
+    /**
+     * Devuelve la producción de un recurso concreto en un edificio concreto
+     * @param c la el indice de la construcción 
+     * @param r el indice del recurso
+     * @return La producción
+     */
+    public int getProduccionRecurso(int c, int r){
+    	return this.getProduccionRecurso(TipoConstruccion.getConstruccion(c),
+    									 TipoRecurso.getRecurso(r));
+    }
 }

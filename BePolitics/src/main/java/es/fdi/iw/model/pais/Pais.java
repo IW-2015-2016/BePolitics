@@ -2,9 +2,11 @@ package es.fdi.iw.model.pais;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
+import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
 import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
 import es.fdi.iw.model.pais.relaciones.Guerras;
 import es.fdi.iw.model.politicos.Politico;
@@ -59,9 +61,54 @@ public class Pais {
 	}
 
 
-
+	/**
+	 * Obtiene el nombre del país
+	 * @return
+	 */
 	public String getNombre() {
 		return nombre;
+	}
+	
+	/**
+	 * Produce los recursos del país
+	 */
+	public void produce(){
+		int cantidades[] = new int[TipoRecurso.getNumTipoRecursos()];
+		for(int i=0;i<TipoRecurso.getNumTipoRecursos();i++){
+			cantidades[i]=0;
+		}
+		
+		int percentModify[] = this.calculaModificadores();
+		
+		for(int i =0;i<TipoConstruccion.getNumConstrucciones();i++){
+			for(int j=0; j<TipoRecurso.getNumTipoRecursos();j++){
+				/*La producción de cada edificio se suma ponderada con su modificador */
+				cantidades[j]+= this.construcciones.getProduccionRecurso(i, j) *(100-percentModify[j]);
+				
+			}
+		}
+		this.recursos.produce(cantidades);
+	}
+	/**
+	 * Calcula los modificadores de producción
+	 * @return
+	 */
+	private int[] calculaModificadores(){
+		int porcentajes[] = new int[TipoRecurso.getNumTipoRecursos()];
+		for(int i=0;i<TipoRecurso.getNumTipoRecursos();i++){
+			porcentajes[i]=0;
+		}
+		
+		Iterator<ModificadorProduccion> iterador = this.modificadores.iterator();
+		while (iterador.hasNext()) {
+			ModificadorProduccion p = ((ModificadorProduccion) iterador);
+			int tipo = TipoRecurso.getIndice(p.getTipo());
+			porcentajes[tipo] += p.getPorcentaje(); 
+			
+		}
+		
+		return porcentajes;
+		
 	}
 
 }
