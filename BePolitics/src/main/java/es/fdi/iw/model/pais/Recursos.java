@@ -61,7 +61,6 @@ public class Recursos {
 		return getRecurso(TipoRecurso.POBLACION);
 	}
 	
-	
 	/**
 	 * Suma a un determinado recurso a una cantidad
 	 * @param r
@@ -78,6 +77,6 @@ public class Recursos {
 		for(int i=0; i<TipoRecurso.getNumTipoRecursos();i++){
 			this.resources[i]+=recursos[i];
 		}
-		
 	}
+	
 }

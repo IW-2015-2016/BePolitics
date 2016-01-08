@@ -41,7 +41,7 @@ public class Pais {
 		}
 		this.construcciones = new Construcciones();
 		
-		
+		  
 		this.comunidad=null;
 		this.recursos = new Recursos();
 		
@@ -100,7 +100,6 @@ public class Pais {
 			for(int j=0; j<TipoRecurso.getNumTipoRecursos();j++){
 				/*La producción de cada edificio se suma ponderada con su modificador */
 				cantidades[j]+= this.construcciones.getProduccionRecurso(i, j) *(100-percentModify[j]);
-				
 			}
 		}
 		this.recursos.produce(cantidades);
