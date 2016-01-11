@@ -6,6 +6,7 @@ package es.fdi.iw.model.pais.eventos;
  *
  */
 public class EventosGuerra implements Eventos{
+
 	@Override
 	public TipoEvento getTipoEvento() {
 		return TipoEvento.GUERRA;
