@@ -1,50 +1,13 @@
 # ModeloBePolitics, el modelo para la aplicación
 
-# INDICACIONES SOBRE GITHUB
-# {
--Aquí tenéis el programa, por si os interesa
-
--https://desktop.github.com/
-
--Y una microguía
-
--https://rogerdudler.github.io/git-guide/index.es.html
-
--El cliente propio de github está para win y mac, lo siento Bea, vas a tener que buscar tu propia interfaz gráfica
-
--No es muy diferente de sourcetree pero es infinitamente más fácil
-
--Si queréis currar, haced una nueva rama, la modificáis y luego se hace un merge
-
-# }
-
-# GUíA DE FUNCIONAMIENTO DE GITHUB
-# {
--Para cuando queráis usar git os indico:
-
--SIEMPRE CREÁIS UNA RAMA NUEVA y la llamáis como os salga del potorro
-
--trabajáis en esa rama normal y hacéis al final un commit a la propia rama (no a la rama master)
-
--tras eso, buscáis el "pull request" y lo lanzáis. en github aparece el pull request
-
--hay dos opciones:
-
-1.-No hay conflitco, cojonudo, se acepta el pull y punto
- 
-2.-Hay conflicto, alguien ha tocado el mismo archivo y hay cruce de versiones, hay que hacer merge manual
-
--Tras hacer el pull la rama master es la oficial, y en ella estará todo
-    
-# }
 
 # AGOBIOS DE ISMAEL
 # {
--Del modelo queda mazo y el tiempo empieza a apremiar. De STS también queda mazo
+-Del modelo queda mazo y el tiempo empieza a apremiar. De jsp, javascript, SQL, etc también queda mazo
 
--Dijo el Manuel que antes de vacaciones pondría una entrega...
+-No creo que Manuel tarde en pedir una entrega
 
--Y queda esta semana
+-Quedan 3 semanas de curso
 
 -y no os veo hacer pulls al código
 
@@ -54,7 +17,11 @@
 
 -Lo suyo es que alguien fuera detrás de mí probando lo que he programado
 
--El modelo tiene un curro de la hostia, estoy usando cloc (un ejecutable externo) para contar líneas de código y hay ya 830 líneas de código, 185 líneas en blanco y 420 líneas de comentarios en 24 archivos y esta mierda no avanza. Ya no sé ni qué está hecho y qué no
+-El modelo tiene un curro de la hostia, no ayudáis y esto no avanza
+
+-En navidades todos nos hemos tocado las pelotas, pero si miráis líneas de código subidas, quienes llevamos más somos Sahad y yo, y las de Sahad, 1200 o asi las subí yo al fusionar el modelo con la vista
+
+-TRABAJAD, HOSTIAS
 
 # }
 
@@ -100,6 +67,8 @@ con la api estándar de Java
 
 -StatsPolitico **(I)**
 
+-Evento **(I)**
+
 # }
 
 # COSAS EMPEZADAS
@@ -116,18 +85,58 @@ con la api estándar de Java
 
 -TipoLider **(I)**
 
+-Usuario **(S)** //Está casi empezada
+
 # }
 
 # COSAS QUE HAY QUE HACER DESDE CERO
 # {
- -Usuario //Está pero hay que borrarla
  
- -EventoComunidadEconomica
+ -EventosGuerra
  
- -EventoRegular
+ -EventosComunidad
  
- -EvengoGuerra
+ -EventosRegular
  
  -Mercado
  
+# }
+
+
+# INDICACIONES SOBRE GITHUB
+# {
+-Aquí tenéis el programa, por si os interesa
+
+-https://desktop.github.com/
+
+-Y una microguía
+
+-https://rogerdudler.github.io/git-guide/index.es.html
+
+-El cliente propio de github está para win y mac, lo siento Bea, vas a tener que buscar tu propia interfaz gráfica
+
+-No es muy diferente de sourcetree pero es infinitamente más fácil
+
+-Si queréis currar, haced una nueva rama, la modificáis y luego se hace un merge
+
+# }
+
+# GUíA DE FUNCIONAMIENTO DE GITHUB
+# {
+-Para cuando queráis usar git os indico:
+
+-SIEMPRE CREÁIS UNA RAMA NUEVA y la llamáis como os salga del potorro
+
+-trabajáis en esa rama normal y hacéis al final un commit a la propia rama (no a la rama master)
+
+-tras eso, buscáis el "pull request" y lo lanzáis. en github aparece el pull request
+
+-hay dos opciones:
+
+1.-No hay conflitco, cojonudo, se acepta el pull y punto
+ 
+2.-Hay conflicto, alguien ha tocado el mismo archivo y hay cruce de versiones, hay que hacer merge manual
+
+-Tras hacer el pull la rama master es la oficial, y en ella estará todo
+    
 # }
