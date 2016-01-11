@@ -53,40 +53,40 @@ public class ModificadorProduccion {
 	/**Getters y setters**/
 	/*********************/
 	
-	private TipoRecurso getTipo() {
+	public TipoRecurso getTipo() {
 		return tipo;
 	}
-	private void setTipo(TipoRecurso tipo) {
+	public void setTipo(TipoRecurso tipo) {
 		this.tipo = tipo;
 	}
-	private int getPorcentaje() {
+	public int getPorcentaje() {
 		return porcentaje;
 	}
-	private void setPorcentaje(int porcentaje) {
+	public void setPorcentaje(int porcentaje) {
 		this.porcentaje = porcentaje;
 	}
-	private Date getFechainicio() {
+	public Date getFechainicio() {
 		return fechainicio;
 	}
-	private void setFechainicio(Date fechainicio) {
+	public void setFechainicio(Date fechainicio) {
 		this.fechainicio = fechainicio;
 	}
-	private Date getFechafin() {
+	public Date getFechafin() {
 		return fechafin;
 	}
-	private void setFechafin(Date fechafin) {
+	public void setFechafin(Date fechafin) {
 		this.fechafin = fechafin;
 	}
-	private String getTitulo() {
+	public String getTitulo() {
 		return titulo;
 	}
-	private void setTitulo(String titulo) {
+	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	private String getDescripcion() {
+	public String getDescripcion() {
 		return descripcion;
 	}
-	private void setDescripcion(String descripcion) {
+	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 

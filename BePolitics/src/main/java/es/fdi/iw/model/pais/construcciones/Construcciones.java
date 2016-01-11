@@ -46,28 +46,28 @@ public class Construcciones {
 	}
      
     /**
-     * Sustituye el polÃ­tico alojado
-     * @param newPolitico el nuevo polÃ­tico
-     * @param t el tipo de construcciÃ³n en el que se le aloja
+     * Sustituye el politico alojado
+     * @param newPolitico el nuevo politico
+     * @param t el tipo de construccion en el que se le aloja
      */
 	public void setPolitico(Politico newPolitico, TipoConstruccion t){
 		this.politicoAlojado[TipoConstruccion.getIndex(t)] = newPolitico;
 	}
 	
 	/**
-         * Devuelve el polÃ­tico alojado
-         * @param t el edificio del que se quiere obtener el polÃ­tico
-         * @return el polÃ­tico alojado
+         * Devuelve el politico alojado
+         * @param t el edificio del que se quiere obtener el politico
+         * @return el politico alojado
          */
 	public Politico getPolitico(TipoConstruccion t){
 		return this.politicoAlojado[TipoConstruccion.getIndex(t)];
 	}
 	
 	/**
-     * Toma una construcciÃ³n, comprueba si hay recursos, si los hay sube el nivel,
-     * multiplica los costes y la producciÃ³n
-     * @param t el tipo de construcciÃ³n
-     * @param r los recursos del paÃ­s
+     * Toma una construccion, comprueba si hay recursos, si los hay sube el nivel,
+     * multiplica los costes y la produccion
+     * @param t el tipo de construccion
+     * @param r los recursos del pais
      * @return true si se lleva a cabo y false en caso contrario
      */
     public boolean subeNivel(TipoConstruccion t, Recursos r){
@@ -101,7 +101,7 @@ public class Construcciones {
             this.coste[idxConstruccion][i]*=TipoConstruccion.multiplicadorCoste[idxConstruccion];
         
             
-        //Multiplicador de producciÃ³n
+        //Multiplicador de produccion
         for(int i =0;i<TipoRecurso.getNumTipoRecursos();i++)
             this.produccion_hora[idxConstruccion][i]*=TipoConstruccion.multiplicadorProduccion[i];
         
@@ -109,19 +109,29 @@ public class Construcciones {
     }
     /**
      * Devuelve el nivel de la construccion
-     * @param t el tipo de construcción
+     * @param t el tipo de construccion
      * @return el nivel de la construccion
      */
     public int getNivelConstruccion(TipoConstruccion t){
     	return nivel[TipoConstruccion.getIndex(t)];
     }
     /**
-     * Devuelve la producción de un recurso concreto en un edificio concreto
-     * @param c la construcción 
+     * Devuelve la produccion de un recurso concreto en un edificio concreto
+     * @param c la construccion 
      * @param r el recurso
-     * @return La producción
+     * @return La produccion
      */
     public int getProduccionRecurso(TipoConstruccion c, TipoRecurso r){
     	return this.produccion_hora[TipoConstruccion.getIndex(c)][TipoRecurso.getIndice(r)];
+    }
+    /**
+     * Devuelve la produccion de un recurso concreto en un edificio concreto
+     * @param c la el indice de la construccion 
+     * @param r el indice del recurso
+     * @return La produccion
+     */
+    public int getProduccionRecurso(int c, int r){
+    	return this.getProduccionRecurso(TipoConstruccion.getConstruccion(c),
+    									 TipoRecurso.getRecurso(r));
     }
 }
