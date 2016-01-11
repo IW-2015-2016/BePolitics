@@ -130,5 +130,9 @@ public class Pais {
 	public Guerras getGuerras(){
 		return this.guerra;
 	}
+	
+	public void addModificador(ModificadorProduccion m){
+		this.modificadores.add(m);
+	}
 
 }
