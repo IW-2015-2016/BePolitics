@@ -137,9 +137,7 @@ public class Evento {
 			
 			String tituloModif = "Modificacion";
 			String descrModif = "Durante el evento "+ this.titulo +", la elección de la opción \"" + s +"\" causa esta modificación.";
-			
-			
-			
+		
 			ModificadorProduccion m1 = new ModificadorProduccion(rec, porcent, tituloModif, descrModif, today, finEvento);
 			
 		}
