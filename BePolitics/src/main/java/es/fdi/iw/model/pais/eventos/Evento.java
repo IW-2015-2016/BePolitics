@@ -2,6 +2,8 @@ package es.fdi.iw.model.pais.eventos;
 
 import java.io.IOException;
 
+import es.fdi.iw.model.modificadores.ModificadorProduccion;
+import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.TipoRecurso;
 /**
  * Esto representa un evento, cada evento tendrá un título y una descripción, y 
@@ -22,6 +24,7 @@ public class Evento {
 	private int porcentaje3;
 	private int porcentaje4;
 	private TipoEvento tipoEvento;
+	private boolean eligioLaPrimeraRespuesta;
 	
 	/**
 	 * Crea un evento, no puede ser tipo guerra
@@ -42,7 +45,7 @@ public class Evento {
 			int porcent2, TipoEvento tipo) throws IOException{
 		
 		if (tipo == TipoEvento.GUERRA) throw new IOException("Error, el constructor por defecto para guerra no tiene estos atributos");
-		
+		this.eligioLaPrimeraRespuesta =false;
 		this.titulo = tit;
 		this.descripcion = desc;
 		this.opcion1 = opt1;
@@ -76,6 +79,7 @@ public class Evento {
 		
 		if (tipo != TipoEvento.GUERRA) throw new IOException("Error, no se puede crear un evento que no sea de guerra con este constructor");
 		
+		this.eligioLaPrimeraRespuesta =false;
 		this.titulo = tit;
 		this.descripcion = desc;
 		this.opcion1 = opt1;
@@ -88,6 +92,54 @@ public class Evento {
 		this.porcentaje4 = porc4;
 		this.tipoEvento = tipo;
 		
+	}
+	
+	/**
+	 * respuesta del evento
+	 * 
+	 * @param respuestaElegida el número de respuesta, tiene que ser 1 o 2, si no es ninguno, se elige 1 por defecto
+	 */
+	public void respondeEvento(int respuestaElegida){
+		
+		if(respuestaElegida == 1)
+			this.eligioLaPrimeraRespuesta =true;
+		else if( respuestaElegida > 2)
+			this.eligioLaPrimeraRespuesta =false;
+		else this.eligioLaPrimeraRespuesta =true;
+		
+	}
+	/**
+	 * 
+	 * @param p1 este país
+	 * @param p2
+	 * @return
+	 */
+	public boolean resuelveEventoGuerra(Pais yo, Pais otro){
+
+		Evento e = otro.getGuerras().getEventoActual(yo).getEventoActual();
+		
+		if(this.respondido && e.respondido) {
+			
+			ModificadorProduccion m1 = new ModificadorProduccion(rec1, porcentaje1, descripcion, descripcion, null, null);
+			
+			if(this.eligioLaPrimeraRespuesta && e.eligioLaPrimeraRespuesta){
+				
+			}
+			
+			
+			
+			
+			
+		}
+		return false;
+		
+	}
+	/**
+	 * Se obtiene el estado de la pregunta, respondida o no
+	 * @return true si se respondió al evento
+	 */
+	public boolean getRespondido(){
+		return this.respondido;
 	}
 
 }

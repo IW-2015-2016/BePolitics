@@ -126,5 +126,9 @@ public class Pais {
 		return porcentajes;
 		
 	}
+	
+	public Guerras getGuerras(){
+		return this.guerra;
+	}
 
 }

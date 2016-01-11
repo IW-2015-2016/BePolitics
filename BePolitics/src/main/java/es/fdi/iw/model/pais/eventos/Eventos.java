@@ -18,7 +18,7 @@ public interface Eventos {
 	 * 
 	 * @return El evento actual
 	 */
-	public abstract Eventos getEventoActual();
+	public abstract Evento getEventoActual();
 	/**
 	 * Devuelve todos los eventos que ya no están activos
 	 * 
