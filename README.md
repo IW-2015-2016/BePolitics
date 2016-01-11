@@ -24,6 +24,20 @@
 -TRABAJAD, HOSTIAS
 
 # }
+# Datos curiosos sobre la vida
+# {
+
+-Hasta ahora no se conoce un caso de alguien que muriese por programar
+
+-Hacer pull requests no produce cáncer según un reciente estudio inventado
+
+-Un artículo de la revista científica de la universidad de Wisconsin no encuentra relación a corto plazo entre teclear código y perder los dedos
+
+-Cada vez que pasa un día sin un commit, Bill gates dona 1.000$ a Satanás
+
+-La conferencia episcopal afirma "Alabados sean los que programan, porque ellos aprobarán IW"
+
+# }
 
 # COSAS QUE SEGURAMENTE HAYA QUE HACER
 # {
@@ -39,8 +53,8 @@
 
 # COSAS SOBRE LA APLICACION
 # {
--He añadido bastante documentación a todo por si os diera por trabajar en ello algún día, que veáis qué mierdas hace cada cosa. 
-He guardado el formato de javadoc para que si llamáis a un método mío, os invoque el javadoc en el compilador como 
+-He añadido bastante documentación a todo por si se diera el improbable caso de que trabajéis en ello algún día, que veáis qué mierdas hace cada cosa. 
+-He guardado el formato de javadoc para que si llamáis a un método mío, os invoque el javadoc en el compilador como 
 con la api estándar de Java
 
 # }
