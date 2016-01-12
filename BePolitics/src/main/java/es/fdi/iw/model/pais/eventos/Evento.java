@@ -8,8 +8,8 @@ import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.TipoRecurso;
 /**
- * Esto representa un evento, cada evento tendr· un tÌtulo y una descripciÛn, y 
- * generar· unos modificadores cuando se responda a una de las dos opciones
+ * Esto representa un evento, cada evento tendr√° un t√≠tulo y una descripci√≥n, y 
+ * generar√° unos modificadores cuando se responda a una de las dos opciones
  * @author Ismael
  *
  */
@@ -36,10 +36,10 @@ public class Evento {
 	/**
 	 * Crea un evento, no puede ser tipo guerra
 	 * 
-	 * @param tit el tÌtulo
-	 * @param desc la descripciÛn
-	 * @param opt1 el texto de opciÛn de respuesta 1
-	 * @param opt2 el texto de opciÛn de respueta 2
+	 * @param tit el t√≠tulo
+	 * @param desc la descripci√≥n
+	 * @param opt1 el texto de opci√≥n de respuesta 1
+	 * @param opt2 el texto de opci√≥n de respueta 2
 	 * @param tipRec1 el tipo de recurso modificado con la respuesta 1
 	 * @param tipRec2 el tipo de recurso modificado con la respuesta 2
 	 * @param porcent1 el porcentaje del recurso modificado con la respuesta 1
@@ -72,11 +72,11 @@ public class Evento {
 	/**
 	 * Crea un evento de guerra
 	 * 
-	 * @param tit el tÌtulo
-	 * @param desc la descripciÛn
-	 * @param opt1 el texto de opciÛn de respuesta 1
-	 * @param opt2 el texto de opciÛn de respueta 2
-	 * @param tipRec1 el tipo de recurso modificado con resoluciÛn de la guerra
+	 * @param tit el t√≠tulo
+	 * @param desc la descripci√≥n
+	 * @param opt1 el texto de opci√≥n de respuesta 1
+	 * @param opt2 el texto de opci√≥n de respueta 2
+	 * @param tipRec1 el tipo de recurso modificado con resoluci√≥n de la guerra
 	 * @param porc1 el porcentaje del recurso modificado con la respuesta 1
 	 * @param porc2 el porcentaje del recurso modificado con la respuesta 2
 	 * @param porc3 el porcentaje del recurso modificado con la respuesta 3
@@ -106,9 +106,9 @@ public class Evento {
 	}
 	
 	/**
-	 * respuesta del evento, si no es de tipo guerra, adem·s se aÒade el modificador de producciÛn
+	 * respuesta del evento, si no es de tipo guerra, adem√°s se a√±ade el modificador de producci√≥n
 	 * 
-	 * @param respuestaElegida el n˙mero de respuesta, tiene que ser 1 o 2, si no es ninguno, se elige 1 por defecto
+	 * @param respuestaElegida el n√∫mero de respuesta, tiene que ser 1 o 2, si no es ninguno, se elige 1 por defecto
 	 */
 	public void respondeEvento(int respuestaElegida){
 		
@@ -119,7 +119,7 @@ public class Evento {
 		else this.eligioLaPrimeraRespuesta =true;
 		
 		
-		// Se aÒade el modificador del evento
+		// Se a√±ade el modificador del evento
 		if (this.tipoEvento != TipoEvento.GUERRA){
 			
 			Date today = new Date(Calendar.getInstance().getTimeInMillis());
@@ -136,19 +136,19 @@ public class Evento {
 			}
 			
 			String tituloModif = "Modificacion";
-			String descrModif = "Durante el evento "+ this.titulo +", la elecciÛn de la opciÛn \"" + s +"\" causa esta modificaciÛn.";
+			String descrModif = "Durante el evento "+ this.titulo +", la elecci√≥n de la opci√≥n \"" + s +"\" causa esta modificaci√≥n.";
 		
 			ModificadorProduccion m1 = new ModificadorProduccion(rec, porcent, tituloModif, descrModif, today, finEvento);
 			
 		}
 	}
 	/**
-	 * Resuelve un evento de tipo guerra entre dos paÌses cuando ambos han respondido y no se ha resuelto a˙n. 
+	 * Resuelve un evento de tipo guerra entre dos pa√≠ses cuando ambos han respondido y no se ha resuelto a√∫n. 
 	 * Si ya se ha resuelto no se puede resolver de nuevo
 	 * 
-	 * @param yo este paÌs
-	 * @param otro el otro paÌs
-	 * @return true si se resolviÛ, false en caso contrario o si el evento no es de tipo guerra
+	 * @param yo este pa√≠s
+	 * @param otro el otro pa√≠s
+	 * @return true si se resolvi√≥, false en caso contrario o si el evento no es de tipo guerra
 	 */
 	public boolean resuelveEventoGuerra(Pais yo, Pais otro){
 
@@ -166,8 +166,8 @@ public class Evento {
 			
 			
 			String tituloModif = "Modificacion";
-			String descrModif = "En la cruenta batalla de "+today.toString()+", durante el evento "+ this.titulo+ " por tu gestiÛn"
-					+ " el paÌs nota la diferencia";
+			String descrModif = "En la cruenta batalla de "+today.toString()+", durante el evento "+ this.titulo+ " por tu gesti√≥n"
+					+ " el pa√≠s nota la diferencia";
 			
 			// RESOLUCION DE LA BATALLA
 			if(this.eligioLaPrimeraRespuesta && e.eligioLaPrimeraRespuesta){
@@ -183,7 +183,7 @@ public class Evento {
 				m1= new ModificadorProduccion(rec1, porcentaje4, tituloModif, descrModif, today, finEvento);
 				m2 = new ModificadorProduccion(rec1, porcentaje4, tituloModif, descrModif, today, finEvento);
 			}
-			// Se aÒaden los modificadores
+			// Se a√±aden los modificadores
 			yo.addModificador(m1);
 			otro.addModificador(m2);
 			//se marca como resuelto
@@ -197,10 +197,27 @@ public class Evento {
 	}
 	/**
 	 * Se obtiene el estado de la pregunta, respondida o no
-	 * @return true si se respondiÛ al evento
+	 * @return true si se respondi√≥ al evento
 	 */
 	public boolean getRespondido(){
 		return this.respondido;
 	}
-
+	public TipoEvento getTipo(){
+		return this.tipoEvento;
+	}
+	
+	public String getTitulo(){
+		return this.titulo;
+	}
+	
+	public String getDescripcion(){
+		return this.descripcion;
+	}
+	
+	public String getOpcion1(){
+		return this.opcion1;
+	}
+	public String getOpcion2(){
+		return this.opcion2;
+	}
 }
