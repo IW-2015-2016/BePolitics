@@ -4,8 +4,8 @@ package es.fdi.iw.model.pais.relaciones;
  * cambiar a discrección. La clase pair sólo compara en su método equals al objeto de la 
  * izquierda, el de la derecha no será comparado.
  * 
- * @author Ismael
  * @author <a href="https://www.linkedin.com/in/glen-edmonds-77b6208"> Glen Edmonds </a> on the source <a href="https://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples">https://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples</a> 
+ * @author Ismael (Modificaciones menores)
  *
  * @param <L> Una clase cualquiera. Tras la creación el objeto será inmutable
  * @param <R> Una clase cualquiera
@@ -25,10 +25,17 @@ public class Pair<L,R> {
 	    this.left = left;
 	    this.right = right;
 	  }
-
+	  /**
+	   * Obtiene el parámetro de la izquierda, es inmutable
+	   * @return un parámetro constante
+	   */
 	  public L getLeft() { 
 		  return left; 
 	  }
+	  /**
+	   * Obtiene el parámetro de la derecha
+	   * @return un objeto del tipo parametrizado
+	   */
 	  public R getRight() { 
 		  return right; 
 	  }

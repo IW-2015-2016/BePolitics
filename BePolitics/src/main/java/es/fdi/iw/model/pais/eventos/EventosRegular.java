@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * Esta clase guarda un montón de eventos regulares 
  * 
- * @author ismael
+ * @author Ismael
  *
  */
 public class EventosRegular  implements Eventos{
@@ -13,17 +13,20 @@ public class EventosRegular  implements Eventos{
 	
 	
 	
-	
+	/**
+	 * Constructor por defecto, inicializa las listas
+	 * 
+	 */
 	public EventosRegular(){
 		this.eventos = new ArrayList<Evento>();
 		this.eventoActual = null;
 	}
 	
 	/**
-	 * 
+	 * Devuelve true si existe evento actual, false en caso contrario
 	 * @return
 	 */
-	public boolean tieneEvento(){
+	public boolean tieneEventoActual(){
 		if (this.eventoActual==null) return false;
 		return true;
 	}
@@ -32,15 +35,14 @@ public class EventosRegular  implements Eventos{
 	 * ser de tipo regular
 	 * 
 	 * @param e el evento a añadir 
-	 * @return
+	 * @return true si lo a�adio, false en caso de que ya existiera, se recibiese un evento nulo o el evento recibido no sea regular
 	 */
 	public boolean addEventoActual(Evento e){
 		
-		if (!this.tieneEvento() 
-				&& e!= null 
-				&& e.getTipo() != TipoEvento.EVENTO_REGULAR)
-			return false;
-		
+		if (!this.tieneEventoActual() 
+				|| e!= null 
+				|| e.getTipo() != TipoEvento.EVENTO_REGULAR)
+			return false;	
 		
 		this.eventoActual=e;
 		return true;
@@ -63,8 +65,6 @@ public class EventosRegular  implements Eventos{
 		
 		else if(opcion>0) {
 			this.eventoActual.respondeEvento(opcion);
-			
-			
 			return true;
 		}
 		

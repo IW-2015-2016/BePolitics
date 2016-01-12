@@ -52,14 +52,14 @@ public class ComunidadEconomica {
 	}
 	
 	/**
-	 * Un lider invitara a un miembro. Si quien invita no es lider,
+	 * Un lider invitara a un miembro. Si quien añade a un miembro no es líder, no se añade 
 	 *  
 	 * @param lider un pais que debe ser admin de la comunidad
 	 * @param invitado un miembro que no debe ser ya socio
 	 * @return
 	 */
 	public boolean hacerMiembro(Pais lider, Pais invitado){
-		if(esLider(lider)) return false;
+		if(!esLider(lider)) return false;
 		
 		if(this.paises.contains(invitado)) return false;
 		

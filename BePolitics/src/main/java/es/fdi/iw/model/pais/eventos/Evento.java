@@ -114,7 +114,7 @@ public class Evento {
 		
 		if(respuestaElegida == 1)
 			this.eligioLaPrimeraRespuesta =true;
-		else if( respuestaElegida > 2)
+		else if( respuestaElegida == 2)
 			this.eligioLaPrimeraRespuesta =false;
 		else this.eligioLaPrimeraRespuesta =true;
 		
@@ -133,14 +133,15 @@ public class Evento {
 				s= this.opcion2;
 				rec = this.rec2;
 				porcent = this.porcentaje2;
-			}
-			
+				
+				
+			}	
 			String tituloModif = "Modificacion";
 			String descrModif = "Durante el evento "+ this.titulo +", la elección de la opción \"" + s +"\" causa esta modificación.";
 		
-			ModificadorProduccion m1 = new ModificadorProduccion(rec, porcent, tituloModif, descrModif, today, finEvento);
-			
+			ModificadorProduccion m1 = new ModificadorProduccion(rec, porcent, tituloModif, descrModif, today, finEvento);	
 		}
+		
 	}
 	/**
 	 * Resuelve un evento de tipo guerra entre dos países cuando ambos han respondido y no se ha resuelto aún. 
@@ -153,7 +154,7 @@ public class Evento {
 	public boolean resuelveEventoGuerra(Pais yo, Pais otro){
 
 		if (this.tipoEvento != TipoEvento.GUERRA) return false;
-		Evento e = otro.getGuerras().getEventoActual(yo).getEventoActual();
+		Evento e = otro.getGuerras().getEventoActual(yo);
 		
 		if(this.respondido && e.respondido && !this.resuelto && !e.resuelto) {
 			
