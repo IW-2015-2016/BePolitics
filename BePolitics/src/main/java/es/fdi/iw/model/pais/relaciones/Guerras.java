@@ -101,7 +101,7 @@ public class Guerras {
 	 * @param p el pais
 	 * @return un evento si lo hay, si no lo hay o no se esta en guerra, devuelve null
 	 */
-	public Eventos getEventoActual(Pais p){
+	public Evento getEventoActual(Pais p){
 		
 		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
 		
