@@ -59,12 +59,13 @@ public class Pais {
 	 * @return true si tienen el mismo ID
 	 */
 	public boolean equals(Object o){
-		
+		//No es de la clase
 		if(o.getClass()!=Pais.class) return false;
-		
+		//El id del país es igual
 		if(this.id == ((Pais) o).id) return true;
-		return false;
 		
+		return false;
+	
 	}
 
 
@@ -134,5 +135,6 @@ public class Pais {
 	public void addModificador(ModificadorProduccion m){
 		this.modificadores.add(m);
 	}
-
+	
+	
 }
