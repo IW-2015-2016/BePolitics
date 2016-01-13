@@ -89,7 +89,7 @@ public class Pais {
 		return false;
 		
 	}
-*/	
+*/
 	/**
 	 * Obtiene el nombre del país
 	 * @return
@@ -152,6 +152,7 @@ public class Pais {
 		
 	}
 */
+	
 /*
 	public Guerras getGuerras(){
 		return this.guerra;
