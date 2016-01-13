@@ -121,7 +121,6 @@ public class Pais {
 			ModificadorProduccion p = ((ModificadorProduccion) iterador);
 			int tipo = TipoRecurso.getIndice(p.getTipo());
 			porcentajes[tipo] += p.getPorcentaje(); 
-			
 		}
 		
 		return porcentajes;
