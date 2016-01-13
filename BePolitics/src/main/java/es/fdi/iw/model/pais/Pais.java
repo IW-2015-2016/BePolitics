@@ -12,19 +12,44 @@ import javax.persistence.Id;
  */
 @Entity
 public class Pais {
-	//private ArrayList<Politico> politicos;
-	//private Recursos recursos;
+	/*
+	private ArrayList<Politico> politicos;
+	private Recursos recursos;
+	*/
 	private int id_pais;
 	private String nombre_pais;
-	//private Guerras guerra;
-	//private Construcciones construcciones;
-	//private ComunidadEconomica comunidad;
+	/*
+	private Guerras guerra;
+	private Construcciones construcciones;
+	private ComunidadEconomica comunidad;
+	private ArrayList<ModificadorProduccion> modificadores;
+	private Date lastProduction;
+	*/
 	public Pais(int id_pais, String nombre) {
 		
 		this.id_pais = id_pais;
 		this.nombre_pais = nombre;
+	
+		/*
+		try {
+			this.guerra = new Guerras(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.construcciones = new Construcciones();
+		
+		this.comunidad=null;
+		this.recursos = new Recursos();
+		
+		Calendar yesterday = Calendar.getInstance();
+		yesterday.add(Calendar.DATE, -1);
+		this.lastProduction = new Date(yesterday.getTimeInMillis());
+	    */
+		
 	}
-
+	
+	
 	@Id
     @GeneratedValue
 	public int getId_pais() {
@@ -44,29 +69,12 @@ public class Pais {
 	}
 	
 	
+
+
+	
 	
 /*	
-	public Pais(String nom) {
-		this.nombre = nom;
-		//TODO autogenerar el ID
-		try {
-			this.guerra = new Guerras(this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.construcciones = new Construcciones();
-		
-		
-		this.comunidad=null;
-		
-		
-		
-		
-	}
-	*/
-
-/*	public boolean equals(Object o){
+    public boolean equals(Object o){
 		
 		if(o.getClass()!=Pais.class) return false;
 		
