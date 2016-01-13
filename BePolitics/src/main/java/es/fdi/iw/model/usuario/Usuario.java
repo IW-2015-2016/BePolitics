@@ -2,7 +2,12 @@ package es.fdi.iw.model.usuario;
 
 import java.util.Date;
 
-import es.fdi.iw.model.pais.Pais;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
 import es.fdi.iw.model.politicos.ExceptionPolitico;
 
 
@@ -12,6 +17,15 @@ import es.fdi.iw.model.politicos.ExceptionPolitico;
  * 
  * @author Julia
  */
+@Entity
+@NamedQueries({
+    @NamedQuery(name="allUsuarios",
+            query="select u from Usuario u"),
+    @NamedQuery(name="usuarioByLogin",
+    query="select u from Usuario u where u.nick = :loginParam"),
+    @NamedQuery(name="delUserio",
+    	query="delete from Usuario u where u.id= :idParam")
+})
 public class Usuario {
 
 	private int id; //clave unica para la bd
@@ -22,27 +36,46 @@ public class Usuario {
 	private int edad;
 	private String nick; //Esto no esta eb el esquema pero lo veo necesario
 	private String pasword;
-	private Pais pais; //El pais del jugador
-	private TipoLider tipoLider;
 	private Rol rol;
-	private Date fechaRegistro; //Me parece interesante almacenar esto porque podemos activar los eventos según el tiempo jugado por ejemplo
+	//private Pais pais; //El pais del jugador
+	//private TipoLider tipoLider;
+	
+	//private Date fechaRegistro; //Me parece interesante almacenar esto porque podemos activar los eventos según el tiempo jugado por ejemplo
 	
 	public Usuario(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
-			String pasword, Pais pais, TipoLider tipoLider, Rol rol, Date fechaRegistro) throws ExceptionUsuario {
+			String pasword,Rol rol)throws ExceptionUsuario {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
-		this.genero = genero;
+	this.genero = genero;
 		if(edad<18) throw new ExceptionUsuario();
 		else this.edad = edad;
 		this.nick = nick;
 		this.pasword = pasword;
-		this.pais = pais;
+		this.rol = rol;
+		//this.pais = pais;
+		/*this.tipoLider = tipoLider;
+		
+		this.fechaRegistro = fechaRegistro;*/
+	}
+	/*public Usuario(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
+			String pasword, Pais pais,TipoLider tipoLider, Rol rol, Date fechaRegistro) throws ExceptionUsuario {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+	//	this.genero = genero;
+		if(edad<18) throw new ExceptionUsuario();
+		else this.edad = edad;
+		this.nick = nick;
+		this.pasword = pasword;
+		//this.pais = pais;
 		this.tipoLider = tipoLider;
 		this.rol = rol;
 		this.fechaRegistro = fechaRegistro;
-	}
+	}*/
+	/*
 	public Usuario CrearJugador(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
 			String pasword, Pais pais, TipoLider tipoLider, Rol rol, Date fechaRegistro) {
 		return new Usuario(id,nombre,apellidos,email,genero,edad,nick,pasword,pais,tipoLider,Rol.UsuarioRegistrado,fechaRegistro);
@@ -55,8 +88,10 @@ public class Usuario {
 			String pasword, Date fechaRegistro) {
 		return new Usuario(id,nombre,apellidos,email,genero,edad,nick,pasword,null,TipoLider.NINGUNO,Rol.Administrador,fechaRegistro);
 	}
+	 */
 
-
+	@Id
+    @GeneratedValue
 	public int getId() {
 		return id;
 	}
@@ -88,8 +123,47 @@ public class Usuario {
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
+	public Rol getRol() {
+		return rol;
+	}
 
-	public Pais getPais() {
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+/*	public Genero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+*/
+	public int getEdad() {
+		return edad;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	public String getPasword() {
+		return pasword;
+	}
+
+	public void setPasword(String pasword) {
+		this.pasword = pasword;
+	}
+
+/*	public Pais getPais() {
 		return pais;
 	}
 
@@ -113,13 +187,7 @@ public class Usuario {
 		this.tipoLider = tipoLider;
 	}
 
-	public Rol getRol() {
-		return rol;
-	}
 
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
+*/
 	
 }

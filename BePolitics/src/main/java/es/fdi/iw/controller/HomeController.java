@@ -486,12 +486,16 @@ public class HomeController {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}  
 		else{
+		System.out.println(formNick);	
 		Usuario u = null;
-		/*u = (Usuario)entityManager.createNamedQuery("usuarioByLogin")
-				.setParameter("loginParametro", formNick).getSingleResult();*/
+		
+
+		u = (Usuario)entityManager.createNamedQuery("usuarioByLogin").setParameter("loginParam", formNick).getSingleResult();
+		
 		
 		//model.addAttribute("loginError", "error en usuario o contraseña");
-		session.setAttribute("admin", formNick);
+		//session.setAttribute("Usuario", u);
+		//System.out.println(u.getNick());
 		
 		//model.addAttribute("admin", "pedro");
 		return "home2";
