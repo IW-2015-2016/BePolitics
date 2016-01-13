@@ -41,7 +41,7 @@ public class Guerras {
 	 * @return el nombre de quien tiene la lista de aliado
 	 */
 	public String propietario(){
-		return this.propietario.getNombre();
+		return this.propietario.getNombre_pais();
 	}
 	/**
 	 * Entra en guerra con un pais. Si el pais ya estaba en guerra devolverÃ¡ falso, si p es null, lanzarÃ¡ una excepciÃ³n

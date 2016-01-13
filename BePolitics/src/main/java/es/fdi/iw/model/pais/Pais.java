@@ -73,7 +73,14 @@ public class Pais {
 
 	
 	
-/*	
+
+    /**
+	 * Recibe un objeto y determina si es un país.
+	 * 
+	 * @param o Un objeto que compara si el recibido es el mismo país
+	 * @return true si tienen el mismo ID
+	 */
+/*
     public boolean equals(Object o){
 		
 		if(o.getClass()!=Pais.class) return false;
@@ -82,25 +89,27 @@ public class Pais {
 		return false;
 		
 	}
-	
+*/	
 	/**
 	 * Obtiene el nombre del país
 	 * @return
 	 */
+/*
 	public String getNombre() {
 		return nombre;
 	}
-	
+*/
 	/**
 	 * Produce los recursos del país, sólo una vez al día
 	 * @return true si ha producido, false si hoy ya se había producido
 	 */
+/*
 	public boolean produce(){
 	
-		/*Si hoy se ha producido, no se produce más*/
+		//Si hoy se ha producido, no se produce más
 		Date today = new Date(Calendar.getInstance().getTimeInMillis());
 		if(this.lastProduction.compareTo(today) == 0) return false;
-		/*Si no se ha producido, se actualiza la fecha */
+		//Si no se ha producido, se actualiza la fecha 
 		this.lastProduction = today;
 		
 		
@@ -113,17 +122,19 @@ public class Pais {
 		
 		for(int i =0;i<TipoConstruccion.getNumConstrucciones();i++){
 			for(int j=0; j<TipoRecurso.getNumTipoRecursos();j++){
-				/*La producción de cada edificio se suma ponderada con su modificador */
+				/La producción de cada edificio se suma ponderada con su modificador
 				cantidades[j]+= this.construcciones.getProduccionRecurso(i, j) *(100-percentModify[j]);
 			}
 		}
 		this.recursos.produce(cantidades);
 		return true;
 	}
+*/
 	/**
 	 * Calcula los modificadores de producción
 	 * @return
 	 */
+/*
 	private int[] calculaModificadores(){
 		int porcentajes[] = new int[TipoRecurso.getNumTipoRecursos()];
 		for(int i=0;i<TipoRecurso.getNumTipoRecursos();i++){
@@ -140,7 +151,8 @@ public class Pais {
 		return porcentajes;
 		
 	}
-	
+*/
+/*
 	public Guerras getGuerras(){
 		return this.guerra;
 	}
