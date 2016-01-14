@@ -1,5 +1,5 @@
 package es.fdi.iw.model.politicos;
 
-public class Mercado {
+public static class Mercado {
 
 }
