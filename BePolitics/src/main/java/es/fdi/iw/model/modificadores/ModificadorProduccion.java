@@ -6,29 +6,30 @@ import es.fdi.iw.model.pais.TipoRecurso;
 
 
 /**
- * Modificadores a la producciÛn. contienen un tipo de recurso, un porcentaje, un tÌtulo,
- * una descripciÛn, y una fecha de inicio y otra de fin. tienen como objetivo almacenar
- * las modificaciones de producciÛn que sufre un paÌs por cualquier motivo.
+ * Modificadores a la producci√≥n. contienen un tipo de recurso, un porcentaje, un t√≠tulo,
+ * una descripci√≥n, y una fecha de inicio y otra de fin. tienen como objetivo almacenar
+ * las modificaciones de producci√≥n que sufre un pa√≠s por cualquier motivo.
  * 
  * @author Ismael
  * @see Date
  */
+ @Entity
 public class ModificadorProduccion {
-	private TipoRecurso tipo;
-	private int porcentaje;
-	private String titulo;
-	private String descripcion;
-	private Date fechainicio;
-	private Date fechafin;
+	private TipoRecurso tipo_recurso;
+	private int porcentaje_recurso;
+	private String titulo_recurso;
+	private String descripcion_recurso;
+	private Date fechainicio_recurso;
+	private Date fechafin_recurso;
 	/**
-	 * Crea un Modificador. si el porcentaje no est· entre -100 y 100, se pondr· autom·ticamente a 0
+	 * Crea un Modificador. si el porcentaje no est√° entre -100 y 100, se pondr√° autom√°ticamente a 0
 	 *  
 	 * @param t el tipo de recurso
 	 * @param porcent el porcentaje que modifica
-	 * @param titulo el tÌtulo del modificador
-	 * @param descripcion la descripciÛn del modificador
-	 * @param inicio aquÌ va la fecha de inicio (java.sql.Date)
-	 * @param fin aquÌ va la fecha de fin (java.sql.Date)
+	 * @param titulo el t√≠tulo del modificador
+	 * @param descripcion la descripci√≥n del modificador
+	 * @param inicio aqu√≠ va la fecha de inicio (java.sql.Date)
+	 * @param fin aqu√≠ va la fecha de fin (java.sql.Date)
 	 * 
 	 * @see java.sql.Date
 	 */
@@ -43,10 +44,10 @@ public class ModificadorProduccion {
 	}
 	
 	/**
-	 * Clona el modificador de producciÛn actual.
+	 * Clona el modificador de producci√≥n actual.
 	 */
 	public ModificadorProduccion clone(){
-		return new ModificadorProduccion(this.tipo,this.porcentaje, this.titulo,this.descripcion,this.fechainicio,this.fechafin);
+		return new ModificadorProduccion(this.tipo_recurso,this.porcentaje_recurso, this.titulo_recurso,this.descripcion_recurso,this.fechainicio_recurso,this.fechafin_recurso);
 	}
 	
 	/*********************/
@@ -54,40 +55,40 @@ public class ModificadorProduccion {
 	/*********************/
 	
 	public TipoRecurso getTipo() {
-		return tipo;
+		return tipo_recurso;
 	}
 	public void setTipo(TipoRecurso tipo) {
-		this.tipo = tipo;
+		this.tipo_recurso = tipo;
 	}
 	public int getPorcentaje() {
-		return porcentaje;
+		return porcentaje_recurso;
 	}
 	public void setPorcentaje(int porcentaje) {
-		this.porcentaje = porcentaje;
+		this.porcentaje_recurso = porcentaje;
 	}
 	public Date getFechainicio() {
-		return fechainicio;
+		return fechainicio_recurso;
 	}
 	public void setFechainicio(Date fechainicio) {
-		this.fechainicio = fechainicio;
+		this.fechainicio_recurso = fechainicio;
 	}
 	public Date getFechafin() {
-		return fechafin;
+		return fechafin_recurso;
 	}
 	public void setFechafin(Date fechafin) {
-		this.fechafin = fechafin;
+		this.fechafin_recurso = fechafin;
 	}
 	public String getTitulo() {
-		return titulo;
+		return titulo_recurso;
 	}
 	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+		this.titulo_recurso = titulo;
 	}
 	public String getDescripcion() {
-		return descripcion;
+		return descripcion_recurso;
 	}
 	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+		this.descripcion_recurso = descripcion;
 	}
 
 	
