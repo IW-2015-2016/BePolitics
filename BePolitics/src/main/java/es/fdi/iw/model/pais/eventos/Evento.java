@@ -13,25 +13,26 @@ import es.fdi.iw.model.pais.TipoRecurso;
  * @author Ismael
  *
  */
+ @Entity
 public class Evento {
 	private static final int DIAS_CADUCIDAD_EVENTO_GUERRA = 7;
 	private static final int DIAS_CADUCIDAD_EVENTO_NO_GUERRA = 7;
 	
-	private String titulo;
-	private String descripcion;
-	private String opcion1;
-	private String opcion2;
-	private TipoRecurso rec1;
-	private TipoRecurso rec2;
-	private boolean respondido;
-	private int porcentaje1;
-	private int porcentaje2;
-	private int porcentaje3;
-	private int porcentaje4;
-	private TipoEvento tipoEvento;
+	private String titulo_evento;
+	private String descripcion_evento;
+	private String opcion1_evento;
+	private String opcion2_evento;
+	private int rec1_evento;
+	private int rec2_evento;
+	private boolean respondido_evento;
+	private int porcentaje1_evento;
+	private int porcentaje2_evento;
+	private int porcentaje3_evento;
+	private int porcentaje4_evento;
+	private int tipoEvento_evento;
 	
-	private boolean eligioLaPrimeraRespuesta;
-	private boolean resuelto;
+	private boolean eligioLaPrimeraRespuesta_evento;
+	private boolean resuelto_evento;
 	
 	/**
 	 * Crea un evento, no puede ser tipo guerra
@@ -52,21 +53,21 @@ public class Evento {
 			int porcent2, TipoEvento tipo) throws IOException{
 		
 		if (tipo == TipoEvento.GUERRA) throw new IOException("Error, el constructor por defecto para guerra no tiene estos atributos");
-		this.eligioLaPrimeraRespuesta =false;
-		this.titulo = tit;
-		this.descripcion = desc;
-		this.opcion1 = opt1;
-		this.opcion2 = opt2;
-		this.rec1 = tipRec1;
-		this.rec2 = tipRec2;
-		this.porcentaje1 = porcent1;
-		this.porcentaje2 = porcent2;
-		this.porcentaje3 = Integer.MIN_VALUE;
-		this.porcentaje4 = Integer.MIN_VALUE;
-		this.tipoEvento = tipo;
-		this.respondido = false;
-		this.resuelto = false;
-		this.eligioLaPrimeraRespuesta = true;
+		this.eligioLaPrimeraRespuesta_evento =false;
+		this.titulo_evento = tit;
+		this.descripcion_evento = desc;
+		this.opcion1_evento = opt1;
+		this.opcion2_evento = opt2;
+		this.rec1_evento = tipRec1;
+		this.rec2_evento = tipRec2;
+		this.porcentaje1_evento = porcent1;
+		this.porcentaje2_evento = porcent2;
+		this.porcentaje3_evento = Integer.MIN_VALUE;
+		this.porcentaje4_evento = Integer.MIN_VALUE;
+		this.tipoEvento_evento = tipo;
+		this.respondido_evento = false;
+		this.resuelto_evento = false;
+		this.eligioLaPrimeraRespuesta_evento = true;
 		
 	}
 	/**
@@ -89,20 +90,20 @@ public class Evento {
 		
 		if (tipo != TipoEvento.GUERRA) throw new IOException("Error, no se puede crear un evento que no sea de guerra con este constructor");
 		
-		this.eligioLaPrimeraRespuesta =true;
-		this.titulo = tit;
-		this.descripcion = desc;
-		this.opcion1 = opt1;
-		this.opcion2 = opt2;
-		this.rec1 = tipRec1;
-		this.rec2 = null;
-		this.porcentaje1 = porc1;
-		this.porcentaje2 = porc2;
-		this.porcentaje3 = porc3;
-		this.porcentaje4 = porc4;
-		this.tipoEvento = tipo;
-		this.respondido = false;
-		this.resuelto = false;
+		this.eligioLaPrimeraRespuesta_evento =true;
+		this.titulo_evento = tit;
+		this.descripcion_evento= desc;
+		this.opcion1_evento = opt1;
+		this.opcion2_evento = opt2;
+		this.rec1_evento = tipRec1;
+		this.rec2_evento = null;
+		this.porcentaje1_evento = porc1;
+		this.porcentaje2_evento = porc2;
+		this.porcentaje3_evento = porc3;
+		this.porcentaje4_evento = porc4;
+		this.tipoEvento_evento = tipo;
+		this.respondido_evento = false;
+		this.resuelto_evento = false;
 	}
 	
 	/**
@@ -113,31 +114,31 @@ public class Evento {
 	public void respondeEvento(int respuestaElegida){
 		
 		if(respuestaElegida == 1)
-			this.eligioLaPrimeraRespuesta =true;
+			this.eligioLaPrimeraRespuesta_evento =true;
 		else if( respuestaElegida == 2)
-			this.eligioLaPrimeraRespuesta =false;
-		else this.eligioLaPrimeraRespuesta =true;
+			this.eligioLaPrimeraRespuesta_evento =false;
+		else this.eligioLaPrimeraRespuesta_evento =true;
 		
 		
 		// Se añade el modificador del evento
-		if (this.tipoEvento != TipoEvento.GUERRA){
+		if (this.tipoEvento_evento != TipoEvento.GUERRA){
 			
 			Date today = new Date(Calendar.getInstance().getTimeInMillis());
 			Calendar aux = Calendar.getInstance();
 			aux.add(Calendar.DATE, +DIAS_CADUCIDAD_EVENTO_NO_GUERRA);
 			Date finEvento = new Date(aux.getTimeInMillis());
-			String s=this.opcion1;
-			TipoRecurso rec = this.rec1;
-			int porcent = this.porcentaje1;
-			if(!this.eligioLaPrimeraRespuesta){
-				s= this.opcion2;
-				rec = this.rec2;
-				porcent = this.porcentaje2;
+			String s=this.opcion1_evento;
+			TipoRecurso rec = this.rec1_evento;
+			int porcent = this.porcentaje1_evento;
+			if(!this.eligioLaPrimeraRespuesta_evento){
+				s= this.opcion2_evento;
+				rec = this.rec2_evento;
+				porcent = this.porcentaje2_evento;
 				
 				
 			}	
 			String tituloModif = "Modificacion";
-			String descrModif = "Durante el evento "+ this.titulo +", la elección de la opción \"" + s +"\" causa esta modificación.";
+			String descrModif = "Durante el evento "+ this.titulo_evento +", la elección de la opción \"" + s +"\" causa esta modificación.";
 		
 			ModificadorProduccion m1 = new ModificadorProduccion(rec, porcent, tituloModif, descrModif, today, finEvento);	
 		}
@@ -153,10 +154,10 @@ public class Evento {
 	 */
 	public boolean resuelveEventoGuerra(Pais yo, Pais otro){
 
-		if (this.tipoEvento != TipoEvento.GUERRA) return false;
+		if (this.tipoEvento_evento != TipoEvento.GUERRA) return false;
 		Evento e = otro.getGuerras().getEventoActual(yo);
 		
-		if(this.respondido && e.respondido && !this.resuelto && !e.resuelto) {
+		if(this.respondido_evento && e.respondido && !this.resuelto_evento && !e.resuelto) {
 			
 			ModificadorProduccion m1 = null;
 			ModificadorProduccion m2 = null;
@@ -167,20 +168,20 @@ public class Evento {
 			
 			
 			String tituloModif = "Modificacion";
-			String descrModif = "En la cruenta batalla de "+today.toString()+", durante el evento "+ this.titulo+ " por tu gestión"
+			String descrModif = "En la cruenta batalla de "+today.toString()+", durante el evento "+ this.titulo_evento+ " por tu gestión"
 					+ " el país nota la diferencia";
 			
 			// RESOLUCION DE LA BATALLA
-			if(this.eligioLaPrimeraRespuesta && e.eligioLaPrimeraRespuesta){
+			if(this.eligioLaPrimeraRespuesta_evento && e.eligioLaPrimeraRespuesta){
 				m1= new ModificadorProduccion(rec1, porcentaje1, tituloModif, descrModif, today, finEvento);
 				m2 = new ModificadorProduccion(rec1, porcentaje1, tituloModif, descrModif, today, finEvento);
-			}else if(!this.eligioLaPrimeraRespuesta && !e.eligioLaPrimeraRespuesta ){
+			}else if(!this.eligioLaPrimeraRespuesta_evento && !e.eligioLaPrimeraRespuesta ){
 				m1= new ModificadorProduccion(rec1, porcentaje2, tituloModif, descrModif, today, finEvento);
 				m2 = new ModificadorProduccion(rec2, porcentaje3, tituloModif, descrModif, today, finEvento);
-			}else if(!this.eligioLaPrimeraRespuesta && e.eligioLaPrimeraRespuesta){
+			}else if(!this.eligioLaPrimeraRespuesta_evento && e.eligioLaPrimeraRespuesta){
 				m1= new ModificadorProduccion(rec1, porcentaje3, tituloModif, descrModif, today, finEvento);
 				m2 = new ModificadorProduccion(rec2, porcentaje2, tituloModif, descrModif, today, finEvento);
-			}else if(this.eligioLaPrimeraRespuesta && !e.eligioLaPrimeraRespuesta){
+			}else if(this.eligioLaPrimeraRespuesta_evento && !e.eligioLaPrimeraRespuesta){
 				m1= new ModificadorProduccion(rec1, porcentaje4, tituloModif, descrModif, today, finEvento);
 				m2 = new ModificadorProduccion(rec1, porcentaje4, tituloModif, descrModif, today, finEvento);
 			}
@@ -189,7 +190,7 @@ public class Evento {
 			otro.addModificador(m2);
 			//se marca como resuelto
 			e.resuelto = true;
-			this.resuelto = true;	
+			this.resuelto_evento = true;	
 			
 			return true;
 		}
@@ -201,24 +202,24 @@ public class Evento {
 	 * @return true si se respondió al evento
 	 */
 	public boolean getRespondido(){
-		return this.respondido;
+		return this.respondido_evento;
 	}
 	public TipoEvento getTipo(){
-		return this.tipoEvento;
+		return this.tipoEvento_evento;
 	}
 	
 	public String getTitulo(){
-		return this.titulo;
+		return this.titulo_evento;
 	}
 	
 	public String getDescripcion(){
-		return this.descripcion;
+		return this.descripcion_evento;
 	}
 	
 	public String getOpcion1(){
-		return this.opcion1;
+		return this.opcion1_evento;
 	}
 	public String getOpcion2(){
-		return this.opcion2;
+		return this.opcion2_evento;
 	}
 }
