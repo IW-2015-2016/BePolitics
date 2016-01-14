@@ -24,6 +24,17 @@ public class Construcciones {
 	private int nivel[];
 	
 	//[TiposConstruccion][TipoRecurso]
+    //Una de las dimensiones es el tipo de la construccion y la otra el tipo de recurso
+    /*
+    Ejemplo:
+    Ministerio de sanidad.
+        -pib
+        -felicidad
+    Ministerio de justicia.
+        -pib
+        -felicidad
+
+    */
 	private int coste[][];
 	private int produccion_hora[][];
 	
