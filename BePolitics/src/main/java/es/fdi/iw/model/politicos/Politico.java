@@ -3,14 +3,14 @@ package es.fdi.iw.model.politicos;
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 
 /**
- * Esta clase representa un polÌtico. Sus stats deben estar siempre entre 0 y 100 y para ello
- * hay un nuevo tipo de excepciÛn que lo representa. tambiÈn est· Ìntimamente relacionado con 
- * el enumerado StatsPolÌtico 
+ * Esta clase representa un pol√≠tico. Sus stats deben estar siempre entre 0 y 100 y para ello
+ * hay un nuevo tipo de excepci√≥n que lo representa. tambi√©n est√° √≠ntimamente relacionado con 
+ * el enumerado StatsPol√≠tico 
  * 
  * 
  * @author Ismael
  * @see ExcepcionPolitico
- * @see StatsPolÌtico
+ * @see StatsPol√≠tico
  */
 public class Politico {
 	//Orden: {HONESTIDAD,CARISMA,ELOCUENCIA,POPULARIDAD}
@@ -25,15 +25,15 @@ public class Politico {
 	/*********************/
 	
 	/**
-	 * Constructor con todos los par·metros
+	 * Constructor con todos los par√°metros
 	 * @param nombre el nombre
 	 * @param honestidad honestidad del 0 al 100
 	 * @param carisma carisma del 0 al 100
 	 * @param elocuencia elocuencia del 0 al 100
 	 * @param popularidad apoyo popular del 0 al 100
-	 * @param quote algo cÈlebre dicho por el polÌtico
-	 * @param mod un modificador que ser· clonado para evitar errores de modificacion indeseables.
-	 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+	 * @param quote algo c√©lebre dicho por el pol√≠tico
+	 * @param mod un modificador que ser√° clonado para evitar errores de modificacion indeseables.
+	 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 	 */
 	public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad, String quote, ModificadorProduccion mod) throws ExceptionPolitico{
 		this.setNombre(nombre);
@@ -51,14 +51,14 @@ public class Politico {
 				throw new ExceptionPolitico();
 	}
 		/**
-		 * Constructor con todos los par·metros menos el modificador de produccion
+		 * Constructor con todos los par√°metros menos el modificador de produccion
 		 * @param nombre el nombre
 		 * @param honestidad honestidad del 0 al 100
 		 * @param carisma carisma del 0 al 100
 		 * @param elocuencia elocuencia del 0 al 100
 		 * @param popularidad apoyo popular del 0 al 100
-		 * @param quote algo cÈlebre dicho por el polÌtico
-		 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+		 * @param quote algo c√©lebre dicho por el pol√≠tico
+		 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 		 */
 		public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad, String quote) throws ExceptionPolitico{
 			this.setNombre(nombre);
@@ -77,13 +77,13 @@ public class Politico {
 		}
 
 		/**
-		 * Constructor con todos los par·metros menos la cita y el modificador de producciÛn
+		 * Constructor con todos los par√°metros menos la cita y el modificador de producci√≥n
 		 * @param nombre el nombre
 		 * @param honestidad honestidad del 0 al 100
 		 * @param carisma carisma del 0 al 100
 		 * @param elocuencia elocuencia del 0 al 100
 		 * @param popularidad apoyo popular del 0 al 100
-		 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+		 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 		 */
 		public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad) throws ExceptionPolitico{
 			this.setNombre(nombre);
@@ -99,13 +99,13 @@ public class Politico {
 					throw new ExceptionPolitico();
 		}
 		/**
-		 * Constructor con todos los par·metros menos la cita
+		 * Constructor con todos los par√°metros menos la cita
 		 * @param nombre el nombre
 		 * @param honestidad honestidad del 0 al 100
 		 * @param carisma carisma del 0 al 100
 		 * @param elocuencia elocuencia del 0 al 100
 		 * @param popularidad apoyo popular del 0 al 100
-		 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+		 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 		 */
 		public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad, ModificadorProduccion mod) throws ExceptionPolitico{
 			this.setNombre(nombre);
@@ -135,12 +135,12 @@ public class Politico {
 		
 		
 		/**
-		 * Establece un stat sÛlamente, indicado por "tipo", el valor debe estar entre 0 y 100 o el cambio no se efectuar· y
-		 * ser· lanzada una excepciÛn
+		 * Establece un stat s√≥lamente, indicado por "tipo", el valor debe estar entre 0 y 100 o el cambio no se efectuar√° y
+		 * ser√° lanzada una excepci√≥n
 		 * @param tipo el tipo de stat
 		 * @param valor el valor, debe estar entre 0 y 100
 		 * @return true si se ha realizado, false en caso contrario
-		 * @throws ExceptionPolitico lanza una excepciÛn si el valor es menos que 0 o mayor que 100 
+		 * @throws ExceptionPolitico lanza una excepci√≥n si el valor es menos que 0 o mayor que 100 
 		 */
 		public void setSingleStat(StatsPolitico tipo, int valor) throws ExceptionPolitico{
 			if(valor< 0 || valor>100)
