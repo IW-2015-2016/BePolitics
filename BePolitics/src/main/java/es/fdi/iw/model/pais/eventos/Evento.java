@@ -14,8 +14,9 @@ import es.fdi.iw.model.pais.TipoRecurso;
  *
  */
 public class Evento {
-	private static final int DIAS_CADUCIDAD_EVENTO_GUERRA = 7;
-	private static final int DIAS_CADUCIDAD_EVENTO_NO_GUERRA = 7;
+	private static final int DIAS_CADUCIDAD_EVENTO_REGULAR = 3;
+	private static final int DIAS_CADUCIDAD_EVENTO_GUERRA = 4;
+	private static final int DIAS_CADUCIDAD_EVENTO_COMUNIDAD = 7;
 	
 	private String titulo;
 	private String descripcion;
@@ -120,11 +121,11 @@ public class Evento {
 		
 		
 		// Se añade el modificador del evento
-		if (this.tipoEvento != TipoEvento.GUERRA){
+		if (this.tipoEvento == TipoEvento.EVENTO_REGULAR){
 			
 			Date today = new Date(Calendar.getInstance().getTimeInMillis());
 			Calendar aux = Calendar.getInstance();
-			aux.add(Calendar.DATE, +DIAS_CADUCIDAD_EVENTO_NO_GUERRA);
+			aux.add(Calendar.DATE, +DIAS_CADUCIDAD_EVENTO_REGULAR);
 			Date finEvento = new Date(aux.getTimeInMillis());
 			String s=this.opcion1;
 			TipoRecurso rec = this.rec1;
@@ -196,6 +197,9 @@ public class Evento {
 		return false;
 		
 	}
+	
+	resuelveEventoComunidad
+	
 	/**
 	 * Se obtiene el estado de la pregunta, respondida o no
 	 * @return true si se respondió al evento

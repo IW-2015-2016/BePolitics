@@ -1,25 +1,29 @@
 package es.fdi.iw.model.pais.eventos;
 
 import java.util.ArrayList;
+
+import es.fdi.iw.model.pais.Pais;
+
 /**
- * Esta clase guarda un montón de eventos regulares 
+ * Contiene una lista de eventos pasados y un evento actual para la guerra con un país. 
+ * Deberá poder resolver eventos
  * 
  * @author Ismael
  *
  */
-public class EventosRegular  implements Eventos{
+public class GestorEventos{
+
 	private ArrayList<Evento> eventos;
 	private Evento eventoActual;
-	
-	
-	
+	private final TipoEvento tipo;
 	/**
 	 * Constructor por defecto, inicializa las listas
 	 * 
 	 */
-	public EventosRegular(){
+	public GestorEventos(TipoEvento tipo){
 		this.eventos = new ArrayList<Evento>();
 		this.eventoActual = null;
+		this.tipo = tipo;
 	}
 	
 	/**
@@ -35,13 +39,13 @@ public class EventosRegular  implements Eventos{
 	 * ser de tipo regular
 	 * 
 	 * @param e el evento a añadir 
-	 * @return true si lo a�adio, false en caso de que ya existiera, se recibiese un evento nulo o el evento recibido no sea regular
+	 * @return true si lo a�adio, false en caso de que ya existiera, se recibiese un evento nulo o el evento recibido no sea regular
 	 */
 	public boolean addEventoActual(Evento e){
 		
 		if (!this.tieneEventoActual() 
 				|| e!= null 
-				|| e.getTipo() != TipoEvento.EVENTO_REGULAR)
+				|| e.getTipo() != this.tipo)
 			return false;	
 		
 		this.eventoActual=e;
@@ -55,7 +59,7 @@ public class EventosRegular  implements Eventos{
 	 * @param opcion un entero que debe ser 1 o 2
 	 * @return true si se respondió, false si no
 	 */
-	public boolean respondeEvento(int opcion){
+	public boolean respondeEvento(int opcion, Pais yo, Pais otro){
 		
 		if (this.eventoActual==null
 				||	this.eventoActual.getRespondido()) 
@@ -68,20 +72,39 @@ public class EventosRegular  implements Eventos{
 			return true;
 		}
 		
+		if (this.tipo == TipoEvento.EVENTO_REGULAR)
+			this.resuelve(yo, otro);
+		
 		return false;
 	}
-	
-	@Override
-	public TipoEvento getTipoEvento() {
-		return TipoEvento.EVENTO_REGULAR;
+	/**
+	 * Resuelve el evento de guerra actual si ambos países han respondido
+	 * @param yo
+	 * @param otro
+	 * @return
+	 */
+	private boolean resuelve(Pais yo, Pais otro){
+		boolean ret = false;
+		ret= this.eventoActual.resuelveEventoGuerra(yo, otro);
+		
+		if(ret){
+			this.eventos.add(this.eventoActual);
+			this.eventoActual = null;
+		}
+		return ret;
 	}
 	
-	@Override
+
+	public TipoEvento getTipoEvento() {
+		return this.tipo;
+	}
+	
+
 	public Evento getEventoActual() {
 		return this.eventoActual;
 	}
 	
-	@Override
+
 	public ArrayList<Evento> getEventosPasados() {
 		return this.eventos;
 	}
