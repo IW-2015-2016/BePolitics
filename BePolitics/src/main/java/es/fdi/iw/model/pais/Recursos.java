@@ -3,7 +3,7 @@ package es.fdi.iw.model.pais;
 import java.util.Random;
 
 /**
- * La clase simboliza los recursos que hay. Se puede a�adir algo de un tipo de recurso y restar.
+ * La clase simboliza los recursos que hay. Se puede añadir algo de un tipo de recurso y restar.
  * Para restar hay que sumar una cantidad negativa.
  * Los recursos van en el mismo orden que TipoRecurso:
  * 
@@ -16,17 +16,18 @@ import java.util.Random;
  * @see TipoRecurso
  *
  */
+ @Entity
 public class Recursos {
 	private int resources[];
-	private static final int minimo = 10;
+	private static final int minimo_recursos = 10;
 	/**
-	 * Inicializa los recursos al m�nimo
+	 * Inicializa los recursos al mï¿½nimo
 	 */
 	public Recursos(){
 		this.resources = new int[TipoRecurso.getNumTipoRecursos()];
 		
 		for(int i=0; i<TipoRecurso.getNumTipoRecursos();i++){
-			this.resources[i] = minimo;
+			this.resources[i] = minimo_recursos;
 		}
 	}
 
@@ -39,9 +40,9 @@ public class Recursos {
 		return getRecurso(TipoRecurso.getIndice(r));
 	}
     /**
-     * Devuelve el recurso por su índice
-     * @param idx el índice del recurso, debe estar entre 0 y Tipo
-     * @return -1 si el índice no es correcto, la cantidad del recurso en otro caso
+     * Devuelve el recurso por su Ã­ndice
+     * @param idx el Ã­ndice del recurso, debe estar entre 0 y Tipo
+     * @return -1 si el Ã­ndice no es correcto, la cantidad del recurso en otro caso
      */
     public int getRecurso(int idx){
         if(idx < 0 || idx >= TipoRecurso.getNumTipoRecursos()) return -1;
