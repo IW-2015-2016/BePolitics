@@ -16,12 +16,13 @@ import es.fdi.iw.model.politicos.Politico;
  * @author Ismael
  *
  */
+ @Entity
 public class Construcciones {
 	
 	//[TiposConstruccion]
-	private Politico politicoAlojado[];
+	private Politico politicoAlojado_construcciones[];
 
-	private int nivel[];
+	private int nivel_construcciones[];
 	
 	//[TiposConstruccion][TipoRecurso]
     //Una de las dimensiones es el tipo de la construccion y la otra el tipo de recurso
@@ -35,8 +36,8 @@ public class Construcciones {
         -felicidad
 
     */
-	private int coste[][];
-	private int produccion_hora[][];
+	private int coste_construcciones[][];
+	private int produccion_hora_construcciones[][];
 	
 	
 	
@@ -47,11 +48,11 @@ public class Construcciones {
 	 */
 	public Construcciones(){
             for(int i=0; i<TipoConstruccion.getNumConstrucciones();i++){
-                this.nivel[i]=1;
-                this.politicoAlojado=null;
+                this.nivel_construcciones[i]=1;
+                this.politicoAlojado_construcciones=null;
                 for(int j=0;j<TipoRecurso.getNumTipoRecursos();j++){
-                    this.coste[i][j]=1;
-                    this.produccion_hora[i][j]=1;   
+                    this.coste_construcciones[i][j]=1;
+                    this.produccion_hora_construcciones[i][j]=1;   
                 }
             }
 	}
@@ -62,7 +63,7 @@ public class Construcciones {
      * @param t el tipo de construccion en el que se le aloja
      */
 	public void setPolitico(Politico newPolitico, TipoConstruccion t){
-		this.politicoAlojado[TipoConstruccion.getIndex(t)] = newPolitico;
+		this.politicoAlojado_construcciones[TipoConstruccion.getIndex(t)] = newPolitico;
 	}
 	
 	/**
@@ -71,7 +72,7 @@ public class Construcciones {
          * @return el politico alojado
          */
 	public Politico getPolitico(TipoConstruccion t){
-		return this.politicoAlojado[TipoConstruccion.getIndex(t)];
+		return this.politicoAlojado_construcciones[TipoConstruccion.getIndex(t)];
 	}
 	
 	/**
@@ -86,7 +87,7 @@ public class Construcciones {
         int idxConstruccion = TipoConstruccion.getIndex(t);
         // Comprueba si hay recursos
         for (int i =0;i<TipoRecurso.getNumTipoRecursos();i++)
-           if(this.coste[idxConstruccion][i]>r.getRecurso(i))
+           if(this.coste_construcciones[idxConstruccion][i]>r.getRecurso(i))
                return false;
         
         // Gastar recursos
@@ -109,12 +110,12 @@ public class Construcciones {
         this.nivel[idxConstruccion]++;
         //Multiplicador de coste
         for(int i =0; i<TipoRecurso.getNumTipoRecursos();i++)
-            this.coste[idxConstruccion][i]*=TipoConstruccion.multiplicadorCoste[idxConstruccion];
+            this.coste_construcciones[idxConstruccion][i]*=TipoConstruccion.multiplicadorCoste[idxConstruccion];
         
             
         //Multiplicador de produccion
         for(int i =0;i<TipoRecurso.getNumTipoRecursos();i++)
-            this.produccion_hora[idxConstruccion][i]*=TipoConstruccion.multiplicadorProduccion[i];
+            this.produccion_hora_construcciones[idxConstruccion][i]*=TipoConstruccion.multiplicadorProduccion[i];
         
         return true;            
     }
@@ -133,7 +134,7 @@ public class Construcciones {
      * @return La produccion
      */
     public int getProduccionRecurso(TipoConstruccion c, TipoRecurso r){
-    	return this.produccion_hora[TipoConstruccion.getIndex(c)][TipoRecurso.getIndice(r)];
+    	return this.produccion_hora_construcciones[TipoConstruccion.getIndex(c)][TipoRecurso.getIndice(r)];
     }
     /**
      * Devuelve la produccion de un recurso concreto en un edificio concreto
@@ -142,7 +143,7 @@ public class Construcciones {
      * @return La produccion
      */
     public int getProduccionRecurso(int c, int r){
-    	return this.getProduccionRecurso(TipoConstruccion.getConstruccion(c),
+    	return this.getProduccionRecurso_construcciones(TipoConstruccion.getConstruccion(c),
     									 TipoRecurso.getRecurso(r));
     }
 }
