@@ -20,10 +20,11 @@ import es.fdi.iw.model.pais.eventos.EventosGuerra;
  * @see EventosGuerra
  *
  */
+ @Entity 
 public class Guerras {
 	/* Tuplas de (Pais, eventos)*/
 	private ArrayList<Pair<Pais, EventosGuerra>> guerrasYEventos;
-	private Pais propietario;
+	private Pais propietario_guerras;
 	/**
 	 * Se debe entregar el paÃ­s al que pertenece la alianza
 	 * 
@@ -33,7 +34,7 @@ public class Guerras {
 	public Guerras(Pais pais) throws IOException{
 		this.guerrasYEventos = new ArrayList<Pair<Pais,EventosGuerra>>();
 		if (pais == null) throw new IOException();
-		this.propietario = pais;
+		this.propietario_guerras = pais;
 		
 	}
 	/**
@@ -41,7 +42,7 @@ public class Guerras {
 	 * @return el nombre de quien tiene la lista de aliado
 	 */
 	public String propietario(){
-		return this.propietario.getNombre_pais();
+		return this.propietario_guerras.getNombre_pais();
 	}
 	/**
 	 * Entra en guerra con un pais. Si el pais ya estaba en guerra devolverÃ¡ falso, si p es null, lanzarÃ¡ una excepciÃ³n
@@ -93,7 +94,7 @@ public class Guerras {
 	 * @return true si el país es igual al propietario
 	 */
 	public boolean esPropietario(Pais p){
-		return this.propietario.equals(p);
+		return this.propietario_guerras.equals(p);
 		
 	}
 	/**
