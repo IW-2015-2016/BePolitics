@@ -1,12 +1,12 @@
 package es.fdi.iw.model.pais.eventos;
 
 import java.util.ArrayList;
-
+@Entity
 public class EventosComunidadEconomica  implements Eventos{
-	private ArrayList<Evento> eventos;
+	private ArrayList<Evento> eventos_comunidad;
 	
 	public EventosComunidadEconomica(){
-		this.eventos = new ArrayList<Evento>();
+		this.eventos_comunidad = new ArrayList<Evento>();
 	}
 	
 	@Override
