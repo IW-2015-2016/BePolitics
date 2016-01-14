@@ -1,54 +1,56 @@
 package es.fdi.iw.model.pais.relaciones;
 /**
- * Relaciona dos objetos. El de la izquierda ser· inmutable pero el de la derecha se puede
- * cambiar a discrecciÛn. La clase pair sÛlo compara en su mÈtodo equals al objeto de la 
- * izquierda, el de la derecha no ser· comparado.
+ * Relaciona dos objetos. El de la izquierda ser√° inmutable pero el de la derecha se puede
+ * cambiar a discrecci√≥n. La clase pair s√≥lo compara en su m√©todo equals al objeto de la 
+ * izquierda, el de la derecha no ser√° comparado.
  * 
  * @author <a href="https://www.linkedin.com/in/glen-edmonds-77b6208"> Glen Edmonds </a> on the source <a href="https://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples">https://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples</a> 
  * @author Ismael (Modificaciones menores)
  *
- * @param <L> Una clase cualquiera. Tras la creaciÛn el objeto ser· inmutable
+ * @param <L> Una clase cualquiera. Tras la creaci√≥n el objeto ser√° inmutable
  * @param <R> Una clase cualquiera
  * 
  */
+ @Entity 
 public class Pair<L,R> {
-
+		
+	  int id_pair;
 	  private final L left;
 	  private R right;
 	  /**
-	   * Constructor ˙nico, debe recibir los dos par·metros. se ha de tener cuidado de no introducir un
-	   * null en left, porque no se podr· modificar m·s adelante, right sin embargo es mutable
-	   * @param left un par·metro que ser· inmutable
-	   * @param right un par·metro modificable
+	   * Constructor √∫nico, debe recibir los dos par√°metros. se ha de tener cuidado de no introducir un
+	   * null en left, porque no se podr√° modificar m√°s adelante, right sin embargo es mutable
+	   * @param left un par√°metro que ser√° inmutable
+	   * @param right un par√°metro modificable
 	   */
 	  public Pair(L left, R right) {
 	    this.left = left;
 	    this.right = right;
 	  }
 	  /**
-	   * Obtiene el par·metro de la izquierda, es inmutable
-	   * @return un par·metro constante
+	   * Obtiene el par√°metro de la izquierda, es inmutable
+	   * @return un par√°metro constante
 	   */
 	  public L getLeft() { 
 		  return left; 
 	  }
 	  /**
-	   * Obtiene el par·metro de la derecha
+	   * Obtiene el par√°metro de la derecha
 	   * @return un objeto del tipo parametrizado
 	   */
 	  public R getRight() { 
 		  return right; 
 	  }
 	  /**
-	   * Permite modificar el par·metro right, es posible introducir null
-	   * @param right un par·metro del tipo <R>
+	   * Permite modificar el par√°metro right, es posible introducir null
+	   * @param right un par√°metro del tipo <R>
 	   */
 	  public void setRight(R right){
 		  this.right = right;
 	  }
 	  /**
-	   * El cÛdigo hash ser· un and explÌcito de left. no teniendo en cuenta right
-	   * @return un cÛdigo hash
+	   * El c√≥digo hash ser√° un and expl√≠cito de left. no teniendo en cuenta right
+	   * @return un c√≥digo hash
 	   */
 	  @Override
 	  public int hashCode() { 
