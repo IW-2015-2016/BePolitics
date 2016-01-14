@@ -2,14 +2,15 @@ package es.fdi.iw.model.pais.eventos;
 
 import java.util.ArrayList;
 /**
- * Esta clase guarda un montón de eventos regulares 
+ * Esta clase guarda un montÃ³n de eventos regulares 
  * 
  * @author Ismael
  *
  */
+ @Entity
 public class EventosRegular  implements Eventos{
-	private ArrayList<Evento> eventos;
-	private Evento eventoActual;
+	private ArrayList<Evento> eventos_regular;
+	private Evento eventoActual_regular;
 	
 	
 	
@@ -18,8 +19,8 @@ public class EventosRegular  implements Eventos{
 	 * 
 	 */
 	public EventosRegular(){
-		this.eventos = new ArrayList<Evento>();
-		this.eventoActual = null;
+		this.eventos_regular = new ArrayList<Evento>();
+		this.eventoActual_regular = null;
 	}
 	
 	/**
@@ -27,15 +28,15 @@ public class EventosRegular  implements Eventos{
 	 * @return
 	 */
 	public boolean tieneEventoActual(){
-		if (this.eventoActual==null) return false;
+		if (this.eventoActual_regular==null) return false;
 		return true;
 	}
 	/**
-	 * añade un evento actual si no había uno. El evento debe 
+	 * aÃ±ade un evento actual si no habÃ­a uno. El evento debe 
 	 * ser de tipo regular
 	 * 
-	 * @param e el evento a añadir 
-	 * @return true si lo a�adio, false en caso de que ya existiera, se recibiese un evento nulo o el evento recibido no sea regular
+	 * @param e el evento a aÃ±adir 
+	 * @return true si lo añadio, false en caso de que ya existiera, se recibiese un evento nulo o el evento recibido no sea regular
 	 */
 	public boolean addEventoActual(Evento e){
 		
@@ -44,27 +45,27 @@ public class EventosRegular  implements Eventos{
 				|| e.getTipo() != TipoEvento.EVENTO_REGULAR)
 			return false;	
 		
-		this.eventoActual=e;
+		this.eventoActual_regular=e;
 		return true;
 	}
 	
 	/**
-	 * Con esto se responde un evento, como el evento sólo tiene dos
+	 * Con esto se responde un evento, como el evento sÃ³lo tiene dos
 	 * opciones, la respuesta debe estar entre 1 y 2
 	 * 
 	 * @param opcion un entero que debe ser 1 o 2
-	 * @return true si se respondió, false si no
+	 * @return true si se respondiÃ³, false si no
 	 */
 	public boolean respondeEvento(int opcion){
 		
-		if (this.eventoActual==null
-				||	this.eventoActual.getRespondido()) 
+		if (this.eventoActual_regular==null
+				||	this.eventoActual_regular.getRespondido()) 
 			return false;
 		
 		if(opcion>2) return false;
 		
 		else if(opcion>0) {
-			this.eventoActual.respondeEvento(opcion);
+			this.eventoActual_regular.respondeEvento(opcion);
 			return true;
 		}
 		
@@ -78,11 +79,11 @@ public class EventosRegular  implements Eventos{
 	
 	@Override
 	public Evento getEventoActual() {
-		return this.eventoActual;
+		return this.eventoActual_regular;
 	}
 	
 	@Override
 	public ArrayList<Evento> getEventosPasados() {
-		return this.eventos;
+		return this.eventos_regular;
 	}
 }
