@@ -3,21 +3,23 @@ package es.fdi.iw.model.politicos;
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 
 /**
- * Esta clase representa un polÌtico. Sus stats deben estar siempre entre 0 y 100 y para ello
- * hay un nuevo tipo de excepciÛn que lo representa. tambiÈn est· Ìntimamente relacionado con 
- * el enumerado StatsPolÌtico 
+ * Esta clase representa un pol√≠tico. Sus stats deben estar siempre entre 0 y 100 y para ello
+ * hay un nuevo tipo de excepci√≥n que lo representa. tambi√©n est√° √≠ntimamente relacionado con 
+ * el enumerado StatsPol√≠tico 
  * 
  * 
  * @author Ismael
  * @see ExcepcionPolitico
- * @see StatsPolÌtico
+ * @see StatsPol√≠tico
  */
+ @Entity
 public class Politico {
 	//Orden: {HONESTIDAD,CARISMA,ELOCUENCIA,POPULARIDAD}
-	private int stats[];
-	private String nombre;
-	private String cita;
-	private ModificadorProduccion modificador;
+	private int stats_politico[];
+	private int id_politico; //generar getters y setters
+	private String nombre_politico;
+	private String cita_politico;
+	private ModificadorProduccion modificador_politico;
 	
 	
 	/*********************/
@@ -25,100 +27,100 @@ public class Politico {
 	/*********************/
 	
 	/**
-	 * Constructor con todos los par·metros
+	 * Constructor con todos los par√°metros
 	 * @param nombre el nombre
 	 * @param honestidad honestidad del 0 al 100
 	 * @param carisma carisma del 0 al 100
 	 * @param elocuencia elocuencia del 0 al 100
 	 * @param popularidad apoyo popular del 0 al 100
-	 * @param quote algo cÈlebre dicho por el polÌtico
-	 * @param mod un modificador que ser· clonado para evitar errores de modificacion indeseables.
-	 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+	 * @param quote algo c√©lebre dicho por el pol√≠tico
+	 * @param mod un modificador que ser√° clonado para evitar errores de modificacion indeseables.
+	 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 	 */
 	public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad, String quote, ModificadorProduccion mod) throws ExceptionPolitico{
 		this.setNombre(nombre);
 
-		this.stats[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
-		this.stats[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
-		this.stats[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
-		this.stats[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
+		this.stats_politico[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
+		this.stats_politico[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
+		this.stats_politico[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
+		this.stats_politico[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
 		
-		this.modificador =  mod.clone();
+		this.modificador_politico =  mod.clone();
 		this.setCita(quote);
 		
 		for(int i=0; i < StatsPolitico.getNumStats(); i++)
-			if(this.stats[i]< 0 || this.stats[i]>100)
+			if(this.stats_politico[i]< 0 || this.stats_politico[i]>100)
 				throw new ExceptionPolitico();
 	}
 		/**
-		 * Constructor con todos los par·metros menos el modificador de produccion
+		 * Constructor con todos los par√°metros menos el modificador de produccion
 		 * @param nombre el nombre
 		 * @param honestidad honestidad del 0 al 100
 		 * @param carisma carisma del 0 al 100
 		 * @param elocuencia elocuencia del 0 al 100
 		 * @param popularidad apoyo popular del 0 al 100
-		 * @param quote algo cÈlebre dicho por el polÌtico
-		 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+		 * @param quote algo c√©lebre dicho por el pol√≠tico
+		 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 		 */
 		public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad, String quote) throws ExceptionPolitico{
 			this.setNombre(nombre);
 
 
-			this.stats[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
 			
 			this.setCita(quote);
 			
 			for(int i=0; i < StatsPolitico.getNumStats(); i++)
-				if(this.stats[i]< 0 || this.stats[i]>100)
+				if(this.stats_politico[i]< 0 || this.stats_politico[i]>100)
 					throw new ExceptionPolitico();
 		}
 
 		/**
-		 * Constructor con todos los par·metros menos la cita y el modificador de producciÛn
+		 * Constructor con todos los par√°metros menos la cita y el modificador de producci√≥n
 		 * @param nombre el nombre
 		 * @param honestidad honestidad del 0 al 100
 		 * @param carisma carisma del 0 al 100
 		 * @param elocuencia elocuencia del 0 al 100
 		 * @param popularidad apoyo popular del 0 al 100
-		 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+		 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 		 */
 		public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad) throws ExceptionPolitico{
 			this.setNombre(nombre);
 		
-			this.stats[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
 
 			
 			for(int i=0; i < StatsPolitico.getNumStats(); i++)
-				if(this.stats[i]< 0 || this.stats[i]>100)
+				if(this.stats_politico[i]< 0 || this.stats_politico[i]>100)
 					throw new ExceptionPolitico();
 		}
 		/**
-		 * Constructor con todos los par·metros menos la cita
+		 * Constructor con todos los par√°metros menos la cita
 		 * @param nombre el nombre
 		 * @param honestidad honestidad del 0 al 100
 		 * @param carisma carisma del 0 al 100
 		 * @param elocuencia elocuencia del 0 al 100
 		 * @param popularidad apoyo popular del 0 al 100
-		 * @throws ExceptionPolitico Lanza exception cuando los valores no est·n en el intervalo cerrado [0,100]
+		 * @throws ExceptionPolitico Lanza exception cuando los valores no est√°n en el intervalo cerrado [0,100]
 		 */
 		public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad, ModificadorProduccion mod) throws ExceptionPolitico{
 			this.setNombre(nombre);
 
-			this.stats[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
+			this.stats_politico[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
 			
-			this.modificador =  mod.clone();
+			this.modificador_politico =  mod.clone();
 			
 			for(int i=0; i < StatsPolitico.getNumStats(); i++)
-				if(this.stats[i]< 0 || this.stats[i]>100)
+				if(this.stats_politico[i]< 0 || this.stats_politico[i]>100)
 					throw new ExceptionPolitico();
 		}
 		
@@ -135,19 +137,19 @@ public class Politico {
 		
 		
 		/**
-		 * Establece un stat sÛlamente, indicado por "tipo", el valor debe estar entre 0 y 100 o el cambio no se efectuar· y
-		 * ser· lanzada una excepciÛn
+		 * Establece un stat s√≥lamente, indicado por "tipo", el valor debe estar entre 0 y 100 o el cambio no se efectuar√° y
+		 * ser√° lanzada una excepci√≥n
 		 * @param tipo el tipo de stat
 		 * @param valor el valor, debe estar entre 0 y 100
 		 * @return true si se ha realizado, false en caso contrario
-		 * @throws ExceptionPolitico lanza una excepciÛn si el valor es menos que 0 o mayor que 100 
+		 * @throws ExceptionPolitico lanza una excepci√≥n si el valor es menos que 0 o mayor que 100 
 		 */
 		public void setSingleStat(StatsPolitico tipo, int valor) throws ExceptionPolitico{
 			if(valor< 0 || valor>100)
 				throw new ExceptionPolitico();
 			/*El orden siempre es {HONESTIDAD,CARISMA,ELOCUENCIA,POPULARIDAD}*/
 			
-			this.stats[StatsPolitico.getIndex(tipo)] = valor;
+			this.stats_politico[StatsPolitico.getIndex(tipo)] = valor;
 			
 		}
 		
@@ -156,16 +158,16 @@ public class Politico {
 			/*El orden siempre es {HONESTIDAD,CARISMA,ELOCUENCIA,POPULARIDAD}*/
 			switch(tipo){
 				case HONESTIDAD:
-					ret = this.stats[0];
+					ret = this.stats_politico[0];
 					break;
 				case CARISMA:
-					ret = this.stats[1];
+					ret = this.stats_politico[1];
 					break;
 				case ELOCUENCIA:
-					ret = this.stats[2];
+					ret = this.stats_politico[2];
 					break;
 				case POPULARIDAD:
-					ret = this.stats[3];
+					ret = this.stats_politico[3];
 					break;
 			}
 			
@@ -173,19 +175,19 @@ public class Politico {
 		}
 		
 		public ModificadorProduccion getModificador(){
-			return this.modificador;
+			return this.modificador_politico;
 		}
 		
 		public void setModificadorProduccion(ModificadorProduccion mod){
-			this.modificador = mod;
+			this.modificador_politico = mod;
 		}
 		
 		public void setCita(String cita){
-			this.cita=cita;
+			this.cita_politico=cita;
 		}
 		
 		public String getCita(){
-			return this.cita;
+			return this.cita_politico;
 		}
 
 		
@@ -201,7 +203,7 @@ public class Politico {
 				if(stats[i]< 0 || stats[i]>100)
 						throw new ExceptionPolitico();
 						
-				this.stats = stats;
+				this.stats_politico = stats;
 				
 			} catch (ExceptionPolitico e) {
 				// TODO Auto-generated catch block
@@ -216,7 +218,7 @@ public class Politico {
 		}
 
 		private void setNombre(String nombre) {
-			this.nombre = nombre;
+			this.nombre_politico = nombre;
 		}
 		
 }
