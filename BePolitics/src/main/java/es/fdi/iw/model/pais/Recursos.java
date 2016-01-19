@@ -2,8 +2,14 @@ package es.fdi.iw.model.pais;
 
 import java.util.Random;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
 /**
- * La clase simboliza los recursos que hay. Se puede añadir algo de un tipo de recurso y restar.
+ * La clase simboliza los recursos que hay. Se puede aï¿½adir algo de un tipo de recurso y restar.
  * Para restar hay que sumar una cantidad negativa.
  * Los recursos van en el mismo orden que TipoRecurso:
  * 
@@ -16,19 +22,38 @@ import java.util.Random;
  * @see TipoRecurso
  *
  */
+@Entity
 public class Recursos {
+	private long id;
 	private int resources[];
 	private static final int minimo = 10;
+	
+	
+	
 	/**
 	 * Inicializa los recursos al mï¿½nimo
 	 */
-	public Recursos(){
+	
+	public  Recursos(){
 		this.resources = new int[TipoRecurso.getNumTipoRecursos()];
 		
 		for(int i=0; i<TipoRecurso.getNumTipoRecursos();i++){
 			this.resources[i] = minimo;
 		}
 	}
+	
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	
 
 	/**
 	 * Obtiene la cantidad de un recurso que tiene la clase
@@ -48,7 +73,8 @@ public class Recursos {
         return this.resources[idx];
     }
 	
-	public int getPIB(){
+/* TODO problema PIB
+ * 	public int getPIB(){
 		return getRecurso(TipoRecurso.PIB);
 	}
 	public int getApoyo_Popular(){
@@ -61,15 +87,7 @@ public class Recursos {
 		return getRecurso(TipoRecurso.POBLACION);
 	}
 	
-	/**
-	 * Suma a un determinado recurso a una cantidad
-	 * @param r
-	 * @param cantidad
-	 */
-	public void sumaRecurso(TipoRecurso r, int cantidad){
-			this.resources[TipoRecurso.getIndice(r)] +=cantidad;
-	}
-	/**
+	*//**
 	 * Recibe un array de recursos que se suma a los recursos actuales
 	 * @param recursos un array de enteros
 	 */
@@ -78,5 +96,17 @@ public class Recursos {
 			this.resources[i]+=recursos[i];
 		}
 	}
+
+
+    /**
+	 * Suma a un determinado recurso a una cantidad
+	 * @param r
+	 * @param cantidad
+	 */
+	public void sumaRecurso(TipoRecurso r, int cantidad){
+			this.resources[TipoRecurso.getIndice(r)] +=cantidad;
+	}
+	
+	
 	
 }

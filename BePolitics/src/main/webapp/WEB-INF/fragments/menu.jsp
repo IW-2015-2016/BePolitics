@@ -2,7 +2,7 @@
 <div id="menu">
 
 	<c:choose>
-		<c:when test="${not empty user}">
+		<c:when test="${not empty UsuarioRegistrado}">
 			<ul id="accordion" class="accordion">
 				<li>
 					<div class="link">
@@ -94,7 +94,7 @@
 				</li>
 			</ul>
 		</c:when>
-		<c:when test="${not empty admin}">
+		<c:when test="${not empty Administrador}">
 					<ul id="accordion" class="accordion">
 				<li>
 					<div class="link">
@@ -133,7 +133,7 @@
 				</li>
 			</ul>
 		</c:when>
-		<c:when test="${not empty test}">
+		<c:when test="${not empty Editor}">
 			<ul id="accordion" class="accordion">
 				<li>
 					<div class="link">
