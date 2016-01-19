@@ -3,6 +3,12 @@ package es.fdi.iw.model.pais.relaciones;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import es.fdi.iw.model.pais.Pais;
 
 
@@ -14,10 +20,13 @@ import es.fdi.iw.model.pais.Pais;
  * @author Ismael
  *
  */
+@Entity
 public class ComunidadEconomica {
+	private long id;
+	private ArrayList<Pais> admin;
+	private ArrayList<Pais> paises;
 	
-	ArrayList<Pais> admin;
-	ArrayList<Pais> paises;
+	public ComunidadEconomica(){}
 	/**
 	 * Crea una comunidad economica que debe recibir el primer pais implicado
 	 * como miembro. Ese pais sera automaticamente el lider. 
@@ -52,7 +61,7 @@ public class ComunidadEconomica {
 	}
 	
 	/**
-	 * Un lider invitara a un miembro. Si quien añade a un miembro no es líder, no se añade 
+	 * Un lider invitara a un miembro. Si quien aï¿½ade a un miembro no es lï¿½der, no se aï¿½ade 
 	 *  
 	 * @param lider un pais que debe ser admin de la comunidad
 	 * @param invitado un miembro que no debe ser ya socio
@@ -65,6 +74,30 @@ public class ComunidadEconomica {
 		
 		return this.paises.add(invitado);
 	}
+	
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	@ManyToOne(targetEntity=Pais.class)
+	public ArrayList<Pais> getAdmin() {
+		return admin;
+	}
+	public void setAdmin(ArrayList<Pais> admin) {
+		this.admin = admin;
+	}
+	@ManyToOne(targetEntity=Pais.class)
+	public ArrayList<Pais> getPaises() {
+		return paises;
+	}
+	public void setPaises(ArrayList<Pais> paises) {
+		this.paises = paises;
+	}
+
 	
 	
 
