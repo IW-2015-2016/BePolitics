@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.eventos.Evento;
@@ -145,10 +147,17 @@ public class Guerras {
 		
 		if (idx>0) return null;
 		//Obtiene el par país/EventosGuerra, saca EventosGuerra y de este los eventos pasados. 
+<<<<<<< HEAD
 		return ((GestorEventos)
+=======
+		return (ArrayList<Evento>) ((GestorEventos)
+>>>>>>> 0c59353... Crea Tablas
 					((Pair<Pais,GestorEventos>)
 							this.guerrasYEventos.get(idx)
 					).getRight()
-				).getEventosPasados();	
+				).getEventos();	
 	}
+
+	
+	
 }
