@@ -6,6 +6,8 @@
 - ./hsqldb.sh start
 - ./hsqldb.sh gui
 - ./hsqldb.sh --help
+- ls -l /tmp/iwdb
+
 
 
 
