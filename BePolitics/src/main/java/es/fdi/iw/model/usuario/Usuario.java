@@ -1,6 +1,9 @@
 package es.fdi.iw.model.usuario;
 
-import java.util.Date;
+
+
+import java.sql.Date;
+import java.util.Calendar;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,8 +23,6 @@ import es.fdi.iw.model.politicos.ExceptionPolitico;
 /**
  * Esta Clase representa a los distintos tipos de usuarios que pueden usar nuestra aplicación y los identifica con un ROL. 
  * Comprueba que la edad del jugador sea mayor de 18. He añadido procedimientos para crear distintos tipos de usuarios.
- * 
- * @author Julia
  */
 @Entity
 @NamedQueries({
@@ -52,9 +53,7 @@ public class Usuario {
 	
 	
 	//Se debe crear un constructor vacío para evitar este error: No default constructor for entity:
-	public Usuario(){
-		
-	}
+	public Usuario(){}
 	
 	
 	public Usuario(String nombre, String apellidos, String email, Genero genero, int edad, String nick,
@@ -71,7 +70,8 @@ public class Usuario {
 		this.pais = pais;
 		this.rol = rol;
 		this.tipoLider = tipoLider;
-		this.fechaRegistro = new Date();	
+	
+		this.fechaRegistro = new Date(Calendar.getInstance().getTimeInMillis());	
 	}
 
 
@@ -175,6 +175,16 @@ public class Usuario {
 	}
 
 	public void setfechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+
+	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 

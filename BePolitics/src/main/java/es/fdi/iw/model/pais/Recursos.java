@@ -73,10 +73,33 @@ public class Recursos {
         return this.resources[idx];
     }
 	
-/* TODO problema PIB
- * 	public int getPIB(){
-		return getRecurso(TipoRecurso.PIB);
+    public int getPIB(){
+        return this.resources[TipoRecurso.getIndice(TipoRecurso.PIB)];
 	}
+ 	public void setPIB(int p){
+     this.resources[TipoRecurso.getIndice(TipoRecurso.PIB)] = p;
+	}
+ 	public int getAPOYO_POPULAR(){
+        return this.resources[TipoRecurso.getIndice(TipoRecurso.APOYO_POPULAR)];
+	}
+ 	public void setAPOYO_POPULAR(int p){
+     this.resources[TipoRecurso.getIndice(TipoRecurso.APOYO_POPULAR)] = p;
+	}
+
+ 	public int getENERGIA(){
+        return this.resources[TipoRecurso.getIndice(TipoRecurso.ENERGIA)];
+	}
+ 	public void setENERGIA(int p){
+     this.resources[TipoRecurso.getIndice(TipoRecurso.ENERGIA)] = p;
+	}
+ 	public int getPOBLACION(){
+        return this.resources[TipoRecurso.getIndice(TipoRecurso.POBLACION)];
+	}
+ 	public void setPOBLACION(int p){
+     this.resources[TipoRecurso.getIndice(TipoRecurso.POBLACION)] = p;
+	}
+ 	/*
+ 	 	
 	public int getApoyo_Popular(){
 		return getRecurso(TipoRecurso.APOYO_POPULAR);
 	}
@@ -85,9 +108,9 @@ public class Recursos {
 	}
 	public int getPoblacion(){
 		return getRecurso(TipoRecurso.POBLACION);
-	}
+	}*/
 	
-	*//**
+	/**
 	 * Recibe un array de recursos que se suma a los recursos actuales
 	 * @param recursos un array de enteros
 	 */
