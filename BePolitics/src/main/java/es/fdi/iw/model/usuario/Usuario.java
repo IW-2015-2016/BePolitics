@@ -2,6 +2,17 @@ package es.fdi.iw.model.usuario;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import es.fdi.iw.model.Genero;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.politicos.ExceptionPolitico;
 
@@ -12,24 +23,42 @@ import es.fdi.iw.model.politicos.ExceptionPolitico;
  * 
  * @author Julia
  */
+@Entity
+@NamedQueries({
+    @NamedQuery(name="allUsuarios",
+            query="select u from Usuario u"),
+    @NamedQuery(name="usuarioByLogin",
+    query="select u from Usuario u where u.nick = :loginParam"),
+    @NamedQuery(name="delUserio",
+    	query="delete from Usuario u where u.id= :idParam")
+})
 public class Usuario {
 
-	private int id; //clave unica para la bd
+	private long id; //clave unica para la bd
 	private String nombre;
 	private String apellidos;
 	private String email;
 	private Genero genero;
 	private int edad;
 	private String nick; //Esto no esta eb el esquema pero lo veo necesario
-	private String pasword;
+	//private String pasword;	(07-seguridad-en-web)
 	private Pais pais; //El pais del jugador
 	private TipoLider tipoLider;
 	private Rol rol;
 	private Date fechaRegistro; //Me parece interesante almacenar esto porque podemos activar los eventos según el tiempo jugado por ejemplo
 	
-	public Usuario(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
-			String pasword, Pais pais, TipoLider tipoLider, Rol rol, Date fechaRegistro) throws ExceptionUsuario {
-		this.id = id;
+	private static BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder(); //(07-seguridad-en-web)
+	private String hashedAndSalted; //(07-seguridad-en-web)
+	
+	
+	//Se debe crear un constructor vacío para evitar este error: No default constructor for entity:
+	public Usuario(){
+		
+	}
+	
+	
+	public Usuario(String nombre, String apellidos, String email, Genero genero, int edad, String nick,
+			Pais pais, TipoLider tipoLider,String password,Rol rol)throws ExceptionUsuario {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
@@ -37,41 +66,42 @@ public class Usuario {
 		if(edad<18) throw new ExceptionUsuario();
 		else this.edad = edad;
 		this.nick = nick;
-		this.pasword = pasword;
+		this.hashedAndSalted = bcryptEncoder.encode(password); 
+		//this.pasword = pasword;
 		this.pais = pais;
-		this.tipoLider = tipoLider;
 		this.rol = rol;
-		this.fechaRegistro = fechaRegistro;
-	}
-	public Usuario CrearJugador(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
-			String pasword, Pais pais, TipoLider tipoLider, Rol rol, Date fechaRegistro) {
-		return new Usuario(id,nombre,apellidos,email,genero,edad,nick,pasword,pais,tipoLider,Rol.UsuarioRegistrado,fechaRegistro);
-	}
-	public Usuario CrearEditor(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
-			String pasword, Date fechaRegistro){
-		return new Usuario(id,nombre,apellidos,email,genero,edad,nick,pasword,null,TipoLider.NINGUNO,Rol.Editor,fechaRegistro);
-	}
-	public Usuario CrearAdministrador(int id, String nombre, String apellidos, String email, Genero genero, int edad, String nick,
-			String pasword, Date fechaRegistro) {
-		return new Usuario(id,nombre,apellidos,email,genero,edad,nick,pasword,null,TipoLider.NINGUNO,Rol.Administrador,fechaRegistro);
+		this.tipoLider = tipoLider;
+		this.fechaRegistro = new Date();	
 	}
 
 
-	public int getId() {
-		return id;
+
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public String getApellidos() {
+		return this.apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
 
 	public String getEmail() {
 		return email;
@@ -80,15 +110,44 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public Genero getGenero() {
+		return this.genero;
+	}
 
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+	
+	public int getEdad() {
+		return this.edad;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
 	public String getNick() {
-		return nick;
+		return this.nick;
 	}
 
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
+	
+	public boolean isPassValid(String pass) {
+		return bcryptEncoder.matches(pass, hashedAndSalted);		
+	}
 
+	public String getHashedAndSalted() {
+		return this.hashedAndSalted;
+	}
+
+
+	public void setHashedAndSalted(String hashedAndSalted) {
+		this.hashedAndSalted = hashedAndSalted;
+	}
+	@OneToOne(targetEntity=Pais.class, fetch=FetchType.EAGER)
 	public Pais getPais() {
 		return pais;
 	}
@@ -96,15 +155,6 @@ public class Usuario {
 	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
-
-	public Date getfechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setfechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
 	public TipoLider gettipoLider() {
 		return tipoLider;
 	}
@@ -119,6 +169,13 @@ public class Usuario {
 
 	public void setRol(Rol rol) {
 		this.rol = rol;
+	}
+	public Date getfechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setfechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
 	}
 
 	

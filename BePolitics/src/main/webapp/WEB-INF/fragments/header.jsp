@@ -43,7 +43,7 @@
 		<ul class="menuHeader">
 				
 			<c:choose>
-				<c:when test="${(not empty user) || (not empty admin) || ( (not empty test))}">
+				<c:when test="${(not empty UsuarioRegistrado) || (not empty Administrador) || ( (not empty Editor))}">
 					<li><a href="logout" class= "linkHeader">Salir</a></li>
 					<li><a href="iniciarSesion" class= "linkHeader">Mi cuenta</a></li>
 				 </c:when>

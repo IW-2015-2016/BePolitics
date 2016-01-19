@@ -39,7 +39,13 @@ import org.springframework.web.multipart.MultipartFile;
 import es.fdi.iw.ContextInitializer;
 import es.fdi.iw.model.Author;
 import es.fdi.iw.model.Book;
+import es.fdi.iw.model.Genero;
+
 import es.fdi.iw.model.User;
+import es.fdi.iw.model.pais.Pais;
+import es.fdi.iw.model.usuario.ExceptionUsuario;
+import es.fdi.iw.model.usuario.Rol;
+import es.fdi.iw.model.usuario.TipoLider;
 import es.fdi.iw.model.usuario.Usuario;
 
 /**
@@ -469,6 +475,48 @@ public class HomeController {
 		model.addAttribute("pageTitle", "Iniciar Sesión");
 		return "iniciarSesion";
 	}
+
+	@RequestMapping(value = "/crear", method = RequestMethod.POST)
+	@Transactional
+	public String nuevaCuenta(
+			@RequestParam("nombre") String formNombre,
+			@RequestParam("apellidos") String formApellidos,
+			@RequestParam("correo") String formCorreo,
+			@RequestParam("genero") String formGenero,
+			@RequestParam("edad") String formEdad,
+			@RequestParam("nick") String formNick,
+			@RequestParam("contra") String formContra,
+			@RequestParam("pais") String formPais,
+			@RequestParam("lider") String formLider,
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model, HttpSession session){
+		
+		//usuario (id, apellidos, edad, email, fecha_registro, genero, hashed_and_salted, nick, nombre, rol, tipo_lider, país) 
+		
+		/*public Usuario(String nombre, String apellidos, String email, Genero genero, int edad, 
+		 * String nick,Pais pais, TipoLider tipoLider,String password,Rol rol)*/
+		Pais p = new Pais(formPais );
+		entityManager.persist(p);
+		int edad = Integer.parseInt(formEdad);
+	    
+		try {
+			Usuario u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
+					formNick,p, TipoLider.valueOf(formLider),formContra,Rol.UsuarioRegistrado);
+			entityManager.persist(u);
+			//entityManager.flush(); // <- implicito al final de la transaccion
+			System.out.println(u.getId());
+			System.out.println(u.getNick());
+			System.out.println(u.getRol());
+			session.setAttribute("UsuarioRegistrado", u);
+		} catch (ExceptionUsuario e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		return "home2";
+		
+	}
 	@RequestMapping(value = "/entrar", method = RequestMethod.POST)
 	@Transactional
 	public String nuevaSesion(
@@ -486,14 +534,14 @@ public class HomeController {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}  
 		else{
-		Usuario u = null;
-		/*u = (Usuario)entityManager.createNamedQuery("usuarioByLogin")
-				.setParameter("loginParametro", formNick).getSingleResult();*/
-		
-		//model.addAttribute("loginError", "error en usuario o contraseña");
-		session.setAttribute("admin", formNick);
-		
-		//model.addAttribute("admin", "pedro");
+		System.out.println(formNick);	
+		Usuario u = new Usuario();
+		//http://alejandroayala.solmedia.ec/?p=947 (Para que sirve el try catch)
+		try{
+			u = (Usuario)entityManager.createNamedQuery("usuarioByLogin").setParameter("loginParam", formNick).getSingleResult();
+			System.out.println(u.getNick());
+		} catch (NoResultException nre) {
+		}
 		return "home2";
 		}
 		return "home2";

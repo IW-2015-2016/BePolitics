@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import es.fdi.iw.model.pais.Recursos;
 import es.fdi.iw.model.pais.TipoRecurso;
 import es.fdi.iw.model.politicos.Politico;
@@ -16,8 +21,10 @@ import es.fdi.iw.model.politicos.Politico;
  * @author Ismael
  *
  */
+@Entity
 public class Construcciones {
 	
+	private long id;
 	//[TiposConstruccion]
 	private Politico politicoAlojado[];
 
@@ -26,7 +33,17 @@ public class Construcciones {
 	//[TiposConstruccion][TipoRecurso]
 	private int coste[][];
 	private int produccion_hora[][];
-	
+
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	public Construcciones(){}
 	
 	
 	/**
@@ -34,7 +51,8 @@ public class Construcciones {
 	 * @param nombre
 	 * @param rec
 	 */
-	public Construcciones(){
+	//TODO porque el string
+	public Construcciones(String prueba){
             for(int i=0; i<TipoConstruccion.getNumConstrucciones();i++){
                 this.nivel[i]=1;
                 this.politicoAlojado=null;
@@ -50,7 +68,8 @@ public class Construcciones {
      * @param newPolitico el nuevo politico
      * @param t el tipo de construccion en el que se le aloja
      */
-	public void setPolitico(Politico newPolitico, TipoConstruccion t){
+	
+	 public void setPolitico(Politico newPolitico, TipoConstruccion t){
 		this.politicoAlojado[TipoConstruccion.getIndex(t)] = newPolitico;
 	}
 	
@@ -59,6 +78,7 @@ public class Construcciones {
          * @param t el edificio del que se quiere obtener el politico
          * @return el politico alojado
          */
+	@OneToMany(targetEntity=Politico.class)
 	public Politico getPolitico(TipoConstruccion t){
 		return this.politicoAlojado[TipoConstruccion.getIndex(t)];
 	}
@@ -134,4 +154,6 @@ public class Construcciones {
     	return this.getProduccionRecurso(TipoConstruccion.getConstruccion(c),
     									 TipoRecurso.getRecurso(r));
     }
+
+    
 }
