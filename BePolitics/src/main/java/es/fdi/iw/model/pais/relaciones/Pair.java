@@ -1,54 +1,63 @@
 package es.fdi.iw.model.pais.relaciones;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
- * Relaciona dos objetos. El de la izquierda será inmutable pero el de la derecha se puede
- * cambiar a discrección. La clase pair sólo compara en su método equals al objeto de la 
- * izquierda, el de la derecha no será comparado.
+ * Relaciona dos objetos. El de la izquierda serï¿½ inmutable pero el de la derecha se puede
+ * cambiar a discrecciï¿½n. La clase pair sï¿½lo compara en su mï¿½todo equals al objeto de la 
+ * izquierda, el de la derecha no serï¿½ comparado.
  * 
  * @author <a href="https://www.linkedin.com/in/glen-edmonds-77b6208"> Glen Edmonds </a> on the source <a href="https://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples">https://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples</a> 
  * @author Ismael (Modificaciones menores)
  *
- * @param <L> Una clase cualquiera. Tras la creación el objeto será inmutable
+ * @param <L> Una clase cualquiera. Tras la creaciï¿½n el objeto serï¿½ inmutable
  * @param <R> Una clase cualquiera
  * 
  */
+
 public class Pair<L,R> {
 
 	  private final L left;
 	  private R right;
+	  private Guerras guerra;
+	
 	  /**
-	   * Constructor único, debe recibir los dos parámetros. se ha de tener cuidado de no introducir un
-	   * null en left, porque no se podrá modificar más adelante, right sin embargo es mutable
-	   * @param left un parámetro que será inmutable
-	   * @param right un parámetro modificable
+	   * Constructor ï¿½nico, debe recibir los dos parï¿½metros. se ha de tener cuidado de no introducir un
+	   * null en left, porque no se podrï¿½ modificar mï¿½s adelante, right sin embargo es mutable
+	   * @param left un parï¿½metro que serï¿½ inmutable
+	   * @param right un parï¿½metro modificable
 	   */
 	  public Pair(L left, R right) {
 	    this.left = left;
 	    this.right = right;
 	  }
 	  /**
-	   * Obtiene el parámetro de la izquierda, es inmutable
-	   * @return un parámetro constante
+	   * Obtiene el parï¿½metro de la izquierda, es inmutable
+	   * @return un parï¿½metro constante
 	   */
 	  public L getLeft() { 
 		  return left; 
 	  }
 	  /**
-	   * Obtiene el parámetro de la derecha
+	   * Obtiene el parï¿½metro de la derecha
 	   * @return un objeto del tipo parametrizado
 	   */
 	  public R getRight() { 
 		  return right; 
 	  }
 	  /**
-	   * Permite modificar el parámetro right, es posible introducir null
-	   * @param right un parámetro del tipo <R>
+	   * Permite modificar el parï¿½metro right, es posible introducir null
+	   * @param right un parï¿½metro del tipo <R>
 	   */
 	  public void setRight(R right){
 		  this.right = right;
 	  }
 	  /**
-	   * El código hash será un and explícito de left. no teniendo en cuenta right
-	   * @return un código hash
+	   * El cï¿½digo hash serï¿½ un and explï¿½cito de left. no teniendo en cuenta right
+	   * @return un cï¿½digo hash
 	   */
 	  @Override
 	  public int hashCode() { 
@@ -67,4 +76,12 @@ public class Pair<L,R> {
 	    Pair<L,R> par = (Pair<L,R>) o;
 	    return this.left.equals(par.getLeft());// &&  this.right.equals(pairo.getRight());
 	  }
+	@ManyToOne(targetEntity=Guerras.class)
+	public Guerras getGuerra() {
+		return guerra;
+	}
+	public void setGuerra(Guerras guerra) {
+		this.guerra = guerra;
+	}
+	
 }

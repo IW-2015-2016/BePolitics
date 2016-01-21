@@ -4,19 +4,28 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.TipoRecurso;
+import es.fdi.iw.model.pais.eventos.TipoEvento;
 /**
  * Esto representa un evento, cada evento tendrá un título y una descripción, y 
  * generará unos modificadores cuando se responda a una de las dos opciones
  * @author Ismael
  *
  */
+@Entity
 public class Evento {
-	private static final int DIAS_CADUCIDAD_EVENTO_GUERRA = 7;
-	private static final int DIAS_CADUCIDAD_EVENTO_NO_GUERRA = 7;
+	private static final int DIAS_CADUCIDAD_EVENTO_GUERRA = 4;
+	private static final int DIAS_CADUCIDAD_EVENTO_COMUNIDAD= 7;
+	private static final int DIAS_CADUCIDAD_EVENTO_REGULAR = 3;
 	
+	private long id;
 	private String titulo;
 	private String descripcion;
 	private String opcion1;
@@ -32,7 +41,9 @@ public class Evento {
 	
 	private boolean eligioLaPrimeraRespuesta;
 	private boolean resuelto;
+	private GestorEventos gestorEvento;
 	
+	public Evento(){}
 	/**
 	 * Crea un evento, no puede ser tipo guerra
 	 * 
@@ -120,11 +131,11 @@ public class Evento {
 		
 		
 		// Se añade el modificador del evento
-		if (this.tipoEvento != TipoEvento.GUERRA){
+		if (this.tipoEvento != TipoEvento.EVENTO_REGULAR){
 			
 			Date today = new Date(Calendar.getInstance().getTimeInMillis());
 			Calendar aux = Calendar.getInstance();
-			aux.add(Calendar.DATE, +DIAS_CADUCIDAD_EVENTO_NO_GUERRA);
+			aux.add(Calendar.DATE, DIAS_CADUCIDAD_EVENTO_REGULAR);
 			Date finEvento = new Date(aux.getTimeInMillis());
 			String s=this.opcion1;
 			TipoRecurso rec = this.rec1;
@@ -154,7 +165,7 @@ public class Evento {
 	public boolean resuelveEventoGuerra(Pais yo, Pais otro){
 
 		if (this.tipoEvento != TipoEvento.GUERRA) return false;
-		Evento e = otro.getGuerras().getEventoActual(yo);
+		Evento e = otro.getGuerra().getEventoActual(yo);
 		
 		if(this.respondido && e.respondido && !this.resuelto && !e.resuelto) {
 			
@@ -203,10 +214,28 @@ public class Evento {
 	public boolean getRespondido(){
 		return this.respondido;
 	}
-	public TipoEvento getTipo(){
+	public TipoEvento getTipoEvento(){
 		return this.tipoEvento;
 	}
 	
+	public void setTipoEvento(TipoEvento tipoEvento) {
+		this.tipoEvento = tipoEvento;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	public void setOpcion1(String opcion1) {
+		this.opcion1 = opcion1;
+	}
+	public void setOpcion2(String opcion2) {
+		this.opcion2 = opcion2;
+	}
+	public void setRespondido(boolean respondido) {
+		this.respondido = respondido;
+	}
 	public String getTitulo(){
 		return this.titulo;
 	}
@@ -220,5 +249,21 @@ public class Evento {
 	}
 	public String getOpcion2(){
 		return this.opcion2;
+	}
+	
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	@ManyToOne(targetEntity=GestorEventos.class)
+	public GestorEventos getGestorEvento() {
+		return gestorEvento;
+	}
+	public void setGestorEvento(GestorEventos gestorEvento) {
+		this.gestorEvento = gestorEvento;
 	}
 }

@@ -1,6 +1,16 @@
 # ModeloBePolitics, el modelo para la aplicación
 
 
+# Lanzar servidor de BD
+- chmod 0755 hsqldb.sh 
+- ./hsqldb.sh start
+- ./hsqldb.sh gui
+- ./hsqldb.sh --help
+- ls -l /tmp/iwdb
+
+
+
+
 # AGOBIOS DE ISMAEL
 # {
 -Del modelo queda mazo y el tiempo empieza a apremiar. De jsp, javascript, SQL, etc también queda mazo
