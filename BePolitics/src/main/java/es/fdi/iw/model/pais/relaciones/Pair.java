@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import es.fdi.iw.model.pais.Pais;
+import es.fdi.iw.model.pais.eventos.GestorEventos;
 
 /**
  * Relaciona dos objetos. El de la izquierda ser� inmutable pero el de la derecha se puede
@@ -17,20 +21,30 @@ import javax.persistence.ManyToOne;
  * @param <R> Una clase cualquiera
  * 
  */
-
-public class Pair<L,R> {
-
-	  private final L left;
-	  private R right;
+@Entity
+public class Pair {
+	  private long id;
+	  private Pais left;
+	  private GestorEventos right;
 	  private Guerras guerra;
-	
+	  
+	  public Pair(){}
+@Id
+@GeneratedValue
+public long getId() {
+	return id;
+}
+
+public void setId(long id) {
+	this.id = id;
+}
 	  /**
 	   * Constructor �nico, debe recibir los dos par�metros. se ha de tener cuidado de no introducir un
 	   * null en left, porque no se podr� modificar m�s adelante, right sin embargo es mutable
 	   * @param left un par�metro que ser� inmutable
 	   * @param right un par�metro modificable
 	   */
-	  public Pair(L left, R right) {
+	  public Pair(Pais left, GestorEventos right) {
 	    this.left = left;
 	    this.right = right;
 	  }
@@ -38,21 +52,27 @@ public class Pair<L,R> {
 	   * Obtiene el par�metro de la izquierda, es inmutable
 	   * @return un par�metro constante
 	   */
-	  public L getLeft() { 
+	  @OneToOne(targetEntity=Pais.class)
+	  public Pais getLeft() { 
 		  return left; 
 	  }
-	  /**
+	  
+	  public void setLeft(Pais left) {
+		this.left = left;
+	}
+	/**
 	   * Obtiene el par�metro de la derecha
 	   * @return un objeto del tipo parametrizado
 	   */
-	  public R getRight() { 
+	  @OneToOne(targetEntity=GestorEventos.class)
+	  public GestorEventos getRight() { 
 		  return right; 
 	  }
 	  /**
 	   * Permite modificar el par�metro right, es posible introducir null
 	   * @param right un par�metro del tipo <R>
 	   */
-	  public void setRight(R right){
+	  public void setRight(GestorEventos right){
 		  this.right = right;
 	  }
 	  /**
@@ -73,7 +93,7 @@ public class Pair<L,R> {
       @Override
 	  public boolean equals(Object o) {
 	    if (!(o instanceof Pair)) return false;
-	    Pair<L,R> par = (Pair<L,R>) o;
+	    Pair par = (Pair) o;
 	    return this.left.equals(par.getLeft());// &&  this.right.equals(pairo.getRight());
 	  }
 	@ManyToOne(targetEntity=Guerras.class)
