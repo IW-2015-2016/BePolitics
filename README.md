@@ -7,7 +7,7 @@
 - ./hsqldb.sh gui // Type: HSQL Database Engine Server // URL: jdbc:hsqldb:hsql://localhost/iwdb
 - ./hsqldb.sh --help
 - ls -l /tmp/iwdb
-
+- exportar en gui: script 'ruta/ruta'
 
 
 
