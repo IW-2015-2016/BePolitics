@@ -1,5 +1,6 @@
 package es.fdi.iw.model.pais.relaciones;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -160,4 +161,8 @@ public class Guerras {
 
 	
 	
+=======
+public class Guerras {
+
+>>>>>>> 43e87a0... Pruebas para hacer merge
 }
