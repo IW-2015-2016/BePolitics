@@ -4,7 +4,7 @@
 # Lanzar servidor de BD
 - chmod 0755 hsqldb.sh 
 - ./hsqldb.sh start
-- ./hsqldb.sh gui
+- ./hsqldb.sh gui // Type: HSQL Database Engine Server // URL: jdbc:hsqldb:hsql://localhost/iwdb
 - ./hsqldb.sh --help
 - ls -l /tmp/iwdb
 
