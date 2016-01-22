@@ -1,16 +1,22 @@
 package es.fdi.iw.model.pais.relaciones;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
+import java.util.List;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.eventos.Evento;
-import es.fdi.iw.model.pais.eventos.Eventos;
-import es.fdi.iw.model.pais.eventos.EventosGuerra;
+import es.fdi.iw.model.pais.eventos.GestorEventos;
+import es.fdi.iw.model.pais.eventos.TipoEvento;
+import es.fdi.iw.model.politicos.Politico;
+
 
 
 /**
@@ -28,7 +34,7 @@ import es.fdi.iw.model.pais.eventos.EventosGuerra;
 public class Guerras {
 	/* Tuplas de (Pais, eventos)*/
 	private long id;
-	private ArrayList<Pair<Pais, EventosGuerra>> guerrasYEventos;
+	private ArrayList<Pair> guerrasYEventos;
 	private Pais propietario;
 	
 	public Guerras(){}
@@ -40,7 +46,7 @@ public class Guerras {
 	 * @throws IOException si el paÃ­s estÃ¡ vacÃ­o
 	 */
 	public Guerras(Pais pais) throws IOException{
-		this.guerrasYEventos = new ArrayList<Pair<Pais,EventosGuerra>>();
+		this.setGuerrasYEventos(new ArrayList<Pair>());
 		if (pais == null) throw new IOException();
 		this.propietario = pais;
 		
@@ -74,11 +80,11 @@ public class Guerras {
 		if(p==null) throw new IOException();
 		
 		//Crea un par para buscar el país
-		Pair<Pais, EventosGuerra> par = new Pair<Pais, EventosGuerra>(p,null);
+		Pair par = new Pair(p,null);
 		
-		if (this.guerrasYEventos.contains(par)) return false;
-		par.setRight(new EventosGuerra());
-		return this.guerrasYEventos.add(par);
+		if (this.getGuerrasYEventos().contains(par)) return false;
+		par.setDerecha(new GestorEventos(TipoEvento.GUERRA));
+		return this.getGuerrasYEventos().add(par);
 	}
 	/**
 	 * Acaba una guerra
@@ -86,11 +92,11 @@ public class Guerras {
 	 * @return true si se acaba la guerra, false si no existe o no se puede borrar
 	 */
 	public boolean acabaGuerra(Pais p){
-		Pair<Pais, EventosGuerra> par = new Pair<Pais, EventosGuerra>(p,null);
-		if(!this.guerrasYEventos.contains(par)){
+		Pair par = new Pair(p,null);
+		if(!this.getGuerrasYEventos().contains(par)){
 			return false;
 		}
-		if(this.guerrasYEventos.remove(par)){
+		if(this.getGuerrasYEventos().remove(par)){
 			//TODO aÃ±adir a los paises eventos de eliminaciÃ³n de la alianza en tiempo x
 			
 			return true;
@@ -104,8 +110,8 @@ public class Guerras {
 	 * @return true si es enemigo, false en caso contrario
 	 */
 	public boolean esEnemigo(Pais p){
-		Pair<Pais, EventosGuerra> par = new Pair<Pais, EventosGuerra>(p,null);
-		return this.guerrasYEventos.contains(par);
+		Pair par = new Pair(p,null);
+		return this.getGuerrasYEventos().contains(par);
 	}
 	/**
 	 * Dice si el país es propietario de esta lista de guerras
@@ -123,14 +129,14 @@ public class Guerras {
 	 */
 	public Evento getEventoActual(Pais p){
 		
-		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
+		int idx = this.getGuerrasYEventos().lastIndexOf(new Pair(p,null));
 		
 		if (idx>0) return null;
 		//Obtiene el par país/EventosGuerra, saca EventosGuerra y de este el evento actual. 
-		return ((EventosGuerra)
-					((Pair<Pais,EventosGuerra>)
-							this.guerrasYEventos.get(idx)
-					).getRight()
+		return ((GestorEventos)
+					((Pair)
+							this.getGuerrasYEventos().get(idx)
+					).getDerecha()
 				).getEventoActual();	
 	}
 	/**
@@ -140,14 +146,28 @@ public class Guerras {
 	 */
 	public ArrayList<Evento> getEventosPasados(Pais p){
 		
-		int idx = this.guerrasYEventos.lastIndexOf(new Pair<Pais, EventosGuerra>(p,null));
+		int idx = this.getGuerrasYEventos().lastIndexOf(new Pair(p,null));
 		
 		if (idx>0) return null;
 		//Obtiene el par país/EventosGuerra, saca EventosGuerra y de este los eventos pasados. 
-		return ((EventosGuerra)
-					((Pair<Pais,EventosGuerra>)
-							this.guerrasYEventos.get(idx)
-					).getRight()
-				).getEventosPasados();	
+
+	
+
+		return (ArrayList<Evento>) ((GestorEventos)
+
+					((Pair)
+							this.getGuerrasYEventos().get(idx)
+					).getDerecha()
+				).getEventos();	
 	}
+	@OneToMany(targetEntity=Pair.class)
+	@JoinColumn(name="guerra") 
+	private List<Pair> getGuerrasYEventos() {
+		return  guerrasYEventos;
+	}
+
+	private void setGuerrasYEventos(List<Pair> guerrasYEventos) {
+		this.guerrasYEventos =  (ArrayList<Pair>) guerrasYEventos;
+	}
+
 }

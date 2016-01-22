@@ -1,7 +1,17 @@
 package es.fdi.iw.model.pais.eventos;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.Pais;
 
 /**
@@ -11,11 +21,14 @@ import es.fdi.iw.model.pais.Pais;
  * @author Ismael
  *
  */
+@Entity
 public class GestorEventos{
-
+	private long id;
 	private ArrayList<Evento> eventos;
 	private Evento eventoActual;
-	private final TipoEvento tipo;
+	private  TipoEvento tipoEvento;
+	
+	public GestorEventos(){}
 	/**
 	 * Constructor por defecto, inicializa las listas
 	 * 
@@ -23,7 +36,7 @@ public class GestorEventos{
 	public GestorEventos(TipoEvento tipo){
 		this.eventos = new ArrayList<Evento>();
 		this.eventoActual = null;
-		this.tipo = tipo;
+		this.tipoEvento = tipo;
 	}
 	
 	/**
@@ -45,7 +58,7 @@ public class GestorEventos{
 		
 		if (!this.tieneEventoActual() 
 				|| e!= null 
-				|| e.getTipo() != this.tipo)
+				|| e.getTipoEvento() != this.tipoEvento)
 			return false;	
 		
 		this.eventoActual=e;
@@ -72,7 +85,7 @@ public class GestorEventos{
 			return true;
 		}
 		
-		if (this.tipo == TipoEvento.EVENTO_REGULAR)
+		if (this.tipoEvento == TipoEvento.EVENTO_REGULAR)
 			this.resuelve(yo, otro);
 		
 		return false;
@@ -96,16 +109,41 @@ public class GestorEventos{
 	
 
 	public TipoEvento getTipoEvento() {
-		return this.tipo;
+		return this.tipoEvento;
+	}
+	public void setTipoEvento(TipoEvento tipoEvento) {
+		this.tipoEvento = tipoEvento;
+	}
+
+
+
+	
+	
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	
-
+	@OneToMany(targetEntity=Evento.class)
+	@JoinColumn(name="gestor_evento") 
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = (ArrayList<Evento>) eventos;
+	}
+	
+	@OneToOne(targetEntity=Evento.class, fetch=FetchType.EAGER)
 	public Evento getEventoActual() {
-		return this.eventoActual;
+		return eventoActual;
 	}
-	
+	public void setEventoActual(Evento eventoActual) {
+		this.eventoActual = eventoActual;
+	}
 
-	public ArrayList<Evento> getEventosPasados() {
-		return this.eventos;
-	}
 }

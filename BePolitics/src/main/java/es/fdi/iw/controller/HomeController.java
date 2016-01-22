@@ -40,9 +40,10 @@ import es.fdi.iw.ContextInitializer;
 import es.fdi.iw.model.Author;
 import es.fdi.iw.model.Book;
 import es.fdi.iw.model.Genero;
-
 import es.fdi.iw.model.User;
 import es.fdi.iw.model.pais.Pais;
+import es.fdi.iw.model.pais.Recursos;
+import es.fdi.iw.model.pais.construcciones.Construcciones;
 import es.fdi.iw.model.usuario.ExceptionUsuario;
 import es.fdi.iw.model.usuario.Rol;
 import es.fdi.iw.model.usuario.TipoLider;
@@ -490,18 +491,22 @@ public class HomeController {
 			@RequestParam("lider") String formLider,
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, HttpSession session){
+			Construcciones c= new Construcciones(" ");
+			entityManager.persist(c);
+			Recursos r = new Recursos();
+			entityManager.persist(r);
+			/*Pais p = new Pais(c,formPais,r);
+			entityManager.persist(p)*/;
+	
 		
-		//usuario (id, apellidos, edad, email, fecha_registro, genero, hashed_and_salted, nick, nombre, rol, tipo_lider, país) 
 		
-		/*public Usuario(String nombre, String apellidos, String email, Genero genero, int edad, 
-		 * String nick,Pais pais, TipoLider tipoLider,String password,Rol rol)*/
-		Pais p = new Pais(formPais );
-		entityManager.persist(p);
+		
+		
 		int edad = Integer.parseInt(formEdad);
 	    
 		try {
 			Usuario u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
-					formNick,p, TipoLider.valueOf(formLider),formContra,Rol.UsuarioRegistrado);
+					formNick,null, TipoLider.valueOf(formLider),formContra,Rol.UsuarioRegistrado);
 			entityManager.persist(u);
 			//entityManager.flush(); // <- implicito al final de la transaccion
 			System.out.println(u.getId());

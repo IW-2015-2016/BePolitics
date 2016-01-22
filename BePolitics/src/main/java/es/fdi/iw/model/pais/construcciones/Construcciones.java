@@ -26,13 +26,13 @@ public class Construcciones {
 	
 	private long id;
 	//[TiposConstruccion]
-	private Politico politicoAlojado[];
+	private Politico[] politicoAlojado;
 
-	private int nivel[];
+	private int[] nivel;
 	
 	//[TiposConstruccion][TipoRecurso]
-	private int coste[][];
-	private int produccion_hora[][];
+	private int[][] coste;
+	private int[][] produccion_hora;
 
 	@Id
     @GeneratedValue
@@ -43,8 +43,8 @@ public class Construcciones {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	public Construcciones(){}
-	
 	
 	/**
 	 *  Crea una construccion desde cero
@@ -53,10 +53,15 @@ public class Construcciones {
 	 */
 	//TODO porque el string
 	public Construcciones(String prueba){
-            for(int i=0; i<TipoConstruccion.getNumConstrucciones();i++){
+		int max_construcciones =TipoConstruccion.getNumConstrucciones();
+		int max_recursos = TipoRecurso.getNumTipoRecursos();
+			this.nivel = new int[max_construcciones];
+			this.coste = new int [max_construcciones][max_recursos];
+			this.produccion_hora = new int [max_construcciones][max_recursos];
+            for(int i=0; i<max_construcciones;i++){
                 this.nivel[i]=1;
                 this.politicoAlojado=null;
-                for(int j=0;j<TipoRecurso.getNumTipoRecursos();j++){
+                for(int j=0;j<max_recursos;j++){
                     this.coste[i][j]=1;
                     this.produccion_hora[i][j]=1;   
                 }
