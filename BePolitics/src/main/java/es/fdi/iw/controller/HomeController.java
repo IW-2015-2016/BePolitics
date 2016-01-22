@@ -469,8 +469,8 @@ public class HomeController {
 	/*
 	 * Lleva a la pag de login
 	 */
+	//@Transactional
 	@RequestMapping(value = "/iniciarSesion", method = RequestMethod.GET)
-	@Transactional
 	public String iniciarsesion(Locale locale, Model model) {
 		
 		model.addAttribute("pageTitle", "Iniciar Sesión");
