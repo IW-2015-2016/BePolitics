@@ -21,14 +21,15 @@ import es.fdi.iw.model.pais.Pais;
  */
 
 @Entity
+
 public class Politico {
 	//Orden: {HONESTIDAD,CARISMA,ELOCUENCIA,POPULARIDAD}
 	private long id;
-	private int stats[];
+	private int[] stats;
 	private String nombre;
 	private String cita;
 	
-	private Pais propietario; 
+	//private Pais propietario; 
 	/*TODO no funciona Explicacion
 	 * private ModificadorProduccion modificador;
 	*/
@@ -241,13 +242,14 @@ public class Politico {
 			this.id = id;
 		}
 		
-		
-		@ManyToOne(targetEntity=Pais.class)
+	/*	@ManyToOne(targetEntity=Pais.class)
 		public Pais getPropietario() {
 			return propietario;
 		}
 		public void setPropietario(Pais propietario) {
 			this.propietario = propietario;
-		}
+		}*/
 		
 }
+
+		

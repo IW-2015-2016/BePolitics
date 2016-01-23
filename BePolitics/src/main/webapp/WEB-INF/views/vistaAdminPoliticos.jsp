@@ -7,6 +7,7 @@
 	</div>	
 
 <div id="listaEventos" >
+<div class="contratar"><a href="crearPolitico" class= "ministryButton"> Crear Político</a></div>
 <ul>
 	<li class="evento"> 
 		Zazú

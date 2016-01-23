@@ -1,6 +1,6 @@
 package es.fdi.iw.model.pais;
 
-import java.io.IOException;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,7 +65,8 @@ public class Pais {
 	
 	public Pais(Construcciones construcciones, String nombre,  Recursos recursos) {
 		this.nombre = nombre;
-	
+		this.construcciones = construcciones;
+		this.recursos = recursos;
 		
 		Calendar yesterday = Calendar.getInstance();
 		yesterday.add(Calendar.DATE, -1);

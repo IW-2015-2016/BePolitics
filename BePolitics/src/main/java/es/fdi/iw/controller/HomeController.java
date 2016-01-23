@@ -44,6 +44,8 @@ import es.fdi.iw.model.User;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.Recursos;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
+import es.fdi.iw.model.politicos.ExceptionPolitico;
+import es.fdi.iw.model.politicos.Politico;
 import es.fdi.iw.model.usuario.ExceptionUsuario;
 import es.fdi.iw.model.usuario.Rol;
 import es.fdi.iw.model.usuario.TipoLider;
@@ -469,14 +471,16 @@ public class HomeController {
 	/*
 	 * Lleva a la pag de login
 	 */
-	//@Transactional
+
+	
 	@RequestMapping(value = "/iniciarSesion", method = RequestMethod.GET)
+	@Transactional
 	public String iniciarsesion(Locale locale, Model model) {
 		
 		model.addAttribute("pageTitle", "Iniciar Sesión");
 		return "iniciarSesion";
 	}
-
+	
 	@RequestMapping(value = "/crear", method = RequestMethod.POST)
 	@Transactional
 	public String nuevaCuenta(
@@ -495,8 +499,8 @@ public class HomeController {
 			entityManager.persist(c);
 			Recursos r = new Recursos();
 			entityManager.persist(r);
-			/*Pais p = new Pais(c,formPais,r);
-			entityManager.persist(p)*/;
+			Pais p = new Pais(c,formPais,r);
+			entityManager.persist(p);
 	
 		
 		
@@ -506,13 +510,13 @@ public class HomeController {
 	    
 		try {
 			Usuario u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
-					formNick,null, TipoLider.valueOf(formLider),formContra,Rol.UsuarioRegistrado);
+					formNick,p, TipoLider.valueOf(formLider),formContra,Rol.Editor);
 			entityManager.persist(u);
 			//entityManager.flush(); // <- implicito al final de la transaccion
 			System.out.println(u.getId());
 			System.out.println(u.getNick());
 			System.out.println(u.getRol());
-			session.setAttribute("UsuarioRegistrado", u);
+			session.setAttribute("Editor", u);
 		} catch (ExceptionUsuario e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -622,7 +626,49 @@ public class HomeController {
 	    	//model.addAttribute("anterior", session.getAttribute("user"));
 	   		return "noticias";
 	   	}
-	   
+ 
+	    @RequestMapping(value = "/crearPolitico", method = RequestMethod.GET)
+	   	public String crearPolitico(Locale locale, Model model, HttpSession session) {
+	       	session.setAttribute("user", "pedro");
+	    	//model.addAttribute("anterior", session.getAttribute("user"));
+	   		return "crearPolitico";
+	   	}
+	    @RequestMapping(value = "/crearP", method = RequestMethod.POST)
+		@Transactional
+		public String nuevaPolitico(
+				@RequestParam("nombre") String formNombre,
+				@RequestParam("cita") String formCita,
+				@RequestParam("honestidad") String formHonestidad,
+				@RequestParam("carisma") String formCarisma,
+				@RequestParam("elocuencia") String formElocuencia,
+				@RequestParam("popularidad") String formPopularidad,
+				HttpServletRequest request, HttpServletResponse response, 
+				Model model, HttpSession session) throws ExceptionPolitico{
+			int honestidad = Integer.parseInt(formHonestidad);
+			int carisma = Integer.parseInt(formCarisma);
+			int elocuencia = Integer.parseInt(formElocuencia);
+			int popularidad = Integer.parseInt(formPopularidad);
+		    
+			try {
+				Politico p = new Politico(formNombre,honestidad,carisma,
+						elocuencia, popularidad, formCita);
+				entityManager.persist(p);
+				//entityManager.flush(); // <- implicito al final de la transaccion
+				/*System.out.println(u.getId());
+				System.out.println(u.getNick());
+				System.out.println(u.getRol());
+				session.setAttribute("Editor", u);*/
+			} catch (ExceptionPolitico e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+			return "vistaAdminPoliticos";
+			
+		}
+	    
+	    
 	/**
 	 *Inicio sesion Admin
 	 */
