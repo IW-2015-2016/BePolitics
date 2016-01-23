@@ -635,7 +635,7 @@ public class HomeController {
 	   	}
 	    @RequestMapping(value = "/crearP", method = RequestMethod.POST)
 		@Transactional
-		public String nuevaPolitico(
+		public String nuevoPolitico(
 				@RequestParam("nombre") String formNombre,
 				@RequestParam("cita") String formCita,
 				@RequestParam("honestidad") String formHonestidad,
