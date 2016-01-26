@@ -1,29 +1,41 @@
 <%@ include file="../fragments/header.jsp" %>
 <%@ include file="../fragments/menu.jsp" %>	
 
+<script type="text/javascript">
+$(function() {
+	$("button.ministryButton").click(function(){
+		var id = $(this).attr("id").substring("d_".length); 
+		var row = $("#d_"+id).parent();
+		$.ajax({
+			url: "${prefix}poli/"+id,
+			type: "DELETE",
+			success: function(d) {
+				console.log("ok - this worked");
+				$("#e_"+id).remove();
+			}
+		})
+	})	
+})
+
+</script>
+
 <div id="divCentro">
 	<div id="titulo">
 		<h1>Gestión Políticos</h1>
 	</div>	
 
 <div id="listaEventos" >
+<div class="contratar"><a href="crearPolitico" class= "ministryButton"> Crear Político</a></div>
+
 <ul>
-	<li class="evento"> 
-		Zazú
-		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
-	</li>
-	<li class="evento"> 
-		Reina de corazones
-		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
-	</li>
-	<li class="evento"> 
-		Dr. Doom
-		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
-	
-	</li>
+	<c:forEach items="${politicos}" var="b">
+		<li class="evento" id="e_${b.id}"> 
+			${b.nombre}
+			<div class="contratar"><button  class="ministryButton" id="d_${b.id}">Eliminar</button></div>
+			<div class="contratar"><button  class= "ministryButton">Modificar</button></div>
+		</li>
+	</c:forEach>
+
 
 </ul>
 

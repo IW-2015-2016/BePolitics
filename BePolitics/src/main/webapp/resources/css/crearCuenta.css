@@ -7,6 +7,7 @@
 #formNuevo{
     margin-top: 19px;
     margin-left: 300px;
+ 
 }
 
 .crea-cuenta input{
@@ -32,4 +33,16 @@
 .crea-cuenta input:hover{
 	background-color: black;
 	color: #fff;
+}
+#nota-informativa {
+	padding:5px; /*Espaciado interno*/
+	width:250px; /*Ancho del contenedor*/
+	height: 150px;
+	text-align:center; /*Alineación del texto*/
+	background-color:#FFEE88; /*Color de fondo*/
+	position:fixed; /*Permite que se mantenga estático*/
+	display:none; /*Oculta el contenedor*/
+	left:340px; /*Separación del borde izquierdo*/
+	top:280px; /*Separación inferior del borde*/
+	box-shadow:0 0 5px #555; /*Sombras CSS3*/
 }
