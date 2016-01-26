@@ -37,7 +37,24 @@
 		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/auxliares/fonts.css">
 	</head>
 <body>
-	<header>
+	<!--<header>-->
+	<!-- Cuando no haya usuario va a *, cuando haya usuarioRegistrado -->
+	<c:choose> 
+		<c:when test="${(empty Editor) && (empty Administrador) && (empty UsuarioRegistrado)}">
+			<header onclick="location.href='';" style="cursor: pointer;">
+		</c:when>
+		<c:otherwise>
+			<c:when test="${(not empty UsuarioRegistrado)}">
+				<header onclick="location.href='';" style="cursor: pointer;">
+			</c:when>
+			<c:when test="${(not empty Administrador)}">
+				<header onclick="location.href='';" style="cursor: pointer;">
+			</c:when>
+			<c:when test="${(not empty Editor)}">
+				<header onclick="location.href='';" style="cursor: pointer;">
+			</c:when>
+		</c:otherwise>
+	</c:choose> 
 	
 		<div class="botonHeader">
 		<ul class="menuHeader">
