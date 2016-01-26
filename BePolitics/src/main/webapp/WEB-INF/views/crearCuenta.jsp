@@ -37,6 +37,7 @@ $(function() {
 		<div id="formNuevo">
 			<!-- Formulario registro -->
 		    <form action="${prefix}crearUsuario" method="POST">
+<<<<<<< HEAD
 		    	<input type="hidden" id="source" name="source" 
 				value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 		    	<c:choose>
@@ -60,6 +61,8 @@ $(function() {
 					<input type="hidden" name="rol" value="">
 				</c:otherwise>
 				</c:choose>
+=======
+>>>>>>> origin/master
 		    	<div class="nick-pass"> <label> Nombre </label><input type="text" name="nombre"> </div>
 			 	<div class="nick-pass"><label>Apellidos </label><input id="otracosa" type="text" name="apellidos"> </div>
 			 	<div class="nick-pass"><label>Correo</label> <input type="email" name="correo"></div>
@@ -77,14 +80,42 @@ $(function() {
 				<div class="nick-pass"><input type="radio" name="lider" value="PRESIDENTE" checked> Presidente
 				<input type="radio" name="lider" value="REY"> Rey </div>  
 				
+<<<<<<< HEAD
 				
+=======
+				<c:choose>
+				<c:when test="${not empty Administrador}">
+					
+						<div class="nick-pass"><label>Tipo de usuario  </label></div>
+						<div class="nick-pass">
+							<input type="radio" name="rol" value="Editor"> Editor
+							<input type="radio" name="rol" value="UsuarioRegistrado"> Jugador
+						</div>    
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" name="rol" value="">
+				</c:otherwise>
+				</c:choose>
+>>>>>>> origin/master
 		  		<div class="crea-cuenta"> 
 		  		<input name="submit"  value="Crear cuenta" type="submit"> 	  
 		  		<input type="reset">
 		  		</div>
 		  	</form>
 	  	</div>
+<<<<<<< HEAD
 	  
+=======
+	  	<c:if test="${not empty Administrador}">
+		  	<div id="aux">
+		  		<p>Si va crear un usuario de tipo aditor
+		  		 no es necesario rellenar los siquientes campos:
+		  		 	...Nombre país
+		  		 	...Tipo Líder
+		  			</p>
+		  	</div>
+	  	</c:if>
+>>>>>>> origin/master
 	</div>	
 </div>	
 	<%@ include file="../fragments/footer.jsp" %>
