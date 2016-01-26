@@ -1,23 +1,44 @@
 <%@ include file="../fragments/header.jsp" %>
 <%@ include file="../fragments/menu.jsp" %>	
 
+<script type="text/javascript">
+$(function() {
+	$("button.ministryButton").click(function(){
+		var id = $(this).attr("id").substring("d_".length); 
+		var row = $("#d_"+id).parent();
+		$.ajax({
+			url: "${prefix}poli/"+id,
+			type: "DELETE",
+			success: function(d) {
+				console.log("ok - this worked");
+				$("#e_"+id).remove();
+			}
+		})
+	})	
+})
+
+</script>
+
+
 <div id="divCentro">
 	<div id="titulo">
 		<h1>Gestión Editor</h1>
 	</div>	
 
 	<div id="Anadir">
-		<a href="#" class= "ministryButton">Añadir Editor</a>
+		<a href="crearCuenta" class= "ministryButton">Añadir Editor</a>
 	</div>	
 
 <div id="listaEventos" >
 <ul>
-	<li class="evento"> 
-		Ariel
-		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
-	</li>
-	<li class="evento"> 
+	<c:forEach items="${editores}" var="b">
+		<li class="evento" id="e_${b.id}"> 
+			${b.nombre}
+			<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
+			<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
+		</li>
+	</c:forEach>
+<!-- 	<li class="evento"> 
 		Shrek
 		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
 		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
@@ -27,7 +48,7 @@
 		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
 		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
 	
-	</li>
+	</li> -->
 
 </ul>
 
