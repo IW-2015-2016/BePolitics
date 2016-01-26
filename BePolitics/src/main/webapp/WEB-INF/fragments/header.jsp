@@ -40,17 +40,17 @@
 	<!--<header>-->
 	<!-- Cuando no haya usuario va a *, cuando haya usuarioRegistrado -->
 	<c:choose> 
-		<c:when test="${(empty Editor) && (empty Administrador) && (empty UsuarioRegistrado)}">
-			<header onclick="location.href='';" style="cursor: pointer;">
-		</c:when>
+		<c:when test="${empty rol}">
+			<header onclick="location.href='crearCuenta';" style="cursor: pointer;">
+		</c:when>		
 		<c:otherwise>
-			<c:when test="${(not empty UsuarioRegistrado)}">
+			<c:when test="${rol.rol eq 'UsuarioRegistrado'}">
 				<header onclick="location.href='';" style="cursor: pointer;">
 			</c:when>
-			<c:when test="${(not empty Administrador)}">
+			<c:when test="${rol.rol eq 'Administrador'}">
 				<header onclick="location.href='';" style="cursor: pointer;">
 			</c:when>
-			<c:when test="${(not empty Editor)}">
+			<c:when test="${rol.rol eq 'Editor'}">
 				<header onclick="location.href='';" style="cursor: pointer;">
 			</c:when>
 		</c:otherwise>
@@ -71,7 +71,6 @@
 			</c:choose>
 			
 		</ul>
-	
 		</div>
 		
 	</header>
