@@ -37,8 +37,7 @@
 		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/auxliares/fonts.css">
 	</head>
 <body>
-	<!--<header>-->
-	<!-- Cuando no haya usuario va a *, cuando haya usuarioRegistrado -->
+
 	<c:choose> 
 		<c:when test="${empty rol}">
 			<header onclick="location.href='crearCuenta';" style="cursor: pointer;">
