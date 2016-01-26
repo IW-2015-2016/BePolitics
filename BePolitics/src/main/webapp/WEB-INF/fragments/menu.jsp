@@ -2,13 +2,7 @@
 <div id="menu">
 
 	<c:choose>
-	
-
-
-	<c:when test="${not empty rol}">
-	
-	<c:choose>
-		<c:when test="${rol.rol eq 'UsuarioRegistrado'}">
+		<c:when test="${not empty UsuarioRegistrado}">
 			<ul id="accordion" class="accordion">
 				<li>
 					<div class="link">
@@ -100,7 +94,7 @@
 				</li>
 			</ul>
 		</c:when>
-		<c:when test="${rol.rol eq 'Administrador'}">
+		<c:when test="${not empty Administrador}">
 					<ul id="accordion" class="accordion">
 				<li>
 					<div class="link">
@@ -139,7 +133,7 @@
 				</li>
 			</ul>
 		</c:when>
-		<c:otherwise>
+		<c:when test="${not empty Editor}">
 			<ul id="accordion" class="accordion">
 				<li>
 					<div class="link">
@@ -166,9 +160,8 @@
 				</li>
 			</ul>
 
-		</c:otherwise>
-	</c:choose>
-	</c:when>
+		</c:when>
+		
 		<c:otherwise>
 			<ul id="accordion" class="accordion">
 				<li>
@@ -187,8 +180,7 @@
 					
 				</li>
 			</ul>
-		</c:otherwise> 
+		</c:otherwise>
 	</c:choose>
-	
 </div>
 	

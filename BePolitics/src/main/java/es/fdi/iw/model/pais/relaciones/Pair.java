@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.eventos.GestorEventos;
 
@@ -25,8 +24,8 @@ import es.fdi.iw.model.pais.eventos.GestorEventos;
 @Entity
 public class Pair {
 	  private long id;
-	  private Pais izquierda;
-	  private GestorEventos derecha;
+	  private Pais left;
+	  private GestorEventos right;
 	  private Guerras guerra;
 	  
 	  public Pair(){}
@@ -39,41 +38,6 @@ public long getId() {
 public void setId(long id) {
 	this.id = id;
 }
-/**
- * Obtiene el par�metro de la izquierda, es inmutable
- * @return un par�metro constante
- */
-@OneToOne(targetEntity=Pais.class)
-public Pais getIzquierda() { 
-	  return izquierda; 
-}
-
-public void setIzquierda(Pais left) {
-	this.izquierda = left;
-}
-/**
- * Obtiene el par�metro de la derecha
- * @return un objeto del tipo parametrizado
- */
-@OneToOne(targetEntity=GestorEventos.class)
-public GestorEventos getDerecha() { 
-	  return derecha; 
-}
-/**
- * Permite modificar el par�metro right, es posible introducir null
- * @param right un par�metro del tipo <R>
- */
-public void setDerecha(GestorEventos right){
-	  this.derecha = right;
-}
-@ManyToOne(targetEntity=Guerras.class)
-public Guerras getGuerra() {
-	return guerra;
-}
-public void setGuerra(Guerras guerra) {
-	this.guerra = guerra;
-}
-
 	  /**
 	   * Constructor �nico, debe recibir los dos par�metros. se ha de tener cuidado de no introducir un
 	   * null en left, porque no se podr� modificar m�s adelante, right sin embargo es mutable
@@ -81,18 +45,43 @@ public void setGuerra(Guerras guerra) {
 	   * @param right un par�metro modificable
 	   */
 	  public Pair(Pais left, GestorEventos right) {
-	    this.izquierda = left;
-	    this.derecha = right;
+	    this.left = left;
+	    this.right = right;
 	  }
-
-
+	  /**
+	   * Obtiene el par�metro de la izquierda, es inmutable
+	   * @return un par�metro constante
+	   */
+	  @OneToOne(targetEntity=Pais.class)
+	  public Pais getLeft() { 
+		  return left; 
+	  }
+	  
+	  public void setLeft(Pais left) {
+		this.left = left;
+	}
+	/**
+	   * Obtiene el par�metro de la derecha
+	   * @return un objeto del tipo parametrizado
+	   */
+	  @OneToOne(targetEntity=GestorEventos.class)
+	  public GestorEventos getRight() { 
+		  return right; 
+	  }
+	  /**
+	   * Permite modificar el par�metro right, es posible introducir null
+	   * @param right un par�metro del tipo <R>
+	   */
+	  public void setRight(GestorEventos right){
+		  this.right = right;
+	  }
 	  /**
 	   * El c�digo hash ser� un and expl�cito de left. no teniendo en cuenta right
 	   * @return un c�digo hash
 	   */
-	 
+	  @Override
 	  public int hashCode() { 
-		  return izquierda.hashCode();// ^ right.hashCode(); 
+		  return left.hashCode();// ^ right.hashCode(); 
 	  }
 
 	  /**
@@ -100,10 +89,19 @@ public void setGuerra(Guerras guerra) {
 	   * @param o el Par a comparar
 	   * @return true si el objeto de la izquierda es el mismo, false en caso contrario	  
 	   */
+	  @SuppressWarnings("unchecked")
+      @Override
 	  public boolean equals(Object o) {
 	    if (!(o instanceof Pair)) return false;
 	    Pair par = (Pair) o;
-	    return this.izquierda.equals(par.getIzquierda());// &&  this.right.equals(pairo.getRight());
+	    return this.left.equals(par.getLeft());// &&  this.right.equals(pairo.getRight());
 	  }
-
+	@ManyToOne(targetEntity=Guerras.class)
+	public Guerras getGuerra() {
+		return guerra;
+	}
+	public void setGuerra(Guerras guerra) {
+		this.guerra = guerra;
+	}
+	
 }

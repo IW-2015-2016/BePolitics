@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 /**
@@ -25,12 +23,6 @@ import javax.persistence.OneToOne;
  *
  */
 @Entity
-@NamedQueries({
-    @NamedQuery(name="allRecursos",
-            query="select r from Recursos r"),
-    @NamedQuery(name="RecursosById",
-    query="select r from Recursos r where r.id = :id")
-})
 public class Recursos {
 	private long id;
 	private int resources[];

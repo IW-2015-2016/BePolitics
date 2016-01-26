@@ -16,7 +16,6 @@ import javax.persistence.OneToOne;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import es.fdi.iw.model.Genero;
-
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.politicos.ExceptionPolitico;
 
@@ -29,11 +28,9 @@ import es.fdi.iw.model.politicos.ExceptionPolitico;
 @NamedQueries({
     @NamedQuery(name="allUsuarios",
             query="select u from Usuario u"),
-    @NamedQuery(name="allUsuarioRol",
-    	query="select u from Usuario u where u.rol = :rolParam"),
     @NamedQuery(name="usuarioByLogin",
     query="select u from Usuario u where u.nick = :loginParam"),
-    @NamedQuery(name="delUsuario",
+    @NamedQuery(name="delUserio",
     	query="delete from Usuario u where u.id= :idParam")
 })
 public class Usuario {
@@ -190,26 +187,6 @@ public class Usuario {
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
-	public static String generateHashedAndSalted(String pass) {
-		/*
-		Código viejo: sólo 1 iteración de SHA-1. bCrypt es mucho más seguro (itera 1024 veces...)
-		
-		Además, bcryptEncoder guarda la sal junto a la contraseña
-		byte[] saltBytes = hexStringToByteArray(user.salt);
-		byte[] passBytes = pass.getBytes();
-		byte[] toHash = new byte[saltBytes.length + passBytes.length];
-		System.arraycopy(passBytes, 0, toHash, 0, passBytes.length);
-		System.arraycopy(saltBytes, 0, toHash, passBytes.length, saltBytes.length);
-		return byteArrayToHexString(sha1hash(toHash));
-		*/
-		return bcryptEncoder.encode(pass);
-	}
-	public static Usuario crearUsuario(String login, String pass) {
-		Usuario u = new Usuario();
-		u.nick = login;
-		u.hashedAndSalted = generateHashedAndSalted(pass);
 
-		return u;
-	}
 	
 }
