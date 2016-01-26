@@ -11,11 +11,12 @@ $(function() {
 		/*.delay(12000) //Tiempo de duración del contenedor en la página
 		.hide( "drop", { direction: "left" }, "slow" ); //Uso de .hide, con el efecto drop. */
 
-	$( "#handler-puff" ).click(function() { // PUFF
+	/*$( "#handler-puff" ).click(function() { // PUFF
 	    $( "#puff" ).show( "puff", 1000 )
-	                    .delay(2000)
-	                    .hide( "puff", 1000 );                  
+	                    .delay(2000);
+	                    //.hide( "puff", 1000 );                  
 	})
+	*/
 })
  
 </script> 
@@ -44,8 +45,8 @@ $(function() {
 					<c:if test="${rol.rol eq 'Administrador'}">
 						<div id="nota-informativa" >
 							<p id="puff">Si va crear un usuario de tipo editor no es necesario rellenar los siquientes campos:</br>
-		  		 				...Nombre país</br>
-		  		 				...Tipo Líder
+		  		 				-Nombre país</br>
+		  		 				-Tipo Líder
 		  		 			</p>
 						</div>
 					
@@ -96,15 +97,15 @@ $(function() {
 		  		</div>
 		  	</form>
 	  	</div>
-	  	<c:if test="${not empty Administrador}">
-		  	<div id="aux">
+	  <!-- 	<c:if test="${not empty Administrador}">
+		  	<div id="handler-puff">
 		  		<p>Si va crear un usuario de tipo aditor
 		  		 no es necesario rellenar los siquientes campos:
 		  		 	...Nombre país
 		  		 	...Tipo Líder
 		  			</p>
 		  	</div>
-	  	</c:if>
+	  	</c:if> -->
 	</div>	
 </div>	
 	<%@ include file="../fragments/footer.jsp" %>
