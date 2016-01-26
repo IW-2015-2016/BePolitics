@@ -546,6 +546,8 @@ public class HomeController {
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
 						formNick,p, TipoLider.valueOf(formLider),formContra,Rol.Administrador);
 			}
+			//TODO quitar esta línea
+			System.out.println(u.toString());
 			
 			entityManager.persist(u);
 			//entityManager.flush(); // <- implicito al final de la transaccion

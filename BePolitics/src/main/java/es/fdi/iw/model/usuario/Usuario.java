@@ -212,4 +212,9 @@ public class Usuario {
 		return u;
 	}
 	
+	public String toString(){
+		
+		return "login: "+ this.nick+ " Email: "+ this.email;
+	}
+	
 }
