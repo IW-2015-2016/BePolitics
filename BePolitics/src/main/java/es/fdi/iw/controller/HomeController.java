@@ -342,14 +342,12 @@ public class HomeController {
    
 	@RequestMapping(value = "/vistaAdminEditor", method = RequestMethod.GET)
    	public String vistaAdminEditor(Locale locale, Model model, HttpSession session) {
-		//model.addAttribute("admin", "pedro");
-		
 		model.addAttribute("editores", entityManager.createNamedQuery("allUsuarioRol").setParameter("rolParam", Rol.Editor).getResultList());
 		return "vistaAdminEditor";
    	}
     @RequestMapping(value = "/vistaAdminUsuario", method = RequestMethod.GET)
    	public String vistaAdminUsuario(Locale locale, Model model, HttpSession session) {
-    	model.addAttribute("admin", "pedro");
+    	model.addAttribute("usuarios", entityManager.createNamedQuery("allUsuarioRol").setParameter("rolParam", Rol.UsuarioRegistrado).getResultList());
    		return "vistaAdminUsuario";
    	}
     @RequestMapping(value = "/vistaAdminNoticias", method = RequestMethod.GET)
@@ -413,7 +411,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("pageTitle", "BePolitics");
-		
+
 		return "home2";
 	}	
 
@@ -474,11 +472,22 @@ public class HomeController {
 			return false;
 		}
 	}
-	/*
+	
+
+	/** 
+	 * Returns true if the user is logged in and is an admin
+	 */
+	static boolean esAdministrador(HttpSession session) {
+		Usuario u = (Usuario)session.getAttribute("rol");
+		if (u != null) {
+			return u.getRol().toString().equals(Rol.Administrador.toString());
+		} else {
+			return false;
+		}
+	}
+	/**
 	 * Lleva a la pag de login
 	 */
-
-	
 	@RequestMapping(value = "/iniciarSesion", method = RequestMethod.GET)
 	@Transactional
 	public String iniciarsesion(Locale locale, Model model) {
@@ -505,49 +514,51 @@ public class HomeController {
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, HttpSession session){
 
-	
+			Pais p = null;
 			if(formRol.isEmpty()){
 				formRol = "UsuarioRegistrado";
-			}
-			System.out.println(formRol);
-		
-		
-		
+			}		
+			
 		int edad = Integer.parseInt(formEdad);
 		Usuario u = null;
 	    
-		try {	
-			//TODO cambiar los roles de la funciones 
-			if(formRol.equalsIgnoreCase("Administrador")){
+		boolean isLoggedIn = session.getAttribute("rol") != null;
+		
+		try {
+			formRol = formRol.toLowerCase();
+			if (formRol.equals("administrador") || formRol.equals("editor")) {
+				// agujero gordo si !isAdmin pero especifica rol admin			
+				
+				Rol r = formRol.equals("editor") ? Rol.Editor : Rol.Administrador;
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
-						formNick,null, TipoLider.valueOf(formLider),formContra,Rol.Administrador);
-			}
-			else if(formRol.equalsIgnoreCase("Editor")){
-				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
-						formNick,null, TipoLider.valueOf(formLider),formContra,Rol.Editor);
-			}
-			else{
+						formNick,p, TipoLider.valueOf(formLider),formContra,
+						r);
+			} else {
+				System.out.println("entro aqui?");
 				Construcciones c= new Construcciones(" ");
 				entityManager.persist(c);
 				Recursos r = new Recursos();
 				entityManager.persist(r);
-				Pais p = new Pais(c,formPais,r);
+				p = new Pais(c,formPais,r);
 				entityManager.persist(p);
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
 						formNick,p, TipoLider.valueOf(formLider),formContra,Rol.Administrador);
 			}
+			
 			entityManager.persist(u);
 			//entityManager.flush(); // <- implicito al final de la transaccion
-			System.out.println(u.getId());
-			System.out.println(u.getNick());
-			System.out.println(u.getRol());
+			
 			String rol = u.getRol().toString();
-			//model.addAttribute(rol, u);
-			session.setAttribute(rol, u);
-			getTokenForSession(session);
-			if(rol == "Editor"){
-				return "redirect:" + "vistaAdminEditor";
+			System.out.println(rol);
+			if (!esAdministrador(session)){
+				session.setAttribute("rol", u);
+				getTokenForSession(session);
+			} else{
+				String formSource = request.getParameter("formSource");
+				return "redirect:" + formSource;
 			}
+	
+		
 		} catch (ExceptionUsuario e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -660,10 +671,6 @@ public class HomeController {
  
 	    @RequestMapping(value = "/crearPolitico", method = RequestMethod.GET)
 	   	public String crearPolitico(Locale locale, Model model, HttpSession session) {
-	       	//session.setAttribute("user", "pedro");
-	    	//model.addAttribute("politicos", entityManager.createNamedQuery("allPoliticos").getResultList());
-
-	    	//model.addAttribute("anterior", session.getAttribute("user"));
 	   		return "crearPolitico";
 	   	}
 	    
@@ -693,21 +700,12 @@ public class HomeController {
 				entityManager.persist(p);
 				entityManager.flush();
 				return "redirect:" + "vistaAdminPoliticos";
-				
-				/*model.addAttribute("politicos", entityManager.createNamedQuery("allPoliticos").getResultList());
-				return "vistaAdminPoliticos";*/
-				//entityManager.flush(); // <- implicito al final de la transaccion
-				/*System.out.println(u.getId());
-				System.out.println(u.getNick());
-				System.out.println(u.getRol());
-				session.setAttribute("Editor", u);*/
+			
 			} catch (ExceptionPolitico e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			//model.addAttribute("politicos", entityManager.createNamedQuery("allPoliticos").getResultList());
+		
 			return "redirect:" + "vistaAdminPoliticos";
 			
 		}
@@ -750,15 +748,51 @@ public class HomeController {
 		try {
 			Politico b = entityManager.find(Politico.class, id);
 			entityManager.remove(b);
+			b = null;
 			response.setStatus(HttpServletResponse.SC_OK);
-			//model.addAttribute("politicos", entityManager.createNamedQuery("allPoliticos").getResultList());
 			return "OK";
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			//model.addAttribute("politicos", entityManager.createNamedQuery("allPoliticos").getResultList());
+			
 			return "ERR";
 		}
-	}		
+	}
+	
+	
+	@RequestMapping(value = "/editor/{id}", method = RequestMethod.DELETE)
+	@Transactional
+	@ResponseBody
+	public String rmEditor(@PathVariable("id") long id, HttpServletResponse response, Model model) {
+		try {
+			Usuario b = entityManager.find(Usuario.class, id);
+			entityManager.remove(b);
+			b = null;
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "OK";
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			
+			return "ERR";
+		}
+	}
+	@RequestMapping(value = "/usuario/{id}", method = RequestMethod.DELETE)
+	@Transactional
+	@ResponseBody
+	public String rmUsuario(@PathVariable("id") long id, HttpServletResponse response, Model model) {
+		try {
+			Usuario b = entityManager.find(Usuario.class, id);
+			entityManager.remove(b);
+			b = null;
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "OK";
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			
+			return "ERR";
+		}
+	}
 }
 
