@@ -545,7 +545,7 @@ public class HomeController {
 				entityManager.persist(p);
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
 						formNick,p, TipoLider.valueOf(formLider),formContra,Rol.Administrador);
-			}
+			} 
 			//TODO quitar esta línea
 			System.out.println(u.toString());
 			

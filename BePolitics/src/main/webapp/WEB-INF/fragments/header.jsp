@@ -42,13 +42,13 @@
 		<c:choose> 
 		<c:when test="${(not empty UsuarioRegistrado) && (not empty Administrador) && ( (not empty Editor))}">
 			<c:when test="${(rol.rol eq 'UsuarioRegistrado')}">
-				<header onclick="location.href='';" style="cursor: pointer;">
+				<header onclick="window.location='';" style="cursor: pointer;">
 			</c:when>
 			<c:when test="${(rol.rol eq 'Administrador')}">
-				<header onclick="location.href='';" style="cursor: pointer;">
+				<header onclick="window.location='';" style="cursor: pointer;">
 			</c:when>
 			<c:when test="${(rol.rol eq 'Editor')}">
-				<header onclick="location.href='';" style="cursor: pointer;">
+				<header onclick="window.location='';" style="cursor: pointer;">
 			</c:when>
 		</c:when>		
 		<c:otherwise>
