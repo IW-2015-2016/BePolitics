@@ -38,28 +38,32 @@
 	</head>
 <body>
 
-	<c:choose> 
-		<c:when test="${empty rol}">
-			<header onclick="location.href='crearCuenta';" style="cursor: pointer;">
+		<c:choose> 
+		<c:when test="${(not empty UsuarioRegistrado) && (not empty Administrador) && ( (not empty Editor))}">
+			<c:when test="${(rol.rol eq 'UsuarioRegistrado')}">
+				<header onclick="location.href='';" style="cursor: pointer;">
+			</c:when>
+			<c:when test="${(rol.rol eq 'Administrador')}">
+				<header onclick="location.href='';" style="cursor: pointer;">
+			</c:when>
+			<c:when test="${(rol.rol eq 'Editor')}">
+				<header onclick="location.href='';" style="cursor: pointer;">
+			</c:when>
 		</c:when>		
 		<c:otherwise>
-			<c:when test="${rol.rol eq 'UsuarioRegistrado'}">
-				<header onclick="location.href='';" style="cursor: pointer;">
-			</c:when>
-			<c:when test="${rol.rol eq 'Administrador'}">
-				<header onclick="location.href='';" style="cursor: pointer;">
-			</c:when>
-			<c:when test="${rol.rol eq 'Editor'}">
-				<header onclick="location.href='';" style="cursor: pointer;">
-			</c:when>
+			<header onclick="location.href='crearCuenta';" style="cursor: pointer;">
 		</c:otherwise>
 	</c:choose> 
+
+	
+	
+	
 	
 		<div class="botonHeader">
 		<ul class="menuHeader">
 				
 			<c:choose>
-				<c:when test="${not empty rol}">
+				<c:when test="${(not empty UsuarioRegistrado) || (not empty Administrador) || ( (not empty Editor))}">
 					<li><a href="logout" class= "linkHeader">Salir</a></li>
 					<li><a href="iniciarSesion" class= "linkHeader">Mi cuenta</a></li>
 				 </c:when>

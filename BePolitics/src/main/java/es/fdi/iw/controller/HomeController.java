@@ -530,7 +530,7 @@ public class HomeController {
 			formRol = formRol.toLowerCase();
 			if (formRol.equals("administrador") || formRol.equals("editor")) {
 				// agujero gordo si !isAdmin pero especifica rol admin			
-				
+				 
 				Rol r = formRol.equals("editor") ? Rol.Editor : Rol.Administrador;
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
 						formNick,p, TipoLider.valueOf(formLider),formContra,
@@ -539,7 +539,7 @@ public class HomeController {
 				System.out.println("entro aqui?");
 				Construcciones c= new Construcciones(" ");
 				entityManager.persist(c);
-				Recursos r = new Recursos();
+				Recursos r = new Recursos();   
 				entityManager.persist(r);
 				p = new Pais(c,formPais,r);
 				entityManager.persist(p);
@@ -557,7 +557,7 @@ public class HomeController {
 			if (!esAdministrador(session)){
 				session.setAttribute("rol", u);
 				getTokenForSession(session);
-			} else{
+			} else{ 
 				//String formSource = request.getParameter("formSource");
 				return "redirect:" + formSource;
 			}
@@ -570,7 +570,6 @@ public class HomeController {
 		
 		
 		return "home2";
-		
 	}
 	@RequestMapping(value = "/entrar", method = RequestMethod.POST)
 	@Transactional
