@@ -55,62 +55,64 @@ con la api estándar de Java
 
 # }
 
-# COSAS HECHAS(No es seguro que estén completas, hay que darle una vuelta)
-# {
--[Ismael = **(I)**, Bea = **(B)**, Julia = **(J)**, Sehed = **(S)**]
-
--ModificadorProduccion **(I)** //No su uso, sino el propio modificador
-
--TipoRecurso **(I)** 
-
--Recursos **(I)**
-
--Construcciones **(I)**
-
--TipoConstruccion **(I)**
-
--Pair **(I[tomado de un australiano y citada la fuente])** //UNa clase que he pillado
-
--ExceptionPolitico **(I)**
-
--Politico **(I)**
-
--StatsPolitico **(I)**
-
--Evento **(I)**
-
-# }
-
 # COSAS EMPEZADAS
 # {
--Guerras **(I)** //Lleva bastante
 
--Paises **(I)** //Empezado, muy poco
-
--ComunidadEconomica **(I)** //Ni recuerdo cuánto lleva
-
--Genero **(I)** //Los tres siguientes no sé si habrá que añadirles métodos o como enumerados simples valen
-
--Rol **(I)**
-
--TipoLider **(I)**
-
--Usuario **(S)** //Está casi empezada
+-Usuario 
 
 # }
 
 # COSAS QUE HAY QUE HACER DESDE CERO
 # {
  
- -EventosGuerra
- 
- -EventosComunidad
- 
- -EventosRegular
- 
  -Mercado
  
+ -Cookies
+ 
+ -Sesión de usuario
+ 
+ -login
+ 
 # }
+
+
+# COSAS HECHAS(No es seguro que estén completas, hay que darle una vuelta)
+# {
+
+-ModificadorProduccion //No su uso, sino el propio modificador
+
+-TipoRecurso
+
+-Recursos 
+
+-Construcciones 
+
+-TipoConstruccion 
+
+-Pair 
+
+-ExceptionPolitico
+
+-Politico
+
+-StatsPolitico
+
+-Evento
+
+-Guerras
+
+-Paises
+
+-ComunidadEconomica 
+
+-Genero
+
+-Rol 
+
+-TipoLider
+# }
+
+
 
 
 # INDICACIONES SOBRE GITHUB
