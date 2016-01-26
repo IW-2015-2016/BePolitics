@@ -1,6 +1,6 @@
 package es.fdi.iw.model.pais;
 
-import java.io.IOException;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,24 +60,13 @@ public class Pais {
 	public Pais(){
 		
 	}
-	public Pais(String nombre ) {
+	
+	
+	
+	public Pais(Construcciones construcciones, String nombre,  Recursos recursos) {
 		this.nombre = nombre;
-	}
-	public Pais(String nombre, ComunidadEconomica comunidad ) {
-		this.nombre = nombre;
-		this.comunidad = comunidad;
-		
-		try {
-			this.guerra = new Guerras(this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.construcciones = new Construcciones();
-		
-		  
-		this.comunidad=null;
-		this.recursos = new Recursos();
+		this.construcciones = construcciones;
+		this.recursos = recursos;
 		
 		Calendar yesterday = Calendar.getInstance();
 		yesterday.add(Calendar.DATE, -1);
@@ -92,7 +81,7 @@ public class Pais {
 	}
 
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -225,12 +214,20 @@ public class Pais {
 		return porcentajes;
 		
 	}
-	
-
-	
 	public void addModificador(ModificadorProduccion m){
 		this.modificadores.add(m);
 	}
+	
+
+	public Date getLastProduction() {
+		return lastProduction;
+	}
+
+	public void setLastProduction(Date lastProduction) {
+		this.lastProduction = lastProduction;
+	}
+	
+
 	
 	
 }
