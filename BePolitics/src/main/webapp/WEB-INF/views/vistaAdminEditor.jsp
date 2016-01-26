@@ -7,11 +7,8 @@ $(function() {
 		var id = $(this).attr("id").substring("d_".length); 
 		var row = $("#d_"+id).parent();
 		$.ajax({
-<<<<<<< HEAD
 			url: "${prefix}editor/"+id,
-=======
 			url: "${prefix}poli/"+id,
->>>>>>> origin/master
 			type: "DELETE",
 			success: function(d) {
 				console.log("ok - this worked");
@@ -38,13 +35,10 @@ $(function() {
 	<c:forEach items="${editores}" var="b">
 		<li class="evento" id="e_${b.id}"> 
 			${b.nombre}
-<<<<<<< HEAD
 			<div class="contratar"><button  class="ministryButton" id="d_${b.id}">Eliminar</button></div>
 			<div class="contratar"><button  class= "ministryButton">Modificar</button></div>
-=======
 			<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
 			<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
->>>>>>> origin/master
 		</li>
 	</c:forEach>
 <!-- 	<li class="evento"> 
