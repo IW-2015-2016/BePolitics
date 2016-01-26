@@ -539,7 +539,7 @@ public class HomeController {
 				System.out.println("entro aqui?");
 				Construcciones c= new Construcciones(" ");
 				entityManager.persist(c);
-				Recursos r = new Recursos();   
+				Recursos r = new Recursos();
 				entityManager.persist(r);
 				p = new Pais(c,formPais,r);
 				entityManager.persist(p);

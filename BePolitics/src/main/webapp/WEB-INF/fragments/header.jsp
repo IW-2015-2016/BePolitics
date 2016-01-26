@@ -38,6 +38,7 @@
 	</head>
 <body>
 
+
 		<c:choose> 
 		<c:when test="${(not empty UsuarioRegistrado) && (not empty Administrador) && ( (not empty Editor))}">
 			<c:when test="${(rol.rol eq 'UsuarioRegistrado')}">
@@ -51,11 +52,10 @@
 			</c:when>
 		</c:when>		
 		<c:otherwise>
-			<header onclick="location.href='crearCuenta';" style="cursor: pointer;">
+			<header onclick="window.location='';" style="cursor: pointer;">
 		</c:otherwise>
 	</c:choose> 
 
-	
 	
 	
 	
