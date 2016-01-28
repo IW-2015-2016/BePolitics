@@ -2,6 +2,7 @@ package es.fdi.iw.model.pais.relaciones;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,8 +24,8 @@ import es.fdi.iw.model.pais.Pais;
 @Entity
 public class ComunidadEconomica {
 	private long id;
-	private ArrayList<Pais> admin;
-	private ArrayList<Pais> paises;
+	private List<Pais> admin;
+	private List<Pais> paises;
 	
 	public ComunidadEconomica(){}
 	/**
@@ -35,6 +36,7 @@ public class ComunidadEconomica {
 	 * @throws IOException si el lider es null o no se puede agregar el lider a la lista de paises o de lideres
 	 */
 	public ComunidadEconomica(Pais lider) throws IOException{
+		//TODO revisar array list al arracar la BD
 		this.admin = new ArrayList<Pais>();
 		this.paises = new ArrayList<Pais>();
 		
@@ -80,21 +82,21 @@ public class ComunidadEconomica {
 	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	@ManyToOne(targetEntity=Pais.class)
-	public ArrayList<Pais> getAdmin() {
+	public List<Pais> getAdmin() {
 		return admin;
 	}
-	public void setAdmin(ArrayList<Pais> admin) {
+	public void setAdmin(List<Pais> admin) {
 		this.admin = admin;
 	}
 	@ManyToOne(targetEntity=Pais.class)
-	public ArrayList<Pais> getPaises() {
+	public List<Pais> getPaises() {
 		return paises;
 	}
-	public void setPaises(ArrayList<Pais> paises) {
+	public void setPaises(List<Pais> paises) {
 		this.paises = paises;
 	}
 

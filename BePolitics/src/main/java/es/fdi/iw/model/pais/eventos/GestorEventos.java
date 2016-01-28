@@ -24,7 +24,7 @@ import es.fdi.iw.model.pais.Pais;
 @Entity
 public class GestorEventos{
 	private long id;
-	private ArrayList<Evento> eventos;
+	private List<Evento> eventos;
 	private Evento eventoActual;
 	private  TipoEvento tipoEvento;
 	
@@ -34,7 +34,7 @@ public class GestorEventos{
 	 * 
 	 */
 	public GestorEventos(TipoEvento tipo){
-		this.eventos = new ArrayList<Evento>();
+		//this.eventos = new List<Evento>();
 		this.eventoActual = null;
 		this.tipoEvento = tipo;
 	}
@@ -135,7 +135,7 @@ public class GestorEventos{
 		return eventos;
 	}
 	public void setEventos(List<Evento> eventos) {
-		this.eventos = (ArrayList<Evento>) eventos;
+		this.eventos = eventos;
 	}
 	
 	@OneToOne(targetEntity=Evento.class, fetch=FetchType.EAGER)

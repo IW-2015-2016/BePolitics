@@ -34,7 +34,7 @@ import es.fdi.iw.model.politicos.Politico;
 public class Guerras {
 	/* Tuplas de (Pais, eventos)*/
 	private long id;
-	private ArrayList<Pair> guerrasYEventos;
+	private List<Pair> guerrasYEventos;
 	private Pais propietario;
 	
 	public Guerras(){}
@@ -83,7 +83,7 @@ public class Guerras {
 		Pair par = new Pair(p,null);
 		
 		if (this.getGuerrasYEventos().contains(par)) return false;
-		par.setRight(new GestorEventos(TipoEvento.GUERRA));
+		par.setDerecha(new GestorEventos(TipoEvento.GUERRA));
 		return this.getGuerrasYEventos().add(par);
 	}
 	/**
@@ -136,7 +136,7 @@ public class Guerras {
 		return ((GestorEventos)
 					((Pair)
 							this.getGuerrasYEventos().get(idx)
-					).getRight()
+					).getDerecha()
 				).getEventoActual();	
 	}
 	/**
@@ -157,7 +157,7 @@ public class Guerras {
 
 					((Pair)
 							this.getGuerrasYEventos().get(idx)
-					).getRight()
+					).getDerecha()
 				).getEventos();	
 	}
 	@OneToMany(targetEntity=Pair.class)
@@ -167,7 +167,7 @@ public class Guerras {
 	}
 
 	private void setGuerrasYEventos(List<Pair> guerrasYEventos) {
-		this.guerrasYEventos =  (ArrayList<Pair>) guerrasYEventos;
+		this.guerrasYEventos =  guerrasYEventos;
 	}
 
 }

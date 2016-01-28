@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+
+#tituloNoticia{
+	
+	
+}
+
+#textoNoticia{
+	height:300px;
+	width:250px;
+}
+
+#formCreacionlabel{
+	text-color:0xFFFFFF;
+}
+
+label.{
+	text-color:0xFFFFFF;
+}
+
+.ministryButtonUno{
+	text-decoration: none;
+	display: block;
+	padding: 5px 5px 5px 4px;
+	color: #fff;
+	font-weight: 700;
+    background-color: #424242;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    
+    
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+#sinPermisos{
+	
+}
+#botonSalir{
+	
+}

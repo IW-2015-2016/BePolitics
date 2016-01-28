@@ -7,6 +7,7 @@
 	</div>	
 
 <div id="listaEventos" >
+<div class="contratar"><a href="eventosEditor" class= "ministryButton"> Crear Evento</a></div>
 <ul>
 	<li class="evento"> 
 		Uno de tus políticos ha sido salpicado por la corrupción
