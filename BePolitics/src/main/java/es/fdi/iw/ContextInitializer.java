@@ -24,6 +24,7 @@ public class ContextInitializer implements ServletContextInitializer {
     public ContextInitializer() {
         log.debug("Got the constructor");
     }
+    
 
     @Override
     public void onStartup(ServletContext servletContext	) {
