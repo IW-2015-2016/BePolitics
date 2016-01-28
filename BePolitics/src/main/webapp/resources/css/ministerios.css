@@ -43,6 +43,24 @@
 	-o-transition: all 0.4s ease;
 	transition: all 0.4s ease;
 }
+.ministryButtonDos{
+	text-decoration: none;
+	display: block;
+	padding: 5px 5px 5px 4px;
+	color: #fff;
+	font-weight: 700;
+    background-color: #424242;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    
+    
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
 
 .fa-times{
 	margin:20px;

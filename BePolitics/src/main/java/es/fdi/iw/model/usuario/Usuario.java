@@ -33,6 +33,8 @@ import es.fdi.iw.model.politicos.ExceptionPolitico;
     	query="select u from Usuario u where u.rol = :rolParam"),
     @NamedQuery(name="usuarioByLogin",
     query="select u from Usuario u where u.nick = :loginParam"),
+    @NamedQuery(name="usuarioById",
+	query="select u from Usuario u where u.id= :idParam"),
     @NamedQuery(name="delUsuario",
     	query="delete from Usuario u where u.id= :idParam")
 })
@@ -210,11 +212,6 @@ public class Usuario {
 		u.hashedAndSalted = generateHashedAndSalted(pass);
 
 		return u;
-	}
-	
-	public String toString(){
-		
-		return "login: "+ this.nick+ " Email: "+ this.email;
 	}
 	
 }

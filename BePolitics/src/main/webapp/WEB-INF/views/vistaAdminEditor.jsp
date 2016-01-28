@@ -8,18 +8,21 @@ $(function() {
 		var row = $("#d_"+id).parent();
 		$.ajax({
 			url: "${prefix}editor/"+id,
-			url: "${prefix}poli/"+id,
 			type: "DELETE",
 			success: function(d) {
 				console.log("ok - this worked");
 				$("#e_"+id).remove();
 			}
 		})
-	})	
+	});
+	$("button.ministryButtonDos").click(function(){
+		var id = $(this).attr("id").substring("m_".length); 
+		var row = $("#m_"+id).parent();
+		location.href = "${prefix}modificarUsuario/"+id;
+	})
 })
 
 </script>
-
 
 <div id="divCentro">
 	<div id="titulo">
@@ -36,22 +39,10 @@ $(function() {
 		<li class="evento" id="e_${b.id}"> 
 			${b.nombre}
 			<div class="contratar"><button  class="ministryButton" id="d_${b.id}">Eliminar</button></div>
-			<div class="contratar"><button  class= "ministryButton">Modificar</button></div>
-			<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-			<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
+			<div class="contratar"><button  class= "ministryButtonDos" id="m_${b.id}">Modificar</button></div>
 		</li>
 	</c:forEach>
-<!-- 	<li class="evento"> 
-		Shrek
-		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
-	</li>
-	<li class="evento"> 
-		Aurora
-		<div class="contratar"><a href="#" class= "ministryButton">Eliminar</a></div>
-		<div class="contratar"><a href="#" class= "ministryButton">Modificar</a></div>
-	
-	</li> -->
+
 
 </ul>
 

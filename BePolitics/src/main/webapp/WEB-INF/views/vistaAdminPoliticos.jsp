@@ -14,7 +14,12 @@ $(function() {
 				$("#e_"+id).remove();
 			}
 		})
-	})	
+	});
+	$("button.ministryButtonDos").click(function(){
+		var id = $(this).attr("id").substring("m_".length); 
+		var row = $("#m_"+id).parent();
+		location.href = "${prefix}modificarPolitico/"+id;
+	})
 })
 
 </script>
@@ -32,7 +37,7 @@ $(function() {
 		<li class="evento" id="e_${b.id}"> 
 			${b.nombre}
 			<div class="contratar"><button  class="ministryButton" id="d_${b.id}">Eliminar</button></div>
-			<div class="contratar"><button  class= "ministryButton">Modificar</button></div>
+			<div class="contratar"><button  class= "ministryButtonDos" id="m_${b.id}">Modificar</button></div>
 		</li>
 	</c:forEach>
 

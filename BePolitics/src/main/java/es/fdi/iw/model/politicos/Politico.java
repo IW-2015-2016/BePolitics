@@ -26,20 +26,27 @@ import es.fdi.iw.model.pais.Pais;
 @NamedQueries({
     @NamedQuery(name="allPoliticos",
             query="select p from Politico p"),
+    @NamedQuery(name="politicoById",
+            query="select p from Politico p where p.id=:idParam"),
+
     @NamedQuery(name="deletePolitico",
             query="delete from Politico p where p.id=:idParam")
 })
 public class Politico {
 	//Orden: {HONESTIDAD,CARISMA,ELOCUENCIA,POPULARIDAD}
 	private long id;
+	/***********************/
+	/**Stats**/
 	private int honestidad;
 	private int carisma;
 	private int elocuencia;
 	private int popularidad;
+	/***********************/
+	private int sumaStats;
 	private String nombre;
 	private String cita;
 	
-	//private Pais propietario; 
+	private Pais propietario; 
 	/*TODO no funciona Explicacion
 	 * private ModificadorProduccion modificador;
 	*/
@@ -61,14 +68,14 @@ public class Politico {
 	 */
 	public Politico(int carisma,int elocuencia, int honestidad, ModificadorProduccion mod,String nombre,int popularidad, String quote) throws ExceptionPolitico{
 		
-		this.setCarisma(carisma);
-		this.setPopularidad(popularidad);
-		this.setElocuencia(elocuencia);
-		this.setHonestidad(honestidad);
-		this.setNombre(nombre);
-		//this.modificador =  mod.clone();
-		this.setCita(quote);
-		
+		this.nombre = nombre;
+		this.carisma = carisma;
+		this.elocuencia=elocuencia;
+		this.honestidad=honestidad;
+		this.popularidad=popularidad;
+		this.propietario=null;
+		this.cita=quote;
+			
 
 	}
 		/**
@@ -81,15 +88,17 @@ public class Politico {
 		 * @param quote algo c�lebre dicho por el pol�tico
 		 * @throws ExceptionPolitico Lanza exception cuando los valores no est�n en el intervalo cerrado [0,100]
 		 */
-	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote) throws ExceptionPolitico{
-			this.setNombre(nombre);
+	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario) throws ExceptionPolitico{
+		this.nombre = nombre;
+		this.carisma = carisma;
+		this.elocuencia=elocuencia;
+		this.honestidad=honestidad;
+		this.popularidad=popularidad;
+		this.propietario=propietario;
+		this.cita=quote;
+		this.sumaStats = this.carisma + this.elocuencia + this.honestidad + this.popularidad;
 			
-			this.setCarisma(carisma);
-			this.setPopularidad(popularidad);
-			this.setElocuencia(elocuencia);
-			this.setHonestidad(honestidad);
 			
-			this.setCita(quote);
 			
 		}
 
@@ -107,37 +116,7 @@ public class Politico {
 		
 			
 		}
-		/**
-		 * Constructor con todos los par�metros menos la cita
-		 * @param nombre el nombre
-		 * @param honestidad honestidad del 0 al 100
-		 * @param carisma carisma del 0 al 100
-		 * @p	public ModificadorProduccion getModificador(){
-			return this.modificador;
-		}
-		
-		public void setModificadorProduccion(ModificadorProduccion mod){
-			this.modificador = mod;
-		}
-		aram elocuencia elocuencia del 0 al 100
-		 * @param popularidad apoyo popular del 0 al 100
-		 * @throws ExceptionPolitico Lanza exception cuando los valores no est�n en el intervalo cerrado [0,100]
-		 */
-		/*public Politico(String nombre, int honestidad, int carisma, int elocuencia, int popularidad, ModificadorProduccion mod) throws ExceptionPolitico{
-			this.setNombre(nombre);
 
-			this.stats[StatsPolitico.getIndex(StatsPolitico.HONESTIDAD)] = honestidad;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.CARISMA)] = carisma;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.ELOCUENCIA)] = elocuencia;
-			this.stats[StatsPolitico.getIndex(StatsPolitico.POPULARIDAD)] = popularidad;
-			
-			this.modificador =  mod.clone();
-			
-			for(int i=0; i < StatsPolitico.getNumStats(); i++)
-				if(this.stats[i]< 0 || this.stats[i]>100)
-					throw new ExceptionPolitico();
-		}
-		*/
 		/*******************************************/
 		/*********Fin de los constructores**********/
 		/*******************************************/
@@ -224,13 +203,21 @@ public class Politico {
 			this.popularidad = popularidad;
 		}
 		
-	/*	@ManyToOne(targetEntity=Pais.class)
+		@ManyToOne(targetEntity=Pais.class)
 		public Pais getPropietario() {
 			return propietario;
 		}
 		public void setPropietario(Pais propietario) {
 			this.propietario = propietario;
-		}*/
+		}
+
+		public int getSumaStats() {
+			return sumaStats;
+		}
+
+		public void setSumaStats(int sumaStats) {
+			this.sumaStats = sumaStats;
+		}
 		
 }
 

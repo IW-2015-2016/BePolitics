@@ -32,38 +32,19 @@
 		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/eventos.css">
 		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/ministerios.css">
 		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/addeditor.css">
+		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/noticiasEditor.css">
 		<!-- css auxiliares -->
 		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/auxliares/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="${prefix}resources/css/auxliares/fonts.css">
 	</head>
 <body>
-
-
-		<c:choose> 
-		<c:when test="${(not empty UsuarioRegistrado) && (not empty Administrador) && ( (not empty Editor))}">
-			<c:when test="${(rol.rol eq 'UsuarioRegistrado')}">
-				<header onclick="window.location='';" style="cursor: pointer;">
-			</c:when>
-			<c:when test="${(rol.rol eq 'Administrador')}">
-				<header onclick="window.location='';" style="cursor: pointer;">
-			</c:when>
-			<c:when test="${(rol.rol eq 'Editor')}">
-				<header onclick="window.location='';" style="cursor: pointer;">
-			</c:when>
-		</c:when>		
-		<c:otherwise>
-			<header onclick="window.location='';" style="cursor: pointer;">
-		</c:otherwise>
-	</c:choose> 
-
-	
-	
+	<header>
 	
 		<div class="botonHeader">
 		<ul class="menuHeader">
 				
 			<c:choose>
-				<c:when test="${(not empty UsuarioRegistrado) || (not empty Administrador) || ( (not empty Editor))}">
+				<c:when test="${not empty rol}">
 					<li><a href="logout" class= "linkHeader">Salir</a></li>
 					<li><a href="iniciarSesion" class= "linkHeader">Mi cuenta</a></li>
 				 </c:when>
@@ -74,6 +55,7 @@
 			</c:choose>
 			
 		</ul>
+	
 		</div>
 		
 	</header>

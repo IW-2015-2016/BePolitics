@@ -144,7 +144,7 @@
 				<li>
 					<div class="link">
 						<i class="fa fa-bell"></i>
-						<a class = "anonimo" href="eventosEditor">Gestionar eventos</a>
+						<a class = "anonimo" href="vistaAdminEventos">Gestionar eventos</a>
 					</div>
 					
 				</li>
@@ -152,7 +152,7 @@
 				
 					<div class="link">
 						<i class="fa fa-newspaper-o"></i>
-						<a class = "anonimo" href="noticiasEditor">Gestionar noticias</a>
+						<a class = "anonimo" href="vistaAdminNoticias">Gestionar noticias</a>
 					</div>
 					
 				</li>

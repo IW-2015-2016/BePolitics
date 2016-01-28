@@ -7,6 +7,7 @@
 	</div>	
 
 <div id="listaEventos" >
+<div class="contratar"><a href="#" class= "ministryButton"> Crear Noticia</a></div>
 <ul>
 	<li class="evento"> 
 		BePolitics elegido juego del año por la Games Academy

@@ -34,7 +34,7 @@ import es.fdi.iw.model.politicos.Politico;
 public class Guerras {
 	/* Tuplas de (Pais, eventos)*/
 	private long id;
-	private ArrayList<Pair> guerrasYEventos;
+	private List<Pair> guerrasYEventos;
 	private Pais propietario;
 	
 	public Guerras(){}
@@ -167,7 +167,7 @@ public class Guerras {
 	}
 
 	private void setGuerrasYEventos(List<Pair> guerrasYEventos) {
-		this.guerrasYEventos =  (ArrayList<Pair>) guerrasYEventos;
+		this.guerrasYEventos =  guerrasYEventos;
 	}
 
 }

@@ -118,5 +118,22 @@ public enum TipoRecurso {
             
             return TipoRecurso.seGasta(TipoRecurso.getRecurso(idx));
         }
+
+
+
+        /*
+        Devuelte un tipo recurso equivalente al string si no devuelve null
+        */  
+        public static TipoRecurso stringtoRecurso(String s){
+            TipoRecurso r = null;
+             if(s.equalsIgnoreCase("PIB")) r = TipoRecurso.PIB;
+             if(s.equalsIgnoreCase("APOYO_POPULAR")) r = TipoRecurso.APOYO_POPULAR;
+             if(s.equalsIgnoreCase("ENERGIA")) r = TipoRecurso.ENERGIA;
+             if(s.equalsIgnoreCase("POBLACION")) r = TipoRecurso.POBLACION;
+     
+            return r;
+            
+        }
+    
 	
 }

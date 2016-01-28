@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
 
 
 
@@ -46,15 +47,16 @@ import es.fdi.iw.model.politicos.Politico;
 })
 public class Pais {
 	private long id;
+	@Column(unique=true)
 	private String nombre;
 	private ComunidadEconomica comunidad;
-	private ArrayList<Politico> politicos;
+	private List<Politico> politicos;
 	private Recursos recursos;
 	
 	private Guerras guerra;
 	
 	private Construcciones construcciones;
-	private ArrayList<ModificadorProduccion> modificadores;
+	private List<ModificadorProduccion> modificadores;
 	private Date lastProduction;
 	
 	public Pais(){
@@ -104,7 +106,7 @@ public class Pais {
 		return politicos;
 	}
 	public void setPoliticos(List<Politico> politicos) {
-		this.politicos = (ArrayList<Politico>) politicos;
+		this.politicos = (List<Politico>) politicos;
 	}
 	
 	
@@ -136,7 +138,7 @@ public class Pais {
 		return modificadores;
 	}
 	public void setModificadores(List<ModificadorProduccion> modificadores) {
-		this.modificadores = (ArrayList<ModificadorProduccion>) modificadores;
+		this.modificadores =  modificadores;
 	}
 	
 	@ManyToOne(targetEntity=ComunidadEconomica.class)

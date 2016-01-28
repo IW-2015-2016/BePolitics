@@ -13,6 +13,9 @@ import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.TipoRecurso;
 import es.fdi.iw.model.pais.eventos.TipoEvento;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
 /**
  * Esto representa un evento, cada evento tendrá un título y una descripción, y 
  * generará unos modificadores cuando se responda a una de las dos opciones
@@ -20,6 +23,12 @@ import es.fdi.iw.model.pais.eventos.TipoEvento;
  *
  */
 @Entity
+@NamedQueries({
+	    @NamedQuery(name="allEventos",
+	            query="select e from Evento e"),
+	    @NamedQuery(name="deleteEvento",
+	            query="delete from Evento e where e.id=:idParam")
+	})
 public class Evento {
 	private static final int DIAS_CADUCIDAD_EVENTO_GUERRA = 4;
 	private static final int DIAS_CADUCIDAD_EVENTO_COMUNIDAD= 7;
@@ -38,6 +47,7 @@ public class Evento {
 	private int porcentaje3;
 	private int porcentaje4;
 	private TipoEvento tipoEvento;
+	private Date fecha;
 	
 	private boolean eligioLaPrimeraRespuesta;
 	private boolean resuelto;
@@ -60,7 +70,7 @@ public class Evento {
 	 */
 	public Evento(String tit, String desc, String opt1, String opt2, 
 			TipoRecurso tipRec1, TipoRecurso tipRec2, int porcent1, 
-			int porcent2, TipoEvento tipo) throws IOException{
+			int porcent2, TipoEvento tipo,Date fecha) throws IOException{
 		
 		if (tipo == TipoEvento.GUERRA) throw new IOException("Error, el constructor por defecto para guerra no tiene estos atributos");
 		this.eligioLaPrimeraRespuesta =false;
@@ -78,6 +88,8 @@ public class Evento {
 		this.respondido = false;
 		this.resuelto = false;
 		this.eligioLaPrimeraRespuesta = true;
+		this.fecha =fecha;
+		this.gestorEvento = null;
 		
 	}
 	/**
@@ -207,49 +219,91 @@ public class Evento {
 		return false;
 		
 	}
-	/**
-	 * Se obtiene el estado de la pregunta, respondida o no
-	 * @return true si se respondió al evento
-	 */
-	public boolean getRespondido(){
-		return this.respondido;
-	}
-	public TipoEvento getTipoEvento(){
-		return this.tipoEvento;
-	}
-	
-	public void setTipoEvento(TipoEvento tipoEvento) {
-		this.tipoEvento = tipoEvento;
-	}
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public void setOpcion1(String opcion1) {
-		this.opcion1 = opcion1;
-	}
-	public void setOpcion2(String opcion2) {
-		this.opcion2 = opcion2;
-	}
-	public void setRespondido(boolean respondido) {
-		this.respondido = respondido;
-	}
+	
 	public String getTitulo(){
 		return this.titulo;
 	}
 	
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	public String getDescripcion(){
 		return this.descripcion;
 	}
 	
+	public void setOpcion1(String opcion1) {
+		this.opcion1 = opcion1;
+	}
 	public String getOpcion1(){
 		return this.opcion1;
+	}
+	public void setOpcion2(String opcion2) {
+		this.opcion2 = opcion2;
 	}
 	public String getOpcion2(){
 		return this.opcion2;
 	}
+	
+	public void setRec1(TipoRecurso rec1) {
+		this.rec1 = rec1;
+	}
+	
+	public TipoRecurso getRec1() {
+		return rec1;
+	}
+	public void setRec2(TipoRecurso rec2) {
+		this.rec2 = rec2;
+	}
+	public TipoRecurso getRec2() {
+		return rec2;
+	}
+	
+	public void setPorcentaje1(int porcentaje1) {
+		this.porcentaje1 = porcentaje1;
+	}
+	
+	public int getPorcentaje1() {
+		return porcentaje1;
+	}
+	public void setPorcentaje2(int porcentaje2) {
+		this.porcentaje2 = porcentaje2;
+	}
+	public int getPorcentaje2() {
+		return porcentaje2;
+	}
+	public void setTipoEvento(TipoEvento tipoEvento) {
+		this.tipoEvento = tipoEvento;
+	}
+	
+	public TipoEvento getTipoEvento(){
+		return this.tipoEvento;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+	public Date getFecha() {
+		return fecha;
+	}
+	
+	public boolean getRespondido(){
+		return this.respondido;
+	}
+	
+	
+	
+	
+	
+	
+	public void setRespondido(boolean respondido) {
+		this.respondido = respondido;
+	}
+
+	
+	
+	
 	
 	@Id
     @GeneratedValue
@@ -259,6 +313,8 @@ public class Evento {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+	
 	@ManyToOne(targetEntity=GestorEventos.class)
 	public GestorEventos getGestorEvento() {
 		return gestorEvento;

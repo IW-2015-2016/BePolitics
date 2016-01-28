@@ -9,78 +9,108 @@
 - ls -l /tmp/iwdb
 
 
+
+
+# AGOBIOS DE ISMAEL
+# {
+-Del modelo queda mazo y el tiempo empieza a apremiar. De jsp, javascript, SQL, etc también queda mazo
+
+-No creo que Manuel tarde en pedir una entrega
+
+-Quedan 3 semanas de curso
+
+-y no os veo hacer pulls al código
+
+-Por falta de tiempo no estoy probando NADA 
+
+-Osea que cuando entremos al turrón lo mismo nos encontramos con una nube de bugs
+
+-Lo suyo es que alguien fuera detrás de mí probando lo que he programado
+
+-El modelo tiene un curro de la hostia, no ayudáis y esto no avanza
+
+-En navidades todos nos hemos tocado las pelotas, pero si miráis líneas de código subidas, quienes llevamos más somos Sahad y yo, y las de Sahad, 1200 o asi las subí yo al fusionar el modelo con la vista
+
+-TRABAJAD, HOSTIAS
+
+# }
+
 # COSAS QUE SEGURAMENTE HAYA QUE HACER
 # {
+-Lo más seguro es que la base de datos haya que reformarla, porque no sé si va a valer con el programa, por diseño he cambiado un par de cosas y eso tiene que estar reflejado
+
+-Va a haber que hacer clases que permitan la carga desde la base de datos
 
 -Estoy haciendo los recursos en "int" y casi seguro que es mejor en double, porque los modificadores y eso, mejor fraccionarios...
+
+-Casi seguro que en construcciones nos van a hacer falta más getters
 
 # }
 
 # COSAS SOBRE LA APLICACION
 # {
--Cada clase está muy bien documentada
--Hay que guardar el formato Javascript
+-He añadido bastante documentación a todo por si se diera el improbable caso de que trabajéis en ello algún día, que veáis qué mierdas hace cada cosa. 
+-He guardado el formato de javadoc para que si llamáis a un método mío, os invoque el javadoc en el compilador como 
+con la api estándar de Java
+
+# }
+
+# COSAS HECHAS(No es seguro que estén completas, hay que darle una vuelta)
+# {
+-[Ismael = **(I)**, Bea = **(B)**, Julia = **(J)**, Sehed = **(S)**]
+
+-ModificadorProduccion **(I)** //No su uso, sino el propio modificador
+
+-TipoRecurso **(I)** 
+
+-Recursos **(I)**
+
+-Construcciones **(I)**
+
+-TipoConstruccion **(I)**
+
+-Pair **(I[tomado de un australiano y citada la fuente])** //UNa clase que he pillado
+
+-ExceptionPolitico **(I)**
+
+-Politico **(I)**
+
+-StatsPolitico **(I)**
+
+-Evento **(I)**
 
 # }
 
 # COSAS EMPEZADAS
 # {
+-Guerras **(I)** //Lleva bastante
 
--Usuario 
+-Paises **(I)** //Empezado, muy poco
+
+-ComunidadEconomica **(I)** //Ni recuerdo cuánto lleva
+
+-Genero **(I)** //Los tres siguientes no sé si habrá que añadirles métodos o como enumerados simples valen
+
+-Rol **(I)**
+
+-TipoLider **(I)**
+
+-Usuario **(S)** //Está casi empezada
 
 # }
 
 # COSAS QUE HAY QUE HACER DESDE CERO
 # {
  
+ -EventosGuerra
+ 
+ -EventosComunidad
+ 
+ -EventosRegular
+ 
  -Mercado
  
- -Cookies
- 
- -Sesión de usuario
- 
- -login
- 
 # }
-
-
-# COSAS HECHAS(No es seguro que estén completas, hay que darle una vuelta)
-# {
-
--ModificadorProduccion //No su uso, sino el propio modificador
-
--TipoRecurso
-
--Recursos 
-
--Construcciones 
-
--TipoConstruccion 
-
--Pair 
-
--ExceptionPolitico
-
--Politico
-
--StatsPolitico
-
--Evento
-
--Guerras
-
--Paises
-
--ComunidadEconomica 
-
--Genero
-
--Rol 
-
--TipoLider
-# }
-
-
 
 
 # INDICACIONES SOBRE GITHUB
