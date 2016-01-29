@@ -108,7 +108,6 @@
 					<div class="contratar" href="javascript:void(0)" 
 							onclick="toggle_visibility('${b.id}2')">
 						<i class="ministryButtonDos">Modificar</i>
-				<!--		<button class="ministryButtonDos" id="m_${b.id}">Modificar</button>  -->
 					</div>
 				</li>
 				<!-- POPUP DE MODIFICACION DE NOTICIAS -->
@@ -131,8 +130,8 @@
 										placeholder="">${b.cuerpo}</textarea>
 								</div>
 								<div class="crea-cuenta">
-									<input name="submit" value="Crear Noticia" type="submit">
-									<input type="reset">
+									<input name="submit" value="Guardar cambios" type="submit">
+									<!-- <input value="Borrar todo" type="reset"> -->
 								</div>
 							</form>
 							<a class="ministryButton" id="botonSalir"
