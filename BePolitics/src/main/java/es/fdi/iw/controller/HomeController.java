@@ -909,7 +909,7 @@ public class HomeController {
 			int popularidad = Integer.parseInt(formPopularidad);
 			Long id = Long.parseLong(formId);
 			
-			int sumaStats = honestidad + carisma + elocuencia + popularidad;
+
 		
 			Politico p = entityManager.find(Politico.class, id);
 			
@@ -931,9 +931,12 @@ public class HomeController {
 			if (formCita != null){
 				p.setCita(formCita);
 			}
-			if (p.getSumaStats() != sumaStats){
-				p.setSumaStats(sumaStats);
-			}
+			
+			p.setSumaStats(p.getCarisma()+
+						   p.getHonestidad()+
+						   p.getElocuencia()+
+						   p.getPopularidad());
+			
 			System.out.println(p.getSumaStats());
 			entityManager.merge(p);
 
