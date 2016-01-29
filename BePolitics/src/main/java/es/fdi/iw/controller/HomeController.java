@@ -720,24 +720,38 @@ public class HomeController {
 		logger.info("Login attempt from '{}' while visiting '{}'", formNick, formSource);
 
 		// validate request
-		if (formNick == null || formContra == null || formContra.length() < 6) {
+		if (formNick == "" || formContra == "" || formContra.length() < 6) {
 			model.addAttribute("loginError", "Rellene el campo Nick \n Contraseña : 6 caracteres mínimo");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
-			System.out.println(formNick);
-			Usuario u = new Usuario();
+			
 			// http://alejandroayala.solmedia.ec/?p=947 (Para que sirve el try
 			// catch)
 			try {
-				u = (Usuario) entityManager.createNamedQuery("usuarioByLogin").setParameter("loginParam", formNick)
-						.getSingleResult();
-				System.out.println(u.getNick());
+			Usuario	u = (Usuario) entityManager.createNamedQuery("usuarioByLogin").setParameter("loginParam", formNick).getSingleResult();
+				
+				if (u.isPassValid(formContra)) {
+					System.out.println(u.getNombre());
+					logger.info("pass was valid");
+					session.setAttribute("rol", u);
+					// sets the anti-csrf token
+					getTokenForSession(session);
+				} else {
+					System.out.println("no");
+					logger.info("pass was NOT valid");
+					model.addAttribute("loginError", "error en usuario o contraseña");
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				}
+				
 			} catch (NoResultException nre) {
+				logger.info("no-such-user; creating user {}", formNick);
+
 			}
 			return "home2";
 		}
 		return "home2";
 	}
+
 
 	@RequestMapping(value = "/eventosEditor", method = RequestMethod.GET)
 	public String eventosEditor(Locale locale, Model model, HttpSession session) {
