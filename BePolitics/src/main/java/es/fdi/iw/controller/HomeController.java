@@ -1269,6 +1269,8 @@ public class HomeController {
 					"el nirvana amándose a sí mismo");
 					n.setTitulo("En el Nirvana hace frío");
 					n.setCuerpo("Bardo tiembla bastante porque hace fresco en el nirvana");
+					n.setTitulo("Hay pepinillos verdes en el campo");
+					n.setCuerpo("El campo más bonito de la historia, que no es españa, pero sí lo es, tiene pepinillos verdes");
 					/*
 					 * Construcciones c= new Construcciones(" ");
 					 * entityManager.persist(c); Recursos r = new Recursos();
