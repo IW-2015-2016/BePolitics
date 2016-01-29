@@ -9,6 +9,10 @@
 			e.style.display = 'block';
 	}
 
+	function mostrar_y_cargar(id){
+		toggle_visibility(id);
+		
+	}
 	$(function() {
 		$("button.ministryButtonUno").click(function(){
 			var id = $(this).attr("id").substring("d_".length); 
@@ -44,9 +48,9 @@
 	<div id="titulo">
 		<h1>Noticias</h1>
 	</div>
+	
+	<!-- POPUP DE CREACION DE NOTICIAS -->
 	<div id="popup-box1" class="popup-position">
-
-		<!-- POPUP DE CREACION DE NOTICIAS -->
 		<c:choose>
 			<c:when
 				test="${(rol.rol eq 'Administrador') or (rol.rol eq 'Editor')}">
@@ -78,14 +82,15 @@
 		</c:choose>
 	</div>
 	
+	
 	<!--  TABLA DE CREACIÓN, MODIFICACION Y ELIMINACION DE NOTICIAs -->
 	<div id="listaEventos">
 		<table>
 			<tbody>
 				<tr>
 					<td><i class="ministryButton" href="javascript:void(0)"
-						onclick="toggle_visibility('popup-box1')">Crear Noticia</i> </a>
-						</li> </a>
+						onclick="toggle_visibility('popup-box1')">Crear Noticia</i> 
+						
 					<td><input type="text" value="Introduce tu búsqueda"></td>
 					<td><a class="ministryButton">Buscar</a></td>
 				</tr>
@@ -100,10 +105,49 @@
 					<div class="contratar">
 						<button class="ministryButtonUno" id="d_${b.id}">Eliminar</button>
 					</div>
-					<div class="contratar">
-						<button class="ministryButtonDos" id="m_${b.id}">Modificar</button>
+					<div class="contratar" href="javascript:void(0)" 
+							onclick="toggle_visibility('${b.id}2')">
+						<i class="ministryButtonDos">Modificar</i>
+				<!--		<button class="ministryButtonDos" id="m_${b.id}">Modificar</button>  -->
 					</div>
 				</li>
+				<!-- POPUP DE MODIFICACION DE NOTICIAS -->
+				<div id="${b.id}2" class="popup-position">
+					<c:choose>
+						<c:when
+							test="${(rol.rol eq 'Administrador') or (rol.rol eq 'Editor')}">
+							<form action="${prefix}modificarNoticia" method="POST"
+								id="${b.id}">
+								<input type="hidden" id="id" name="id"
+									value="${b.id}" />
+								<div class="nick-pass2">
+									<label>Titulo </label><input type="text" name="titulo"
+										value="${b.titulo}">
+								</div>
+								<div class="nick-pass2">
+
+									<label>Cuerpo</label>
+									<textarea name="cuerpo" id="textoNoticia"
+										placeholder="">${b.cuerpo}</textarea>
+								</div>
+								<div class="crea-cuenta">
+									<input name="submit" value="Crear Noticia" type="submit">
+									<input type="reset">
+								</div>
+							</form>
+							<a class="ministryButton" id="botonSalir"
+								href="javascript:void(0)"
+								onclick="toggle_visibility('${b.id}2')">Salir</a>
+						</c:when>
+						<c:otherwise>
+							<div id="sinPermisos">
+								<a class="ministryButton" id="botonSalir"
+									href="javascript:void(0)"
+									onclick="toggle_visibility('popup-box1')">Salir</a>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</c:forEach>
 
 		</ul>

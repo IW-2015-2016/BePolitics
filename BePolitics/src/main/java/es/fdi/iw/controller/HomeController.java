@@ -804,17 +804,13 @@ public class HomeController {
 	/**
 	 * Devolver todos los politicos mostrandolos de mejor político a peor, es
 	 * decir, politico con mejores estadísticas el primero
-	 * 
-	 * @param locale
-	 * @param model
-	 * @param session
-	 * @return
 	 */
 	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
-	public String ranking(Locale locale, Model model, HttpSession session) {
-		model.addAttribute("politicos", entityManager.createNamedQuery("allPoliticos").getResultList());
-		return "ranking";
-	}
+    public String ranking(Locale locale, Model model, HttpSession session) {
+        model.addAttribute("politicos",
+                entityManager.createQuery("Select p"+" from Politico p "+ "ORDER BY p.sumaStats DESC").getResultList());
+        return "ranking";
+    }
 
 	@RequestMapping(value = "/noticias", method = RequestMethod.GET)
 
@@ -1170,17 +1166,17 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/modificarNoticia", method = RequestMethod.POST)
 	@Transactional
-	public String modificarNoticia(@RequestParam("source") String formId, @RequestParam("titulo") String formTitulo,
+	public String modificarNoticia(@RequestParam("id") String formId, 
+			@RequestParam("titulo") String formTitulo,
 			@RequestParam("cuerpo") String formCuerpo, HttpServletRequest request, HttpServletResponse response,
 			Model model, HttpSession session) throws ExceptionPolitico {
 
-		String titulo = formTitulo;
-		String carisma = formCuerpo;
+		
 		Long id = Long.parseLong(formId);
 
 		Noticia n = entityManager.find(Noticia.class, id);
 		if (formTitulo != null && formTitulo.length() >= 3) {
-			n.setTitulo(carisma);
+			n.setTitulo(formTitulo);
 		}
 		if (formCuerpo != null && formCuerpo.length() >= 5) {
 			n.setCuerpo(formCuerpo);
