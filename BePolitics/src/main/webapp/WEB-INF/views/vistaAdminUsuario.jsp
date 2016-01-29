@@ -27,11 +27,11 @@
 
 <div id="divCentro">
 	<div id="titulo">
-		<h1>Gestión Usuarios</h1>
+		<h1>GestiÃ³n Usuarios</h1>
 	</div>
 
 	<div id="Anadir">
-		<a href="crearCuenta" class="ministryButton">Añadir usuario</a>
+		<a href="crearCuenta" class="ministryButton">AÃ±adir usuario</a>
 	</div>
 	<div id="listaEventos">
 		<ul>
@@ -41,7 +41,7 @@
 						<button class="ministryButton" id="d_${b.id}">Eliminar</button>
 					</div>
 					<div class="contratar">
-						<button class="ministryButtonDos" id="m_${b.id}">>Modificar</button>
+						<button class="ministryButtonDos" id="m_${b.id}">Modificar</button>
 					</div>
 				</li>
 			</c:forEach>
