@@ -435,7 +435,7 @@ public class HomeController {
 		int modificador1 = Integer.parseInt(formModificador1);
 		int modificador2 = Integer.parseInt(formModificador2);
 
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		Date fechajava = null;
 		try {
 			fechajava = formato.parse(formFechaActivacion);
@@ -496,6 +496,101 @@ public class HomeController {
 
 			return "ERR";
 		}
+	}
+	@RequestMapping(value = "/modificarEvento", method = RequestMethod.GET)
+	public String modificarEven(Locale locale, Model model, HttpSession session) {
+		return "modificarEvento";
+	}
+	
+	@RequestMapping(value = "/modificarEven", method = RequestMethod.POST)
+	@Transactional
+	public String modificarEven(@RequestParam("nombreEvento") String formNombreEvento,
+			@RequestParam("tipo") String formTipo, @RequestParam("descripcion") String formDrecripcion,
+			@RequestParam("nombreOpcion1") String formNombreOpcion1, @RequestParam("tipoRecurso1") String formRecurso1,
+			@RequestParam("modificador1") String formModificador1,
+			@RequestParam("nombreOpcion2") String formNombreOpcion2, @RequestParam("tipoRecurso2") String formRecurso2,
+			@RequestParam("modificador2") String formModificador2,
+			@RequestParam("fechaActivacion") String formFechaActivacion,
+			@RequestParam("source") String formId,HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) throws ExceptionPolitico, ParseException {
+
+		int modificador1 = Integer.parseInt(formModificador1);
+		int modificador2 = Integer.parseInt(formModificador2);
+		System.out.println(formFechaActivacion);
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+		java.util.Date date = sdf1.parse(formFechaActivacion);
+		java.sql.Date sqlStartDate = new java.sql.Date(date.getTime()); 
+		
+
+		TipoRecurso recurso1 = TipoRecurso.stringtoRecurso(formRecurso1);
+		TipoRecurso recurso2 = TipoRecurso.stringtoRecurso(formRecurso2);
+		TipoEvento evento = TipoEvento.stringtoEvento(formTipo);
+		Long id = Long.parseLong(formId);
+
+		Evento e = entityManager.find(Evento.class, id);
+
+		if (formNombreEvento!= "") {
+			e.setTitulo(formNombreEvento);
+		}
+		if (formTipo != null) {
+			e.setTipoEvento(evento);
+		}
+		if (formDrecripcion != "") {
+			e.setDescripcion(formDrecripcion);
+		}
+		if (formNombreOpcion1  != "") {
+			e.setOpcion1(formNombreOpcion1);
+		}
+		if (formRecurso1 != null) {
+			e.setRec1(recurso1);
+		}
+		if (formModificador1 != null) {
+			e.setPorcentaje1(modificador1);
+		}
+		if (formNombreOpcion2  != "") {
+			e.setOpcion1(formNombreOpcion2);
+		}
+		if (formRecurso2 != null) {
+			e.setRec1(recurso2);
+		}
+		if (formModificador2 != null) {
+			e.setPorcentaje1(modificador2);
+		}
+		if (formFechaActivacion != null) {
+			e.setFecha(sqlStartDate);
+		}
+
+		entityManager.merge(e);
+
+		entityManager.flush();
+		return "redirect:" + "vistaAdminEventos";
+
+	}
+	
+	/**
+	 * obtener los datos de la BD para modificar evento
+	 * 
+	 * @param id
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/modificarEvento/{id}", method = RequestMethod.GET)
+	public String evento(@PathVariable("id") long id, HttpServletResponse response, Model model) {
+
+		Evento e = (Evento) entityManager.createNamedQuery("eventoById").setParameter("idParam", id)
+				.getSingleResult();
+		if (e == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			logger.error("No such usuario: {}", id);
+		} else {
+			model.addAttribute("evento", e);
+
+			model.addAttribute("prefix", "../"); // para generar URLs relativas
+			return "modificarEvento";
+		}
+		return "modificarEvento";
 	}
 
 	/**
