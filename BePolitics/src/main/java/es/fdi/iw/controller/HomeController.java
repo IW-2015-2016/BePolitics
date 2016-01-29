@@ -785,49 +785,56 @@ public class HomeController {
 			
 		}
 	    @RequestMapping(value = "/modificarPol", method = RequestMethod.POST)
-	    @Transactional
-		public String modificarPol(
-				@RequestParam("nombre") String formNombre,
-				@RequestParam("cita") String formCita,
-				@RequestParam("honestidad") String formHonestidad,
-				@RequestParam("carisma") String formCarisma,
-				@RequestParam("elocuencia") String formElocuencia,
-				@RequestParam("popularidad") String formPopularidad,
-				@RequestParam("source") String formId,
-				HttpServletRequest request, HttpServletResponse response, 
-				Model model, HttpSession session) throws ExceptionPolitico{
-	    	
-			int honestidad = Integer.parseInt(formHonestidad);
-			int carisma = Integer.parseInt(formCarisma);
-			int elocuencia = Integer.parseInt(formElocuencia);
-			int popularidad = Integer.parseInt(formPopularidad);
-			Long id = Long.parseLong(formId);
-			
-			int sumaStats = honestidad + carisma + elocuencia + popularidad;
-			
-			System.out.println(honestidad);
-			System.out.println(carisma);
-			System.out.println(elocuencia);
-			System.out.println(popularidad);
-			
-			
-		    
-			Politico p = entityManager.find(Politico.class, id);
-			p.setCarisma(carisma);
-			p.setHonestidad(honestidad);
-			p.setElocuencia(elocuencia);
-			p.setPopularidad(popularidad);
-			p.setNombre(formNombre);
-			p.setCita(formCita);
-			p.setSumaStats(sumaStats);
-			System.out.println(p.getSumaStats());
-			entityManager.merge(p);
+	@Transactional
+	public String modificarPol(@RequestParam("nombre") String formNombre, @RequestParam("cita") String formCita,
+			@RequestParam("honestidad") String formHonestidad, @RequestParam("carisma") String formCarisma,
+			@RequestParam("elocuencia") String formElocuencia, @RequestParam("popularidad") String formPopularidad,
+			@RequestParam("source") String formId, @RequestParam("precio") String formPrecio, 
+			HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) throws ExceptionPolitico {
 
-			entityManager.flush();
-			return "redirect:" + "vistaAdminPoliticos";
-		
+		int honestidad = Integer.parseInt(formHonestidad);
+		int carisma = Integer.parseInt(formCarisma);
+		int elocuencia = Integer.parseInt(formElocuencia);
+		int popularidad = Integer.parseInt(formPopularidad);
+		Double precio = Double.parseDouble(formPrecio);
+		Long id = Long.parseLong(formId);
+
+		Politico p = entityManager.find(Politico.class, id);
+
+		if (formCarisma != "") {
+			p.setCarisma(carisma);
+		}
+		if (formHonestidad != "") {
+			p.setHonestidad(honestidad);
+		}
+		if (formElocuencia != "") {
+			p.setElocuencia(elocuencia);
+		}
+		if (formPopularidad != "") {
+			p.setPopularidad(popularidad);
+		}
+		if (formNombre != "") {
+			p.setNombre(formNombre);
+		}
+		if (formCita != "") {
+			p.setCita(formCita);
+		}
+		if(formPrecio != ""){
+			p.setPrecio(precio);
 			
 		}
+		p.setPropietario(p.getPropietario());
+		p.setSumaStats(p.getCarisma() + p.getHonestidad() + p.getElocuencia() + p.getPopularidad());
+
+		System.out.println(p.getSumaStats());
+		entityManager.merge(p);
+
+		entityManager.flush();
+		return "redirect:" + "vistaAdminPoliticos";
+
+	}
+
 	    
 		//TODO crear el pais despues de crear al usuario CONTINUAR 
 		
