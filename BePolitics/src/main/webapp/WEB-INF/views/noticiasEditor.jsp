@@ -46,7 +46,7 @@
 	</div>
 	<div id="popup-box1" class="popup-position">
 
-
+		<!-- POPUP DE CREACION DE NOTICIAS -->
 		<c:choose>
 			<c:when
 				test="${(rol.rol eq 'Administrador') or (rol.rol eq 'Editor')}">
@@ -59,7 +59,6 @@
 					<div class="nick-pass2">
 
 						<label>Cuerpo</label>
-						<!--  <input type="text" name="cuerpo" id="textoGrande">-->
 						<textarea name="cuerpo" id="textoNoticia"></textarea>
 					</div>
 					<div class="crea-cuenta">
@@ -78,7 +77,8 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-
+	
+	<!--  TABLA DE CREACIÓN, MODIFICACION Y ELIMINACION DE NOTICIAs -->
 	<div id="listaEventos">
 		<table>
 			<tbody>
@@ -93,7 +93,7 @@
 		</table>
 
 				
-				<!-- LISTA DE NOTICIAS -->
+		<!-- LISTA DE NOTICIAS -->
 		<ul>
 			<c:forEach items="${noticias}" var="b">
 				<li class="evento" id="e_${b.id}">${b.titulo}

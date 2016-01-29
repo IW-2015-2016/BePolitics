@@ -33,9 +33,6 @@
 				<form action="${prefix}modificarUsu" method="POST">
 				
 					<input type="hidden" name="id" value="${usuario.id}"/>
-					
-					<input type="hidden" id="source" name="source"
-						value="${requestScope['javax.servlet.forward.servlet_path']}" />
 						
 					<div class="nick-pass">
 						<label> Nombre </label><input type="text" name="nombre"
