@@ -887,22 +887,22 @@ public class HomeController {
 
 		Politico p = entityManager.find(Politico.class, id);
 
-		if (formCarisma != null) {
+		if (formCarisma !="") {
 			p.setCarisma(carisma);
 		}
-		if (formHonestidad != null) {
+		if (formHonestidad != "") {
 			p.setHonestidad(honestidad);
 		}
-		if (formElocuencia != null) {
+		if (formElocuencia != "") {
 			p.setElocuencia(elocuencia);
 		}
-		if (formPopularidad != null) {
+		if (formPopularidad != "") {
 			p.setPopularidad(popularidad);
 		}
-		if (formNombre != null) {
+		if (formNombre != "") {
 			p.setNombre(formNombre);
 		}
-		if (formCita != null) {
+		if (formCita != "") {
 			p.setCita(formCita);
 		}
 
@@ -965,7 +965,7 @@ public class HomeController {
                     if (formNombre != "") {
                             u.setNombre(formNombre);
                     }
-                    if (formGenero != null) {
+                    if (formGenero != "") {
                             u.setGenero(Genero.valueOf(formGenero));
                     }
                     if (formCorreo != "") {
