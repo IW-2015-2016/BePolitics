@@ -912,13 +912,28 @@ public class HomeController {
 			int sumaStats = honestidad + carisma + elocuencia + popularidad;
 		
 			Politico p = entityManager.find(Politico.class, id);
-			p.setCarisma(carisma);
-			p.setHonestidad(honestidad);
-			p.setElocuencia(elocuencia);
-			p.setPopularidad(popularidad);
-			p.setNombre(formNombre);
-			p.setCita(formCita);
-			p.setSumaStats(sumaStats);
+			
+			if (formCarisma != null){
+				p.setCarisma(carisma);
+			}
+			if (formHonestidad != null){
+				p.setHonestidad(honestidad);
+			}
+			if (formElocuencia != null){
+				p.setElocuencia(elocuencia);
+			}
+			if (formPopularidad != null){
+				p.setPopularidad(popularidad);
+			}
+			if (formNombre != null){
+				p.setNombre(formNombre);
+			}
+			if (formCita != null){
+				p.setCita(formCita);
+			}
+			if (p.getSumaStats() != sumaStats){
+				p.setSumaStats(sumaStats);
+			}
 			System.out.println(p.getSumaStats());
 			entityManager.merge(p);
 
@@ -959,29 +974,43 @@ public class HomeController {
 					Pais p = u.getPais();
 					System.out.println(p.getId());
 					p = entityManager.find(Pais.class,p.getId());
-					p.setNombre(formPais);
-					
-					entityManager.flush();
-					u.setPais(p);
+					if(formPais != null){
+						p.setNombre(formPais);
+						//entityManager.flush();
+						u.setPais(p);
+					}
 					//no se saca fuera del if porque da error
 					System.out.println(u.getPais().getNombre());
 					
 				}
 
-			
-				
-				
-				u.setApellidos(formApellidos);
-				u.setNombre(formNombre);
-				u.setGenero(Genero.valueOf(formGenero));
-				u.setEmail(formCorreo);
-				u.setNick(formNick);
-				System.out.println(u.getHashedAndSalted());
-				//TODO un if aqui 
-				u.setHashedAndSalted(formContra);
-				
-				u.settipoLider(TipoLider.valueOf(formLider));
-				u.setEdad(edad);
+				if (formApellidos != null) {
+					u.setApellidos(formApellidos);
+				}
+				if (formNombre != null) {
+					u.setNombre(formNombre);
+				}
+				if (formGenero != null) {
+					u.setGenero(Genero.valueOf(formGenero));
+				}
+				if (formCorreo != null) {
+					u.setEmail(formCorreo);
+				}
+				if (formNick != null) {
+					u.setNick(formNick);
+				}
+				if (formContra != null) {
+					u.setHashedAndSalted(formContra);
+				}
+				if (formLider != null) {
+					u.settipoLider(TipoLider.valueOf(formLider));
+				}
+				if (formEdad != null) {
+					u.setEdad(edad);
+				}
+				if (formContra != null) {
+					u.setHashedAndSalted(formContra);
+				}
 				entityManager.merge(u);
 				
 			
