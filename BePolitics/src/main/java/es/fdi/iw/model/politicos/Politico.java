@@ -47,6 +47,7 @@ public class Politico {
 	private String cita;
 	
 	private Pais propietario; 
+	private double precio;
 	/*TODO no funciona Explicacion
 	 * private ModificadorProduccion modificador;
 	*/
@@ -88,13 +89,14 @@ public class Politico {
 		 * @param quote algo c�lebre dicho por el pol�tico
 		 * @throws ExceptionPolitico Lanza exception cuando los valores no est�n en el intervalo cerrado [0,100]
 		 */
-	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario) throws ExceptionPolitico{
+	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario, Double precio) throws ExceptionPolitico{
 		this.nombre = nombre;
 		this.carisma = carisma;
 		this.elocuencia=elocuencia;
 		this.honestidad=honestidad;
 		this.popularidad=popularidad;
 		this.propietario=propietario;
+		this.precio = precio;
 		this.cita=quote;
 		this.sumaStats = this.carisma + this.elocuencia + this.honestidad + this.popularidad;
 			
