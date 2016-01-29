@@ -20,6 +20,10 @@
 							value="${politico.cita}">
 					</div>
 					<div class="nick-pass">
+						<label>Precio</label> <input type="number" name="precio"
+							step="00.01" value="${politico.precio}">
+					</div>
+					<div class="nick-pass">
 						<label>Honestidad</label><input type="number" name="honestidad"
 							min="1" max="100" value="${politico.honestidad}">
 					</div>

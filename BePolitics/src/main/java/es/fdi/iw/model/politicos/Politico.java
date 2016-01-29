@@ -45,11 +45,10 @@ public class Politico {
 	private int sumaStats;
 	private String nombre;
 	private String cita;
-	
+	private Double precio;
 	private Pais propietario; 
-	/*TODO no funciona Explicacion
-	 * private ModificadorProduccion modificador;
-	*/
+
+	
 	public Politico(){}
 	/*********************/
 	/****CONSTRUCTORES****/
@@ -88,7 +87,7 @@ public class Politico {
 		 * @param quote algo c�lebre dicho por el pol�tico
 		 * @throws ExceptionPolitico Lanza exception cuando los valores no est�n en el intervalo cerrado [0,100]
 		 */
-	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario) throws ExceptionPolitico{
+	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario, Double precio) throws ExceptionPolitico{
 		this.nombre = nombre;
 		this.carisma = carisma;
 		this.elocuencia=elocuencia;
@@ -218,7 +217,16 @@ public class Politico {
 		public void setSumaStats(int sumaStats) {
 			this.sumaStats = sumaStats;
 		}
-		
+
+		public Double getPrecio() {
+			return precio;
+		}
+
+		public void setPrecio(Double precio) {
+			this.precio = precio;
+		}
+
+
 }
 
 		
