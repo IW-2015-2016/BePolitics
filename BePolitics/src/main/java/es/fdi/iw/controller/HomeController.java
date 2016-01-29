@@ -1267,6 +1267,8 @@ public class HomeController {
 					n.setTitulo("Bardo alcanza el nirvana");
 					n.setCuerpo("Tras un pintoresco día de primavera, bardo alcanza"+
 					"el nirvana amándose a sí mismo");
+					n.setTitulo("En el Nirvana hace frío");
+					n.setCuerpo("Bardo tiembla bastante porque hace fresco en el nirvana");
 					/*
 					 * Construcciones c= new Construcciones(" ");
 					 * entityManager.persist(c); Recursos r = new Recursos();
