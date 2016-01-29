@@ -805,10 +805,13 @@ public class HomeController {
 	 * Devolver todos los politicos mostrandolos de mejor político a peor, es
 	 * decir, politico con mejores estadísticas el primero
 	 */
-	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
+     @RequestMapping(value = "/ranking", method = RequestMethod.GET)
     public String ranking(Locale locale, Model model, HttpSession session) {
         model.addAttribute("politicos",
-                entityManager.createQuery("Select p"+" from Politico p "+ "ORDER BY p.sumaStats DESC").getResultList());
+                entityManager.createQuery("Select p from Politico p ORDER BY p.sumaStats DESC").getResultList());
+        model.addAttribute("paises",
+                entityManager.createQuery("Select p from Pais p ORDER BY p.recursos.PIB DESC").getResultList());
+
         return "ranking";
     }
 
