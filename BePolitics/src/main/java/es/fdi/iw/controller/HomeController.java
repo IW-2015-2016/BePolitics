@@ -971,18 +971,20 @@ public class HomeController {
 	public String modificarPol(@RequestParam("nombre") String formNombre, @RequestParam("cita") String formCita,
 			@RequestParam("honestidad") String formHonestidad, @RequestParam("carisma") String formCarisma,
 			@RequestParam("elocuencia") String formElocuencia, @RequestParam("popularidad") String formPopularidad,
-			@RequestParam("source") String formId, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("source") String formId, @RequestParam("precio") String formPrecio, 
+			HttpServletRequest request, HttpServletResponse response,
 			Model model, HttpSession session) throws ExceptionPolitico {
 
 		int honestidad = Integer.parseInt(formHonestidad);
 		int carisma = Integer.parseInt(formCarisma);
 		int elocuencia = Integer.parseInt(formElocuencia);
 		int popularidad = Integer.parseInt(formPopularidad);
+		Double precio = Double.parseDouble(formPrecio);
 		Long id = Long.parseLong(formId);
 
 		Politico p = entityManager.find(Politico.class, id);
 
-		if (formCarisma !="") {
+		if (formCarisma != "") {
 			p.setCarisma(carisma);
 		}
 		if (formHonestidad != "") {
@@ -1000,7 +1002,11 @@ public class HomeController {
 		if (formCita != "") {
 			p.setCita(formCita);
 		}
-
+		if(formPrecio != ""){
+			p.setPrecio(precio);
+			
+		}
+		p.setPropietario(p.getPropietario());
 		p.setSumaStats(p.getCarisma() + p.getHonestidad() + p.getElocuencia() + p.getPopularidad());
 
 		System.out.println(p.getSumaStats());
@@ -1010,6 +1016,7 @@ public class HomeController {
 		return "redirect:" + "vistaAdminPoliticos";
 
 	}
+
 
 	// TODO crear el pais despues de crear al usuario CONTINUAR
 
