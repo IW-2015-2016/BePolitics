@@ -840,13 +840,11 @@ public class HomeController {
 				
 			} catch (NoResultException nre) {
 				logger.info("no-such-user; creating user {}", formNick);
-
 			}
 			return "home2";
 		}
 		return "home2";
 	}
-
 
 	@RequestMapping(value = "/eventosEditor", method = RequestMethod.GET)
 	public String eventosEditor(Locale locale, Model model, HttpSession session) {
@@ -898,6 +896,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/mercado", method = RequestMethod.GET)
 	public String mercado(Locale locale, Model model, HttpSession session) {
+
         model.addAttribute("politicos",
                 entityManager.createQuery("Select p from Politico p where p.propietario is null").getResultList());
 		return "mercado";
@@ -953,7 +952,9 @@ public class HomeController {
 	public String nuevoPolitico(@RequestParam("nombre") String formNombre, @RequestParam("cita") String formCita,
 			@RequestParam("honestidad") String formHonestidad, @RequestParam("carisma") String formCarisma,
 			@RequestParam("elocuencia") String formElocuencia, @RequestParam("popularidad") String formPopularidad,
+
 			@RequestParam("precio") String formPrecio,
+
 			HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session)
 					throws ExceptionPolitico {
 
@@ -969,6 +970,8 @@ public class HomeController {
 		Pais pais = null;
 
 		try {
+
+
 			Politico p = new Politico(carisma, elocuencia, honestidad, formNombre, popularidad, formCita, pais, precio);
 			entityManager.persist(p);
 			entityManager.flush();
@@ -1228,8 +1231,6 @@ public class HomeController {
 		}
 	}
 	
-	
-	
 	@RequestMapping(value = "/usuario/{id}", method = RequestMethod.DELETE)
 	@Transactional
 	@ResponseBody
@@ -1412,7 +1413,6 @@ public class HomeController {
 					formContra, Rol.Editor);
 			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, formNick, p, TipoLider.REY,
 					formContra, Rol.UsuarioRegistrado);
-
 			Politico pol;
 			pol = new Politico();
 			pol.setNombre("Jose María Aznar");
@@ -1423,6 +1423,7 @@ public class HomeController {
 			pol.setPropietario(null);
 			pol.setSumaStats(30 + 34 + 99 + 80);
 			pol.setPrecio(8.00);
+
 			pol.setCita("España va Bien");
 
 			Noticia n = new Noticia();
@@ -1453,6 +1454,7 @@ public class HomeController {
 
 			// String rol = u.getRol().toString();
 
+
 			session.setAttribute("rol", ur);
 			getTokenForSession(session);
 
@@ -1460,6 +1462,7 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 
 		return "home2";
 

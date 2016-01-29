@@ -16,9 +16,11 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name="allNoticias",
-            query="select n from Noticia n"),
+            query="SELECT n FROM Noticia n"),
     @NamedQuery(name="deleteNoticia",
-            query="delete from Noticia n where n.id=:idParam")
+            query="DELETE FROM Noticia n WHERE n.id=:idParam"),
+    @NamedQuery(name="noticiaPorId",
+    		query="SELECT n from Noticia n WHERE n.id=:idParam")
 })
 public class Noticia {
 	
