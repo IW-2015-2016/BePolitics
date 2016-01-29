@@ -815,19 +815,31 @@ public class HomeController {
 		logger.info("Login attempt from '{}' while visiting '{}'", formNick, formSource);
 
 		// validate request
-		if (formNick == null || formContra == null || formContra.length() < 6) {
+		if (formNick == "" || formContra == "" || formContra.length() < 6) {
 			model.addAttribute("loginError", "Rellene el campo Nick \n Contraseña : 6 caracteres mínimo");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
-			System.out.println(formNick);
-			Usuario u = new Usuario();
+			
 			// http://alejandroayala.solmedia.ec/?p=947 (Para que sirve el try
 			// catch)
 			try {
-				u = (Usuario) entityManager.createNamedQuery("usuarioByLogin").setParameter("loginParam", formNick)
-						.getSingleResult();
-				System.out.println(u.getNick());
+			Usuario	u = (Usuario) entityManager.createNamedQuery("usuarioByLogin").setParameter("loginParam", formNick).getSingleResult();
+				
+				if (u.isPassValid(formContra)) {
+					System.out.println(u.getNombre());
+					logger.info("pass was valid");
+					session.setAttribute("rol", u);
+					// sets the anti-csrf token
+					getTokenForSession(session);
+				} else {
+					System.out.println("no");
+					logger.info("pass was NOT valid");
+					model.addAttribute("loginError", "error en usuario o contraseña");
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				}
+				
 			} catch (NoResultException nre) {
+				logger.info("no-such-user; creating user {}", formNick);
 			}
 			return "home2";
 		}
@@ -876,15 +888,17 @@ public class HomeController {
 
 	@RequestMapping(value = "/cupulaDeGobierno", method = RequestMethod.GET)
 	public String cupulaDeGobierno(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
+		Usuario u = (Usuario) session.getAttribute("rol");
+		model.addAttribute("politicos",
+                entityManager.createQuery("Select p from Politico p where p.propietario.id = " + u.getPais().getId()).getResultList());
 		return "cupulaDeGobierno";
 	}
 
 	@RequestMapping(value = "/mercado", method = RequestMethod.GET)
 	public String mercado(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
+
+        model.addAttribute("politicos",
+                entityManager.createQuery("Select p from Politico p where p.propietario is null").getResultList());
 		return "mercado";
 	}
 
@@ -938,6 +952,9 @@ public class HomeController {
 	public String nuevoPolitico(@RequestParam("nombre") String formNombre, @RequestParam("cita") String formCita,
 			@RequestParam("honestidad") String formHonestidad, @RequestParam("carisma") String formCarisma,
 			@RequestParam("elocuencia") String formElocuencia, @RequestParam("popularidad") String formPopularidad,
+
+			@RequestParam("precio") String formPrecio,
+
 			HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session)
 					throws ExceptionPolitico {
 
@@ -945,6 +962,7 @@ public class HomeController {
 		int carisma = Integer.parseInt(formCarisma);
 		int elocuencia = Integer.parseInt(formElocuencia);
 		int popularidad = Integer.parseInt(formPopularidad);
+		Double precio = Double.parseDouble(formPrecio);
 		System.out.println(honestidad);
 		System.out.println(carisma);
 		System.out.println(elocuencia);
@@ -952,7 +970,9 @@ public class HomeController {
 		Pais pais = null;
 
 		try {
-			Politico p = new Politico(carisma, elocuencia, honestidad, formNombre, popularidad, formCita, pais);
+
+
+			Politico p = new Politico(carisma, elocuencia, honestidad, formNombre, popularidad, formCita, pais, precio);
 			entityManager.persist(p);
 			entityManager.flush();
 			return "redirect:" + "vistaAdminPoliticos";
@@ -1016,7 +1036,6 @@ public class HomeController {
 		return "redirect:" + "vistaAdminPoliticos";
 
 	}
-
 
 	// TODO crear el pais despues de crear al usuario CONTINUAR
 
@@ -1163,7 +1182,55 @@ public class HomeController {
 			return "ERR";
 		}
 	}
+	
 
+	@RequestMapping(value = "/contratarPoli/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String contratarPoli(@PathVariable("id") long id, HttpServletResponse response, Model model, HttpSession session) {
+		try {
+			System.out.println("entro");
+			Politico b = entityManager.find(Politico.class, id);
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Pais p = entityManager.find(Pais.class, u.getPais().getId());
+			
+			Recursos pr = p.getRecursos();
+			
+			if(pr.getPIB() >= b.getPrecio()){
+				
+					b.setPropietario(p);
+					entityManager.merge(b);
+					
+					pr.setPIB((int) (pr.getPIB()-b.getPrecio()));
+					p.getPoliticos().add(b);
+					entityManager.merge(p);
+					entityManager.merge(pr);
+					entityManager.flush();
+			}
+/*			if(p.getRecursos().getPIB() >= b.getPrecio()){
+
+				b.setCarisma(b.getCarisma());
+				b.setCita(b.getCita());
+				b.setElocuencia(b.getElocuencia());
+				b.setHonestidad(b.getHonestidad());
+				b.setId(b.getId());
+				b.setNombre(b.getNombre());
+				b.setPopularidad(b.getPopularidad());
+				b.setPrecio(b.getPrecio());
+				b.setPropietario(p);
+			}*/
+			b = null;
+			
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "OK";
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+	}
+	
 	@RequestMapping(value = "/usuario/{id}", method = RequestMethod.DELETE)
 	@Transactional
 	@ResponseBody
@@ -1346,7 +1413,6 @@ public class HomeController {
 					formContra, Rol.Editor);
 			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, formNick, p, TipoLider.REY,
 					formContra, Rol.UsuarioRegistrado);
-
 			Politico pol;
 			pol = new Politico();
 			pol.setNombre("Jose María Aznar");
@@ -1356,6 +1422,8 @@ public class HomeController {
 			pol.setPopularidad(80);
 			pol.setPropietario(null);
 			pol.setSumaStats(30 + 34 + 99 + 80);
+			pol.setPrecio(8.00);
+
 			pol.setCita("España va Bien");
 
 			Noticia n = new Noticia();
@@ -1386,13 +1454,15 @@ public class HomeController {
 
 			// String rol = u.getRol().toString();
 
-			session.setAttribute("rol", u);
+
+			session.setAttribute("rol", ur);
 			getTokenForSession(session);
 
 		} catch (ExceptionUsuario e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 
 		return "home2";
 
