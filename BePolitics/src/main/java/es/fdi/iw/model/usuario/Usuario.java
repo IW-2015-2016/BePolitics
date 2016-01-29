@@ -150,7 +150,7 @@ public class Usuario {
 
 
 	public void setHashedAndSalted(String hashedAndSalted) {
-		this.hashedAndSalted = hashedAndSalted;
+		this.hashedAndSalted =  bcryptEncoder.encode(hashedAndSalted);
 	}
 	@OneToOne(targetEntity=Pais.class, fetch=FetchType.EAGER)
 	public Pais getPais() {
