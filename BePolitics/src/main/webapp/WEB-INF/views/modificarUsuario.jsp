@@ -31,9 +31,12 @@
 			<!-- Formulario registro -->
 			<c:if test="${not empty usuario}">
 				<form action="${prefix}modificarUsu" method="POST">
-					<input type="hidden" name="id" value="${usuario.id}">
+				
+					<input type="hidden" name="id" value="${usuario.id}"/>
+					
 					<input type="hidden" id="source" name="source"
 						value="${requestScope['javax.servlet.forward.servlet_path']}" />
+						
 					<div class="nick-pass">
 						<label> Nombre </label><input type="text" name="nombre"
 							value="${usuario.nombre}" />
@@ -79,7 +82,7 @@
 					</div>
 					<div class="nick-pass">
 						<label>Nombre país</label> <input type="text" name="pais"
-							value="${usuario.pais.nombre}">
+							value="${usuario.pais.getNombre()}">
 					</div>
 					<div class="nick-pass">
 						<label>Tipo l&iacute;der </label>

@@ -686,19 +686,19 @@ public class HomeController {
 				
 				
 				//TODO BORRAR
-				Construcciones c= new Construcciones(" ");
+				/*Construcciones c= new Construcciones(" ");
 				entityManager.persist(c);
 				Recursos re = new Recursos();
 				entityManager.persist(re);
 				p = new Pais(c,formPais,re);
 				entityManager.persist(p);
 				
-				
+				*/
 				
 				
 				Rol r = formRol.equals("editor") ? Rol.Editor : Rol.Administrador;
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad,
-						formNick,p, TipoLider.valueOf(formLider),formContra,
+						formNick,null, TipoLider.valueOf(formLider),formContra,
 						r);
 			} else {
 				
@@ -954,13 +954,20 @@ public class HomeController {
 				
 				
 				Usuario u = entityManager.find(Usuario.class, id);
-				Pais p = u.getPais();
-				System.out.println(p.getId());
-				
+				if(u.getRol() == Rol.UsuarioRegistrado){
+					System.out.println("HOLA!");
+					Pais p = u.getPais();
+					System.out.println(p.getId());
+					p = entityManager.find(Pais.class,p.getId());
+					p.setNombre(formPais);
+					
+					entityManager.flush();
+					u.setPais(p);
+					//no se saca fuera del if porque da error
+					System.out.println(u.getPais().getNombre());
+					
+				}
 
-				Long idp = p.getId();
-				p = entityManager.find(Pais.class,idp);
-				p.setNombre(formPais);
 			
 				
 				
@@ -969,14 +976,17 @@ public class HomeController {
 				u.setGenero(Genero.valueOf(formGenero));
 				u.setEmail(formCorreo);
 				u.setNick(formNick);
+				System.out.println(u.getHashedAndSalted());
+				//TODO un if aqui 
 				u.setHashedAndSalted(formContra);
-				u.setPais(p);
+				
 				u.settipoLider(TipoLider.valueOf(formLider));
 				u.setEdad(edad);
 				entityManager.merge(u);
+				
 			
 				entityManager.flush();
-				return "redirect:" + formSource;
+				return "redirect: vistaAdminEditor" ;
 		
 			
 			
@@ -1197,8 +1207,17 @@ public class HomeController {
 					// agujero gordo si !isAdmin pero especifica rol admin
 
 					u = new Usuario(formNombre, formApellidos, formCorreo,
-							Genero.Hombre, edad, formNick, p, TipoLider.REY,
+							Genero.Hombre, edad, formNick, null, null,
 							formContra, Rol.Administrador);
+					
+					Usuario editor = new Usuario("ratón", "Perez", "perez@yahoo.es",
+							Genero.Hombre, 35, "Perez", null, null,
+							formContra, Rol.Editor);
+					Usuario ur = new Usuario("Lola", formApellidos, formCorreo,
+							Genero.Hombre, edad, formNick, p, TipoLider.REY,
+							formContra, Rol.UsuarioRegistrado);
+					
+					
 					Politico pol;
 					pol = new Politico();
 					pol.setNombre("Jose María Aznar");
@@ -1226,11 +1245,13 @@ public class HomeController {
 					entityManager.persist(n);
 					entityManager.persist(pol);
 					entityManager.persist(u);
+					entityManager.persist(editor);
+					entityManager.persist(ur);
 					entityManager.flush();
 					
 					
 					//String rol = u.getRol().toString();
-					System.out.println(u.getRol().toString());
+					
 					
 					session.setAttribute("rol", u);
 					getTokenForSession(session);
