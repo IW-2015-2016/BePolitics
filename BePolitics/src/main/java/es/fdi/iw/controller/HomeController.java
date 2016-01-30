@@ -1421,11 +1421,12 @@ public class HomeController {
 
 			u = new Usuario(formNombre, formApellidos, formCorreo, Genero.Hombre, edad, formNick, null, null,
 					formContra, Rol.Administrador);
-
+			session.setAttribute("rol", u);
 			Usuario editor = new Usuario("ratón", "Perez", "perez@yahoo.es", Genero.Hombre, 35, "Perez", null, null,
 					formContra, Rol.Editor);
 			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, formNick, p, TipoLider.REY,
 					formContra, Rol.UsuarioRegistrado);
+			
 			Politico pol;
 			pol = new Politico();
 			pol.setNombre("Jose María Aznar");

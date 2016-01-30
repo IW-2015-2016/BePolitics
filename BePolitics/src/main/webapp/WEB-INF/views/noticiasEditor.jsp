@@ -1,6 +1,5 @@
 <%@ include file="../fragments/header.jsp"%>
 <%@ include file="../fragments/menu.jsp"%>
-
 <script type="text/javascript">
 	function toggle_visibility(id) {
 		var e = document.getElementById(id);
@@ -9,43 +8,45 @@
 		else
 			e.style.display = 'block';
 	}
+	function mostrar_y_cargar(id){
+		toggle_visibility(id);
+		
+	}
 	$(function() {
-		$("button.ministryButtonUno").click(function() {
-			var id = $(this).attr("id").substring("d_".length);
-			var row = $("#d_" + id).parent();
+		$("button.ministryButtonUno").click(function(){
+			var id = $(this).attr("id").substring("d_".length); 
+			var row = $("#d_"+id).parent();
 			$.ajax({
-				url : "${prefix}borraNoticia/" + id,
-				type : "DELETE",
-				success : function(d) {
+				url: "${prefix}borraNoticia/"+id,
+				type: "DELETE",
+				success: function(d) {
 					console.log("ok - this worked");
-					$("#e_" + id).remove();
+					$("#e_"+id).remove();
 				}
 			})
 		});
-		$("button.ministryButtonDos").click(function() {
-			var id = $(this).attr("id").substring("m_".length);
-			var row = $("#m_" + id).parent();
+		$("button.ministryButtonDos").click(function(){
+			var id = $(this).attr("id").substring("m_".length); 
+			var row = $("#m_"+id).parent();
 			$.ajax({
-				url : "${prefix}noticias/" + id,
-				type : "POST",
-				data : "id=" + id,
-				success : function(m) {
+				url: "${prefix}noticias/"+id,
+				type: "POST",
+				data: "id=" + id ,
+				success: function(m) {
 					console.log("ok - this worked");
 					$.ajax({
-						url : "${prefix}borraNoticia/" + ID,
-
+						url: "${prefix}borraNoticia/"+ID,
 					})
-				}
+				} 
 			})
 		})
 	})
 </script>
-
 <div id="divCentro">
 	<div id="titulo">
 		<h1>Noticias</h1>
 	</div>
-
+	
 	<!-- POPUP DE CREACION DE NOTICIAS -->
 	<div id="popup-box1" class="popup-position">
 		<c:choose>
@@ -78,22 +79,23 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-
-
+	
+	
 	<!--  TABLA DE CREACIÓN, MODIFICACION Y ELIMINACION DE NOTICIAs -->
 	<div id="listaEventos">
 		<table>
 			<tbody>
 				<tr>
 					<td><i class="ministryButton" href="javascript:void(0)"
-						onclick="toggle_visibility('popup-box1')">Crear Noticia</i>
+						onclick="toggle_visibility('popup-box1')">Crear Noticia</i> 
+						
 					<td><input type="text" value="Introduce tu búsqueda"></td>
 					<td><a class="ministryButton">Buscar</a></td>
 				</tr>
 			</tbody>
 		</table>
 
-
+				
 		<!-- LISTA DE NOTICIAS -->
 		<ul>
 			<c:forEach items="${noticias}" var="b">
@@ -101,8 +103,8 @@
 					<div class="contratar">
 						<button class="ministryButtonUno" id="d_${b.id}">Eliminar</button>
 					</div>
-					<div class="contratar" href="javascript:void(0)"
-						onclick="toggle_visibility('${b.id}2')">
+					<div class="contratar" href="javascript:void(0)" 
+							onclick="toggle_visibility('${b.id}2')">
 						<i class="ministryButtonDos">Modificar</i>
 					</div>
 				</li>
@@ -113,7 +115,8 @@
 							test="${(rol.rol eq 'Administrador') or (rol.rol eq 'Editor')}">
 							<form action="${prefix}modificarNoticia" method="POST"
 								id="${b.id}">
-								<input type="hidden" id="id" name="id" value="${b.id}" />
+								<input type="hidden" id="id" name="id"
+									value="${b.id}" />
 								<div class="nick-pass2">
 									<label>Titulo </label><input type="text" name="titulo"
 										value="${b.titulo}">
@@ -121,7 +124,8 @@
 								<div class="nick-pass2">
 
 									<label>Cuerpo</label>
-									<textarea name="cuerpo" id="textoNoticia" placeholder="">${b.cuerpo}</textarea>
+									<textarea name="cuerpo" id="textoNoticia"
+										placeholder="">${b.cuerpo}</textarea>
 								</div>
 								<div class="crea-cuenta">
 									<input name="submit" value="Guardar cambios" type="submit">
