@@ -26,7 +26,11 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 	    @NamedQuery(name="allEventos",
 	            query="select e from Evento e"),
+	    @NamedQuery(name="eventoById",
+        query="select e from Evento e where e.id=:idParam"),
 	    @NamedQuery(name="deleteEvento",
+	    @NamedQuery(name="eventoById",
+        	query="select e from Evento e where e.id=:idParam"),
 	            query="delete from Evento e where e.id=:idParam")
 	})
 public class Evento {

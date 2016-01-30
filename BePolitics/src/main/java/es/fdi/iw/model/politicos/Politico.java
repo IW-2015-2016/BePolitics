@@ -45,8 +45,9 @@ public class Politico {
 	private int sumaStats;
 	private String nombre;
 	private String cita;
-	
+	private double precio;
 	private Pais propietario; 
+	private double precio;
 	/*TODO no funciona Explicacion
 	 * private ModificadorProduccion modificador;
 	*/
@@ -74,8 +75,7 @@ public class Politico {
 		this.honestidad=honestidad;
 		this.popularidad=popularidad;
 		this.propietario=null;
-		this.cita=quote;
-			
+		this.cita=quote;	
 
 	}
 		/**
@@ -88,18 +88,22 @@ public class Politico {
 		 * @param quote algo c�lebre dicho por el pol�tico
 		 * @throws ExceptionPolitico Lanza exception cuando los valores no est�n en el intervalo cerrado [0,100]
 		 */
-	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario) throws ExceptionPolitico{
+<<<<<<< HEAD
+	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario, Double precio) throws ExceptionPolitico{
+=======
+	public Politico(int carisma,int elocuencia, int honestidad,String nombre,int popularidad, String quote, Pais propietario, double precio) throws ExceptionPolitico{
+>>>>>>> refs/remotes/origin/contratar-politico
 		this.nombre = nombre;
 		this.carisma = carisma;
 		this.elocuencia=elocuencia;
 		this.honestidad=honestidad;
 		this.popularidad=popularidad;
 		this.propietario=propietario;
+		this.precio = precio;
 		this.cita=quote;
 		this.sumaStats = this.carisma + this.elocuencia + this.honestidad + this.popularidad;
-			
-			
-			
+		this.precio = precio;	
+
 		}
 
 		/**
@@ -217,6 +221,13 @@ public class Politico {
 
 		public void setSumaStats(int sumaStats) {
 			this.sumaStats = sumaStats;
+		}
+		public double getPrecio() {
+			return precio;
+		}
+
+		public void setPrecio(double precio) {
+			this.precio = precio;
 		}
 		
 }

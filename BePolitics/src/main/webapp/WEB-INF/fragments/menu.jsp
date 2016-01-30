@@ -122,7 +122,7 @@
 				<li>
 					<div class="link">
 						<i class="fa fa-newspaper-o"></i>
-						<a class = "anonimo" href="vistaAdminNoticias">Gestionar noticias</a>
+						<a class = "anonimo" href="noticiasEditor">Gestionar noticias</a>
 					</div>	
 				</li>
 				<li>
