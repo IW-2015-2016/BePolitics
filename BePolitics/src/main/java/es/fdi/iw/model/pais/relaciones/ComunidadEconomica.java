@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import es.fdi.iw.model.pais.Pais;
 
@@ -24,7 +26,7 @@ import es.fdi.iw.model.pais.Pais;
 @Entity
 public class ComunidadEconomica {
 	private long id;
-	private List<Pais> admin;
+	private Pais admin;
 	private List<Pais> paises;
 	
 	public ComunidadEconomica(){}
@@ -37,11 +39,10 @@ public class ComunidadEconomica {
 	 */
 	public ComunidadEconomica(Pais lider) throws IOException{
 		//TODO revisar array list al arracar la BD
-		this.admin = new ArrayList<Pais>();
+		this.admin = lider;
 		this.paises = new ArrayList<Pais>();
 		
 		if (lider == null 
-				|| !this.admin.add(lider)
 				|| !this.paises.add(lider)) 
 			throw new IOException();
 	}
@@ -59,7 +60,7 @@ public class ComunidadEconomica {
 	 * @return true si es lider, false en cualquier otro caso
 	 */
 	public boolean esLider(Pais p){
-		return this.admin.contains(p);
+		return (this.admin.getId() == p.getId());
 	}
 	
 	/**
@@ -85,14 +86,14 @@ public class ComunidadEconomica {
 	public void setId(long id) {
 		this.id = id;
 	}
-	@ManyToOne(targetEntity=Pais.class)
-	public List<Pais> getAdmin() {
+	@OneToOne(targetEntity=Pais.class)
+	public Pais getAdmin() {
 		return admin;
 	}
-	public void setAdmin(List<Pais> admin) {
+	public void setAdmin(Pais admin) {
 		this.admin = admin;
 	}
-	@ManyToOne(targetEntity=Pais.class)
+	@ManyToOne(targetEntity=Pais.class,cascade=CascadeType.ALL)
 	public List<Pais> getPaises() {
 		return paises;
 	}
