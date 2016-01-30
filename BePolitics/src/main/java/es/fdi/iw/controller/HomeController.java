@@ -1264,7 +1264,7 @@ public class HomeController {
 	public String noticias(Locale locale, Model model, HttpSession session) {
 
 		model.addAttribute("noticias", entityManager.createNamedQuery("allNoticias").getResultList());
-		logger.info("llega al método /noticias \n");
+
 		return "noticias";
 	}
 

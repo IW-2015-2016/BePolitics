@@ -10,7 +10,6 @@
 <%@ taglib  uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="e" %>
 <!DOCTYPE html>
 <html>
-<%@ include file="../fragments/scripts.jsp"%>
 <head>
 	<title>${pageTitle}</title>
 	<link rel="stylesheet" href="${prefix}resources/js/jquery-ui-1.11.2/jquery-ui.min.css">

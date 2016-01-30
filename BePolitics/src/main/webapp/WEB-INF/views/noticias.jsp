@@ -1,7 +1,15 @@
 <%@ include file="../fragments/header.jsp"%>
 <%@ include file="../fragments/menu.jsp"%>
 
-
+<script type="text/javascript">
+	function toggle_visibility(id) {
+		var e = document.getElementById(id);
+		if (e.style.display == 'block')
+			e.style.display = 'none';
+		else
+			e.style.display = 'block';
+	}
+</script>
 <div id="divCentro">
 	<div id="titulo">
 		<h1>Noticias</h1>
