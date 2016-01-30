@@ -19,19 +19,19 @@
 					<td>Honestidad</td>
 					<td>Carisma</td>
 					<td>Elocuencia</td>
-					<td>Apoyo popular</td>
+					<td>Popularidad</td>
 					<td>Cita semanal</td>
 				</tr>
 				<c:forEach items="${politicos}" var="b">
-				<tr id="e_${b.id}">
-					<td>${b.nombre}</td>
-					<td><progress value="11" max="100">11%</progress></td>
-					<td><progress value="70" max="100">70%</progress></td>
-					<td><progress value="39" max="100">39%</progress></td>
-					<td><progress value="95" max="100">95%</progress></td>
-					<td>"Estamos trabajando en ello"</td>
-				</tr>
-</c:forEach>
+					<tr id="e_${b.id}">
+						<td>${b.nombre}</td>
+						<td><progress value="${b.honestidad }" max="100">${b.honestidad }%</progress></td>
+						<td><progress value="${b.carisma }" max="100">${b.carisma }%</progress></td>
+						<td><progress value="${b.elocuencia }" max="100">${b.elocuencia }%</progress></td>
+						<td><progress value="${b.popularidad }" max="100">${b.popularidad }%</progress></td>
+						<td><p>${b.cita}</p></td>
+					</tr>
+				</c:forEach>
 
 			</tbody>
 		</table>
