@@ -69,7 +69,8 @@ public class Pais {
 		this.nombre = nombre;
 		this.construcciones = construcciones;
 		this.recursos = recursos;
-		
+		this.comunidad = new ComunidadEconomica();
+		this.comunidad.setAdmin(this);
 		Calendar yesterday = Calendar.getInstance();
 		yesterday.add(Calendar.DATE, -1);
 		this.lastProduction = new Date(yesterday.getTimeInMillis());
@@ -141,7 +142,7 @@ public class Pais {
 		this.modificadores =  modificadores;
 	}
 	
-	@ManyToOne(targetEntity=ComunidadEconomica.class)
+	@OneToOne(targetEntity=ComunidadEconomica.class,cascade=CascadeType.ALL)
 	public ComunidadEconomica getComunidad() {
 		return comunidad;
 	}
