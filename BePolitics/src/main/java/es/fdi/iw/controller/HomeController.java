@@ -1421,7 +1421,7 @@ public class HomeController {
 
 			u = new Usuario(formNombre, formApellidos, formCorreo, Genero.Hombre, edad, formNick, null, null,
 					formContra, Rol.Administrador);
-			session.setAttribute("rol", u);
+			
 			Usuario editor = new Usuario("ratón", "Perez", "perez@yahoo.es", Genero.Hombre, 35, "Perez", null, null,
 					formContra, Rol.Editor);
 			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, formNick, p, TipoLider.REY,
@@ -1468,7 +1468,7 @@ public class HomeController {
 
 			// String rol = u.getRol().toString();
 
-			session.setAttribute("rol", ur);
+			session.setAttribute("rol", u);
 			getTokenForSession(session);
 
 		} catch (ExceptionUsuario e) {
