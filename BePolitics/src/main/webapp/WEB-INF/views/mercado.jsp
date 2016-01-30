@@ -9,62 +9,86 @@
 			e.style.display = 'block';
 	}
 
-	$(function() {
+	$(
+			function() {
 
-		$("button.ministryButtonDos").click(function() {
-			var id = $(this).attr("id").substring("m_".length);
-			var row = $("#m_" + id).parent();
-			$.ajax({
-				url : "${prefix}contratarPoli/" + id,
-				type : "GET",
-				success : function(d) {
-					console.log("ok - this worked");
-					$("#e_" + id).remove();
-				}
+				$("button.ministryButtonDos")
+						.click(
+								function() {
+									var id = $(this).attr("id").substring(
+											"m_".length);
+									var row = $("#m_" + id).parent();
+									$
+											.ajax({
+												url : "${prefix}contratarPoli/"
+														+ id,
+												type : "GET",
+												success : function(d) {
+													console
+															.log("ok - this worked");
+													$("#e_" + id).remove();
+												},
+												error : function(d) {
+													alert("No se puede contratar a este político (Revisa tu PIB)");
+												}
+											})
+								});
+
 			})
-		});
-
-	})
 </script>
+
 <div id="divCentro">
 	<div id="titulo">
 		<h1>Mercado de políticos</h1>
 	</div>
-	<div id="popup-box1" class="popup-position">
-		<div id="popup-wrapper">
-			<p>
-				<a href="javascript:void(0)"
-					onclick="toggle_visibility('popup-box1')"><i
-					class="fa fa-times"></i></a>
-			</p>
-			<div id="popup-container">
-				<div>
-					<h2>Zazú</h2>
-				</div>
-				<p>Lorem ipsum 1 dolor sit amet, consectetur adipiscing elit.
-					Proin imperdiet dui sed malesuada lobortis. Praesent mattis nulla a
-					tincidunt scelerisque. Curabitur cursus, nisl mollis interdum
-					aliquam, orci nibh tincidunt orci, sed molestie arcu massa nec
-					elit. Praesent efficitur volutpat metus, non faucibus sapien
-					aliquet ac. Nam nisi eros, bibendum in egestas ut, consequat eu
-					purus. Aliquam et magna eu sem rutrum finibus vel vitae nibh.
-					Vivamus congue, lectus a iaculis scelerisque, ipsum magna gravida
-					sapien, at facilisis eros odio ut nisl.</p>
-				<p>Praesent a odio et risus mollis blandit. Praesent vehicula ex
-					ex, vitae hendrerit arcu ullamcorper vitae. Nam ornare eget orci
-					sed ullamcorper. Praesent ut mi sed odio sagittis accumsan at eu
-					elit. Duis vel justo iaculis, pretium massa sit amet, dignissim
-					dui. Mauris a rutrum neque. Sed sed est maximus, gravida dolor
-					quis, elementum orci. Suspendisse sit amet risus sit amet risus
-					ornare rutrum non ut est. Pellentesque at placerat risus, id
-					vehicula purus. Donec tincidunt sapien sed enim fermentum, sit amet
-					convallis purus maximus.</p>
+	<c:forEach items="${politicos}" var="b">
+		<div id="${b.id}" class="popup-position">
 
+			<div id="popup-wrapper">
+				<p>
+					<a href="javascript:void(0)" onclick="toggle_visibility('${b.id}')"><i
+						class="fa fa-times"></i></a>
+				</p>
+				<div id="popup-container">
+					<div>
+						<h3>${b.nombre}</h3>
+					</div>
+					<div>
+						<h4>Cita: ${b.cita}</h4>
+					</div>
+
+					<table>
+						<thead>
+							<tr>
+								<th></th>
+								<th colspan="4">Stats</th>
+							</tr>
+							<tr>
+	
+								<th>Honestidad</th>
+								<th>Carisma</th>
+								<th>Elocuencia</th>
+								<th>Popularidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><progress value="${b.honestidad}" max="100"></progress>
+									<h6>${b.honestidad}%</h6></td>
+								<td><progress value="${b.carisma}" max="100"></progress>
+									<h6>${b.carisma}%</h6></td>
+								<td><progress value="${b.elocuencia}" max="100"></progress>
+									<h6>${b.elocuencia}%</h6></td>
+								<td><progress value="${b.popularidad}" max="100"></progress>
+									<h6>${b.popularidad}%</h6></td>
+							<tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 
 		</div>
-
-	</div>
+	</c:forEach>
 
 
 	<div id="listaEventos">
@@ -72,7 +96,7 @@
 
 			<c:forEach items="${politicos}" var="b">
 				<li class="evento" id="e_${b.id}"><i class="fa fa-btc"></i> <a
-					href="javascript:void(0)" onclick="toggle_visibility('${b.id}2')">
+					href="javascript:void(0)" onclick="toggle_visibility('${b.id}')">
 						${b.nombre} </a> <a href="javascript:void(0)"
 					onclick="toggle_visibility('popup-box1')"> Coste: ${b.precio}
 						PIB</a>

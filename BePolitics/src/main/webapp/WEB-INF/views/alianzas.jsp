@@ -43,55 +43,73 @@
 </script>
 <div id="divCentro">
 	<div id="container">
+
 		<input id="tab-1" type="radio" name="tab-group" checked="checked" />
-		<!--<label for="tab-1">Pol&iacute;ticos</label>  -->
 		<label for="tab-1">Alianzas</label> <input id="tab-1" type="radio"
 			name="tab-group" />
 
 
 		<div id="content">
-			<div id="arriba">
 
+
+			<div id="arriba">
 				<table>
 					<thead>
 						<tr>
 							<th><h1>Miembros</h1></th>
 						</tr>
 						<tr>
-							<th>Usuario</th>
+							
 							<th>Pa&iacute;s</th>
-							<th>Es l&iacute;der</th>
-							<th>GestiÃ³n</th>
+							<th>Gestión</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Princess_Fiona</td>
-							<td>Far far away</td>
-							<td>No</td>
-							<td><a class="ministryButton" href="#">Expulsar</a></td>
+						<c:forEach items="${com.paises}" var="r">
+							<tr>
+								<td>${r.nombre}</td>
+								<td><a class="ministryButton" href="#">Expulsar</a></td>
 
-						</tr>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
+
+
+
 			<div id="abajo">
-				<table>
+
+
+				<%-- 				<table>
 					<thead>
 						<tr>
-							<h1>Eres lÃ­der de esta comunidad</h1>
+							<h1>Eres líder de esta comunidad</h1>
 						</tr>
 					</thead>
 					<tbody>
-					<tr>
-						<td><textarea>B&uacute;squeda</textarea></td>
-						<tr><td>authors</td><td><button id="b_${book.id}" class="pideAutores">Ver autores</button></td></tr>
-						<td><button class="linkHeader"> Invitar a la alianza</button>
+						<tr>
+							<td><textarea>B&uacute;squeda</textarea></td>
+						<tr>
+							<td>authors</td>
+							<td><button id="b_${book.id}" class="pideAutores">Ver
+									autores</button></td>
+						</tr>
+						<td>
+							<button class="linkHeader">Invitar a la alianza</button>
 						</td>
 						</tr>
 					</tbody>
-				</table>
+				</table> --%>
+
+
+
+
 			</div>
+
+
+
+
 		</div>
 	</div>
 </div>
