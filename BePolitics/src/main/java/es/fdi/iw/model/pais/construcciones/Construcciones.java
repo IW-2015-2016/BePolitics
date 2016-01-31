@@ -28,7 +28,9 @@ import es.fdi.iw.model.politicos.Politico;
     @NamedQuery(name="allConstrucciones",
             query="select c from Construcciones c"),
     @NamedQuery(name="ConstruccionesById",
-    query="select c from Construcciones c where c.id = :id")
+    query="select c from Construcciones c where c.id = :id"),
+    @NamedQuery(name="construccionPorPais",
+    query="select c from Construcciones c where c.idPais = :idPais")
 })
 public class Construcciones {
 	
@@ -37,6 +39,13 @@ public class Construcciones {
 	private Politico[] politicoAlojado;
 	private String[] nombres;
 	private int[] nivel;
+	public long getIdPais() {
+		return idPais;
+	}
+	public void setIdPais(long idPais) {
+		this.idPais = idPais;
+	}
+	private long idPais;
 	
 	//[TiposConstruccion][TipoRecurso]
 	private int[][] coste;

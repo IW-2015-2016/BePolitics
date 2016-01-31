@@ -82,7 +82,6 @@ public class Pais {
 		yesterday.add(Calendar.DATE, -1);
 		this.lastProduction = new Date(yesterday.getTimeInMillis());
 		this.usuario = null;
-		
 	}
 	@OneToOne(targetEntity=Usuario.class, fetch=FetchType.EAGER)
 	public Usuario getUsuario() {

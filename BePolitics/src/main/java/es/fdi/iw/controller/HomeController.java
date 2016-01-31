@@ -133,9 +133,9 @@ public class HomeController {
 			return new ResponseEntity<String>("Error: no such user or bad auth", HttpStatus.FORBIDDEN);
 		} else if (entityManager.createNamedQuery("delUser").setParameter("idParam", id).executeUpdate() == 1) {
 			return new ResponseEntity<String>("Ok: user " + id + " removed", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>("Error: no such user", HttpStatus.BAD_REQUEST);
 		}
+		return new ResponseEntity<String>("Error: no such user", HttpStatus.BAD_REQUEST);
+		
 	}
 
 	/**
@@ -960,13 +960,22 @@ public class HomeController {
 	 * Agrega al modelo las construcciones de un pais
 	 */
 	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
+	@Transactional
 	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
 		//TODO arreglar
 		
+
+		//model.addAttribute("construcciones",entityManager.createNamedQuery("construccionPorPais").setParameter("idPais", id).getSingleResult());
 		System.out.println("\nAquí está llegando\n");
-		Usuario b = entityManager.find(Usuario.class, id);
-		//model.addAttribute("construcciones", b.getPais().getConstrucciones());
-		System.out.println("\nAquí está llegando\n");
+		Usuario u = entityManager.find(Usuario.class, id);
+		System.out.println(u.getNick());
+		Pais p = u.getPais();
+		System.out.println(p.getNombre());
+		Construcciones c = p.getConstrucciones();
+		
+		System.out.println("id user="+ u.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
+		
 		return "produccion";
 	}
 	
@@ -1015,6 +1024,8 @@ public class HomeController {
 				Construcciones c = new Construcciones(" ");
 				Recursos r = new Recursos();
 				p = new Pais(c, formPais, r);
+				c.setIdPais(p.getId());
+				
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad, formNick, p,
 						TipoLider.valueOf(formLider), formContra, Rol.Administrador);
 				u.setPais(p);
@@ -1403,7 +1414,8 @@ public class HomeController {
 		String formNick = "Metatron";
 		String formContra = "contrasenia";
 		String formPais = "Latveria";
-
+		Usuario ur = null;
+		Usuario editor = null;
 		Pais p = null;
 
 		/*
@@ -1416,18 +1428,22 @@ public class HomeController {
 		Construcciones c = new Construcciones(" ");
 		Recursos r = new Recursos();
 		p = new Pais(c, formPais, r);
+		c.setIdPais(p.getId());
+		
 
 		try {
 
 			// agujero gordo si !isAdmin pero especifica rol admin
 			u = new Usuario(formNombre, formApellidos, formCorreo, Genero.Hombre, edad, formNick, null, null,
 					formContra, Rol.Administrador);
-			Usuario editor = new Usuario("ratón", "Perez", "perez@yahoo.es", Genero.Hombre, 35, "Perez", null, null,
+			editor = new Usuario("ratón", "Perez", "perez@yahoo.es", Genero.Hombre, 35, "Perez", null, null,
 					formContra, Rol.Editor);
-			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, "Juani", p, TipoLider.REY,
+			ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, "Juani", p, TipoLider.REY,
 					formContra, Rol.UsuarioRegistrado);
 			p.setUsuario(ur);
-
+			
+			
+			
 			Politico pol;
 			pol = new Politico();
 			pol.setNombre("Jose María Aznar");
@@ -1482,6 +1498,8 @@ public class HomeController {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
+		
+		System.out.println("id user="+ ur.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
 		System.out.println("Fin del BackDoor");
 		return "home2";
 
