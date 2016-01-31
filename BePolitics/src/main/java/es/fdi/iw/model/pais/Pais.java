@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,6 +30,7 @@ import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
 import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
 import es.fdi.iw.model.pais.relaciones.Guerras;
 import es.fdi.iw.model.politicos.Politico;
+import es.fdi.iw.model.usuario.Usuario;
 
 
 /**
@@ -53,13 +55,12 @@ public class Pais {
 	private ComunidadEconomica comunidad;
 	private List<Politico> politicos;
 	private Recursos recursos;
-	
 	private Guerras guerra;
 	
 	private Construcciones construcciones;
 	private List<ModificadorProduccion> modificadores;
 	private Date lastProduction;
-	
+	private Usuario usuario;
 	public Pais(){
 		
 	}
@@ -80,9 +81,17 @@ public class Pais {
 		Calendar yesterday = Calendar.getInstance();
 		yesterday.add(Calendar.DATE, -1);
 		this.lastProduction = new Date(yesterday.getTimeInMillis());
+		this.usuario = null;
 		
 	}
+	@OneToOne(targetEntity=Usuario.class, fetch=FetchType.EAGER)
+	public Usuario getUsuario() {
+		return usuario;
+	}
 
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 	@Id
     @GeneratedValue
 	public long getId() {
