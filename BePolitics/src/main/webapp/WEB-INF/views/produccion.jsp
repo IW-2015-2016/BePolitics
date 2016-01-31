@@ -2,12 +2,7 @@
 <%@ include file="../fragments/menu.jsp"%>
 <div id="divCentro">
 	<div id="container">
-		<div id="superior">
-
-			<c:forEach begin="0" end="${fn:length(${construcciones.nombres}) - 1}" var="index">
-			${construcciones.nombres[index]}
-			</c:forEach>
-			<!-- 
+		<div id="superior">		
 					<table>
 						<thead>
 							<tr>
@@ -42,7 +37,7 @@
 							<tr>
 						</tbody>
 					</table>
-			 -->
+			
 
 		</div>
 

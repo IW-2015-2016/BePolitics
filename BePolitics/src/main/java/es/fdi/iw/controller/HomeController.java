@@ -43,7 +43,7 @@ import es.fdi.iw.model.Author;
 import es.fdi.iw.model.Book;
 import es.fdi.iw.model.Genero;
 import es.fdi.iw.model.User;
-import es.fdi.iw.model.modificadores.ModificadorProduccion;
+//import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.Recursos;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
@@ -823,8 +823,8 @@ public class HomeController {
 			return "redirect:" + "vistaAdminPoliticos";
 
 		} catch (ExceptionPolitico e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 		return "redirect:" + "vistaAdminPoliticos";
@@ -960,11 +960,23 @@ public class HomeController {
 	 * Agrega al modelo las construcciones de un pais
 	 */
 	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
-	public String produccion(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
+	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
 		//TODO arreglar
+		
+		System.out.println("\nAquí está llegando\n");
 		Usuario b = entityManager.find(Usuario.class, id);
-		logger.error("AQUI LLEGA, /produccion");
-		model.addAttribute("construcciones", b.getPais().getConstrucciones());
+		//model.addAttribute("construcciones", b.getPais().getConstrucciones());
+		System.out.println("\nAquí está llegando\n");
+		return "produccion";
+	}
+	
+	/**
+	 * Accede a produccion
+	 */
+	@RequestMapping(value = "/produccion", method = RequestMethod.GET)
+	public String produccion(Locale locale, Model model, HttpSession session) {
+		//TODO no sé si tiene que devolver algo, en principio creo que no porque
+		//su redirección procede del método produccionId
 		return "produccion";
 	}
 	
@@ -989,7 +1001,7 @@ public class HomeController {
 		Usuario u = null;
 		
 		// TODO si funciona, borrar
-//		boolean isLoggedIn = (session.getAttribute("rol") != null);
+		//boolean isLoggedIn = (session.getAttribute("rol") != null);
 
 		try {
 			formRol = formRol.toLowerCase();
@@ -1026,8 +1038,8 @@ public class HomeController {
 			}
 
 		} catch (ExceptionUsuario e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 		return "home2";
@@ -1075,7 +1087,6 @@ public class HomeController {
 		return "home2";
 	}
 
-	// TODO crear el pais despues de crear al usuario CONTINUAR
 	/**
 	 * Modifica el usuario
 	 */
@@ -1133,9 +1144,9 @@ public class HomeController {
 		entityManager.flush();
 
 		if (u.getRol() == Rol.Editor) {
-			return "redirect: vistaAdminEditor";
+			return "redirect:vistaAdminEditor";
 		} else if (u.getRol() == Rol.UsuarioRegistrado) {
-			return "redirect: vistaAdminUsuario";
+			return "redirect:vistaAdminUsuario";
 		}
 		return "home2";
 	}
@@ -1214,7 +1225,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/modificarUsuario", method = RequestMethod.GET)
 	public String modificarUsuario(Locale locale, Model model, HttpSession session) {
-		return "redirect: modificarUsuario";
+		return "redirect:modificarUsuario";
 	}
 
 	/**
@@ -1471,7 +1482,7 @@ public class HomeController {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-
+		System.out.println("Fin del BackDoor");
 		return "home2";
 
 	}
