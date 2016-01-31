@@ -35,30 +35,23 @@ public class Construcciones {
 	private long id;
 	//[TiposConstruccion]
 	private Politico[] politicoAlojado;
-
+	private String[] nombres;
 	private int[] nivel;
 	
 	//[TiposConstruccion][TipoRecurso]
 	private int[][] coste;
 	private int[][] produccion_hora;
 
-	@Id
-    @GeneratedValue
-	public long getId() {
-		return id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+	public Construcciones(){}
 	/**
 	 *  Crea el conjunto de construcciones para un pais
 	 */
-	public Construcciones(){
+	public Construcciones(String needed){
 		int max_construcciones =TipoConstruccion.getNumConstrucciones();
 		int max_recursos = TipoRecurso.getNumTipoRecursos();
-			this.nivel = new int[max_construcciones];
+			this.nivel = new int [max_construcciones];
+			this.nombres = new String [max_construcciones];
 			this.coste = new int [max_construcciones][max_recursos];
 			this.produccion_hora = new int [max_construcciones][max_recursos];
             for(int i=0; i<max_construcciones;i++){
@@ -68,6 +61,7 @@ public class Construcciones {
                     this.coste[i][j]=1;
                     this.produccion_hora[i][j]=1;   
                 }
+                this.nombres[i]=TipoConstruccion.getConstruccion(i).toString();
             }
 	}
      
@@ -135,6 +129,24 @@ public class Construcciones {
         
         return true;            
     }
+    
+    
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setNombres(String[] nombres){
+		this.nombres=nombres;
+	}
+	public String[] getNombres(){
+		return this.nombres;
+	}
+    
     /**
      * Devuelve el nivel de la construccion
      * @param t el tipo de construccion
@@ -163,5 +175,28 @@ public class Construcciones {
     									 TipoRecurso.getRecurso(r));
     }
 
-    
+	public Politico[] getPoliticoAlojado() {
+		return politicoAlojado;
+	}
+	public void setPoliticoAlojado(Politico[] politicoAlojado) {
+		this.politicoAlojado = politicoAlojado;
+	}
+	public int[] getNivel() {
+		return nivel;
+	}
+	public void setNivel(int[] nivel) {
+		this.nivel = nivel;
+	}
+	public int[][] getCoste() {
+		return coste;
+	}
+	public void setCoste(int[][] coste) {
+		this.coste = coste;
+	}
+	public int[][] getProduccion_hora() {
+		return produccion_hora;
+	}
+	public void setProduccion_hora(int[][] produccion_hora) {
+		this.produccion_hora = produccion_hora;
+	}
 }
