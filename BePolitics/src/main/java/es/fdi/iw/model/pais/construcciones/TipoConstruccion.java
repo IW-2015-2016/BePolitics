@@ -54,7 +54,7 @@ public enum TipoConstruccion {
 			ret=6;
 			break;
 		case CONFERENCIA_EPISCOPAL:
-			ret=6;
+			ret=7;
 			break;
 		}
 		return ret;

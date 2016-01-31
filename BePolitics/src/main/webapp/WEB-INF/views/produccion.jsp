@@ -6,16 +6,57 @@
 	<div id="container">
 		<div id="superior">
 
-			<table>
 
-				<c:forEach begin="0" end="8" varStatus="loop">
-					<div id="b">
-						<h1>${construcciones.nombres[loop.index]}</h1>
-					</div>
-					<c:forEach begin="0" end="4" varStatus="loop2">
-					[${loop.index},${loop2.index}]
-					</c:forEach>
-				</c:forEach>
+			<!-- CADA MINISTERIO -->
+			<c:forEach begin="0" end="7" varStatus="loop">
+				<table id="construccion${loop.index}">
+					<!-- TITULO TABLA -->
+					<thead>
+						<tr>
+							<td><h2>${construcciones.nombres[loop.index]}</h2></td>
+							<td></td>
+							<td><a class="linkHeader" href="#">Mejorar edificio</a></td>
+						</tr>
+					</thead>
+				<!-- CUERPO DE LA TABLA -->
+					<tbody>
+						<tr>
+							<td>Tipo</td>
+							<td>Coste de mejora</td>
+							<td>Producci&oacute;n</td>
+						</tr>
+						<tr>
+							<td>P.I.B.</td>
+							<td>${construcciones.coste[loop.index][0]}</td>
+							<td>${construcciones.produccion_hora[loop.index][0]}</td>
+							<tr>		
+						<tr>
+							<td>Apoyo popular</td>
+							<td>${construcciones.coste[loop.index][1]}%</td>
+							<td>${construcciones.produccion_hora[loop.index][1]}</td>
+						<tr>		
+						<tr>
+							<td>Energ&iacute;a</td>
+							<td>${construcciones.coste[loop.index][2]}%</td>
+							<td>${construcciones.produccion_hora[loop.index][2]}</td>
+						<tr>			
+						<tr>
+							<td>Poblaci&oacute;n</td>
+							<td>${construcciones.coste[loop.index][3]}%</td>
+							<td>${construcciones.produccion_hora[loop.index][3]}</td>
+							<td>Nivel del edificio: ${construcciones.nivel[loop.index]}</td>
+						<tr>
+					</tbody>
+			</table>
+					
+					
+					
+						<c:forEach begin="0" end="4" varStatus="loop2">
+							[${loop.index},${loop2.index}]
+						</c:forEach>
+			</c:forEach>
+	
+									<!--  -->
 				<thead>
 					<tr>
 						<td><h2>Ministerio de industria</h2></td>
@@ -40,14 +81,18 @@
 							comunidad)
 						</td>
 						<td>2060</td>
-					<tr>
-					<tr>
+					
+				<tr>
+					
+				<tr>
 						<td>Bienestar / D&iacute;a</td>
 						<td>1%</td>
 						<td>Sin modificadores</td>
 						<td>1%</td>
-					<tr>
-				</tbody>
+					
+				<tr>
+				
+			</tbody>
 			</table>
 		</div>
 

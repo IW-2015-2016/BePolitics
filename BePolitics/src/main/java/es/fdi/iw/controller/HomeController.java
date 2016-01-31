@@ -47,6 +47,7 @@ import es.fdi.iw.model.User;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.Recursos;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
+import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
 import es.fdi.iw.model.pais.TipoRecurso;
 import es.fdi.iw.model.pais.eventos.Evento;
 import es.fdi.iw.model.pais.eventos.TipoEvento;
@@ -1433,8 +1434,6 @@ public class HomeController {
 		
 
 		try {
-
-			// agujero gordo si !isAdmin pero especifica rol admin
 			u = new Usuario(formNombre, formApellidos, formCorreo, Genero.Hombre, edad, formNick, null, null,
 					formContra, Rol.Administrador);
 			editor = new Usuario("ratón", "Perez", "perez@yahoo.es", Genero.Hombre, 35, "Perez", null, null,
@@ -1444,7 +1443,14 @@ public class HomeController {
 			p.setUsuario(ur);
 			
 			
-			
+			//Genera recursos al país del usuario registrado (p)
+			ur.getPais().getRecursos().produce(new int[] {10000,10000,10000,10000});
+			//Subo nivel a construcciones
+			for(int j=0;j<7;j++)
+				for(int i=0;i<TipoConstruccion.getNumConstrucciones();i++)
+				p.getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(i), r);
+
+
 			Politico pol;
 			pol = new Politico();
 			pol.setNombre("Jose María Aznar");

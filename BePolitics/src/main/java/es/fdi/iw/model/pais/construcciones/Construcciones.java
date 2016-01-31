@@ -100,25 +100,28 @@ public class Construcciones {
         
         int idxConstruccion = TipoConstruccion.getIndex(t);
         // Comprueba si hay recursos
+        
         for (int i =0;i<TipoRecurso.getNumTipoRecursos();i++)
            if(this.coste[idxConstruccion][i]>r.getRecurso(i))
                return false;
-        
+       
         // Gastar recursos
         for(int i =0; i<TipoRecurso.getNumTipoRecursos();i++){
             try {
-                int idxRecurso =r.getRecurso(i);
-                if (r.getRecurso(i) < coste[idxConstruccion][idxRecurso]){
+                System.out.println("Banana");
+                if (r.getRecurso(i) < coste[idxConstruccion][i]){
                     return false;
                 }
+                System.out.println("Pepinillos");
                 if(TipoRecurso.seGasta(i)){
-                    r.sumaRecurso(TipoRecurso.getRecurso(i), (-1*coste[idxConstruccion][idxRecurso]));
+                    r.sumaRecurso(TipoRecurso.getRecurso(i), (-1*coste[idxConstruccion][i]));
                 }
                     
             } catch (IOException ex) {
                 Logger.getLogger(Construcciones.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
+            System.out.println("Barbilla");
         }
         //subir nivel
         this.nivel[idxConstruccion]++;
