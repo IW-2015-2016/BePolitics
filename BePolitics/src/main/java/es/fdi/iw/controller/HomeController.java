@@ -396,6 +396,8 @@ public class HomeController {
 		return "crearEvento";
 	}
 
+	
+	
 	@RequestMapping(value = "/crearEven", method = RequestMethod.POST)
 	@Transactional
 	public String nuevoEvento(@RequestParam("nombreEvento") String formNombreEvento,
@@ -443,6 +445,9 @@ public class HomeController {
 			Evento e = new Evento(formNombreEvento, formDrecripcion, formNombreOpcion1, formNombreOpcion2, recurso1,
 					recurso2, modificador1, modificador2, evento, fecha);
 			System.out.println(e.getTitulo());
+			
+			
+			
 			entityManager.persist(e);
 			entityManager.flush();
 			return "redirect:" + "vistaAdminEventos";
@@ -565,6 +570,99 @@ public class HomeController {
 			return "modificarEvento";
 		}
 		return "modificarEvento";
+	}
+	
+
+	@RequestMapping(value = "/eventos", method = RequestMethod.GET)
+	public String eventos(Locale locale, Model model, HttpSession session) {
+		Usuario u = (Usuario) session.getAttribute("rol");
+		model.addAttribute("eventos",
+				entityManager.createQuery("Select e from Evento e where e.propietarioEvento.id = " + u.getPais().getId())
+						.getResultList());
+		return "eventos";
+	}
+/*
+	@RequestMapping(value = "/contratarPoli/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String contratarPoli(@PathVariable("id") long id, HttpServletResponse response, Model model,
+			HttpSession session) {
+		try {
+			System.out.println("entro");
+			Politico b = entityManager.find(Politico.class, id);
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Pais p = entityManager.find(Pais.class, u.getPais().getId());
+
+			Recursos pr = p.getRecursos();
+
+			if (pr.getPIB() >= b.getPrecio()) {
+
+				b.setPropietario(p);
+				entityManager.merge(b);
+
+				pr.setPIB((int) (pr.getPIB() - b.getPrecio()));
+				p.getPoliticos().add(b);
+				entityManager.merge(p);
+				entityManager.merge(pr);
+				entityManager.flush();
+				
+
+				response.setStatus(HttpServletResponse.SC_OK);
+				return "OK";
+			}
+			b = null;
+			
+			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
+			 * 
+			 * b.setCarisma(b.getCarisma()); b.setCita(b.getCita());
+			 * b.setElocuencia(b.getElocuencia());
+			 * b.setHonestidad(b.getHonestidad()); b.setId(b.getId());
+			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
+			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
+			 
+
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "ERR";
+	}*/
+	@RequestMapping(value = "/opcionUno/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String opcionuno(@PathVariable("id") long id, HttpServletResponse response, Model model,
+			HttpSession session) {
+		try {
+			System.out.println("entro");
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Evento e = entityManager.find(Evento.class, id);
+			Pais p = entityManager.find(Pais.class, u.getPais().getId());
+				
+			//Tratar el evento.
+			
+
+			
+			/*
+			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
+			 * 
+			 * b.setCarisma(b.getCarisma()); b.setCita(b.getCita());
+			 * b.setElocuencia(b.getElocuencia());
+			 * b.setHonestidad(b.getHonestidad()); b.setId(b.getId());
+			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
+			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
+			 */
+
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "ERR";
 	}
 
 	/**
@@ -793,13 +891,7 @@ public class HomeController {
 		return "crearCuenta";
 	}
 
-	@RequestMapping(value = "/eventos", method = RequestMethod.GET)
-	public String eventos(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
-		return "eventos";
-	}
-
+	
 	@RequestMapping(value = "/guerras", method = RequestMethod.GET)
 	public String guerras(Locale locale, Model model, HttpSession session) {
 		// session.setAttribute("user", "juan");
@@ -824,9 +916,10 @@ public class HomeController {
 
 	@RequestMapping(value = "/alianzas", method = RequestMethod.GET)
 	public String alianzas(Locale locale, Model model, HttpSession session) {
-
-		session.setAttribute("user", "pedro");// session.setAttribute("user",
-												// "juan");
+		Usuario u = (Usuario) session.getAttribute("rol");
+		model.addAttribute("com",
+				entityManager.createQuery("select c from ComunidadEconomica c where c.admin.id = "+ u.getPais().getId())
+						.getResultList());
 		return "alianzas";
 	}
 	
@@ -1009,7 +1102,12 @@ public class HomeController {
 				entityManager.merge(p);
 				entityManager.merge(pr);
 				entityManager.flush();
+				
+
+				response.setStatus(HttpServletResponse.SC_OK);
+				return "OK";
 			}
+			b = null;
 			/*
 			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
 			 * 
@@ -1019,16 +1117,15 @@ public class HomeController {
 			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
 			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
 			 */
-			b = null;
 
-			response.setStatus(HttpServletResponse.SC_OK);
-			return "OK";
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "ERR";
 	}
 	
 	/**************************************************************/
@@ -1414,6 +1511,8 @@ public class HomeController {
 		entityManager.persist(r);
 		p = new Pais(c, formPais, r);
 		entityManager.persist(p);
+		entityManager.flush();
+		
 
 		try {
 
@@ -1424,8 +1523,9 @@ public class HomeController {
 			
 			Usuario editor = new Usuario("ratón", "Perez", "perez@yahoo.es", Genero.Hombre, 35, "Perez", null, null,
 					formContra, Rol.Editor);
-			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, formNick, p, TipoLider.REY,
+			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, "Juani", p, TipoLider.REY,
 					formContra, Rol.UsuarioRegistrado);
+			
 			
 			Politico pol;
 			pol = new Politico();
@@ -1436,7 +1536,7 @@ public class HomeController {
 			pol.setPopularidad(80);
 			pol.setPropietario(null);
 			pol.setSumaStats(30 + 34 + 99 + 80);
-			pol.setPrecio(8.00);
+			pol.setPrecio(16.00);
 
 			pol.setCita("España va Bien");
 
@@ -1468,7 +1568,7 @@ public class HomeController {
 
 			// String rol = u.getRol().toString();
 
-			session.setAttribute("rol", u);
+			session.setAttribute("rol", ur);
 			getTokenForSession(session);
 
 		} catch (ExceptionUsuario e) {
@@ -1479,7 +1579,6 @@ public class HomeController {
 		return "home2";
 
 	}
-
 	/**************************************************************/
 	/********************** FIN BACK DOOR *************************/
 	/**************************************************************/

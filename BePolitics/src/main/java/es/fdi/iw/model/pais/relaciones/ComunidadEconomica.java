@@ -37,14 +37,11 @@ public class ComunidadEconomica {
 	 * @param lider el pais que lo crea, no puede ser null
 	 * @throws IOException si el lider es null o no se puede agregar el lider a la lista de paises o de lideres
 	 */
-	public ComunidadEconomica(Pais lider) throws IOException{
+	public ComunidadEconomica(Pais lider){
+		
 		//TODO revisar array list al arracar la BD
 		this.admin = lider;
 		this.paises = new ArrayList<Pais>();
-		
-		if (lider == null 
-				|| !this.paises.add(lider)) 
-			throw new IOException();
 	}
 	/**
 	 * Dice si p es miembro de la comunidad
@@ -71,10 +68,10 @@ public class ComunidadEconomica {
 	 * @return
 	 */
 	public boolean hacerMiembro(Pais lider, Pais invitado){
-		if(!esLider(lider)) return false;
+		//if(!esLider(lider)) return false;
 		
-		if(this.paises.contains(invitado)) return false;
-		
+		//if(this.paises.contains(invitado)) return false;
+		System.out.println(invitado.getNombre());
 		return this.paises.add(invitado);
 	}
 	

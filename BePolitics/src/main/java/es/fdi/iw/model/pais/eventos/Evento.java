@@ -3,18 +3,23 @@ package es.fdi.iw.model.pais.eventos;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.TipoRecurso;
 import es.fdi.iw.model.pais.eventos.TipoEvento;
+import es.fdi.iw.model.usuario.Usuario;
+
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  * Esto representa un evento, cada evento tendrá un título y una descripción, y 
@@ -50,6 +55,9 @@ public class Evento {
 	private int porcentaje4;
 	private TipoEvento tipoEvento;
 	private Date fecha;
+	
+	//Anado lista de ids
+	private Pais propietarioEvento;
 	
 	private boolean eligioLaPrimeraRespuesta;
 	private boolean resuelto;
@@ -294,9 +302,8 @@ public class Evento {
 		return this.respondido;
 	}
 	
-	
-	
-	
+
+
 	
 	
 	public void setRespondido(boolean respondido) {
@@ -305,7 +312,13 @@ public class Evento {
 
 	
 	
-	
+	@ManyToOne(targetEntity=Pais.class)
+	public Pais getPropietarioEvento() {
+		return propietarioEvento;
+	}
+	public void setPropietarioEvento(Pais propietarioEvento) {
+		this.propietarioEvento = propietarioEvento;
+	}
 	
 	@Id
     @GeneratedValue
@@ -324,4 +337,5 @@ public class Evento {
 	public void setGestorEvento(GestorEventos gestorEvento) {
 		this.gestorEvento = gestorEvento;
 	}
+
 }

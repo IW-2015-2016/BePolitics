@@ -1,6 +1,7 @@
 package es.fdi.iw.model.pais;
 
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +26,7 @@ import javax.persistence.OneToOne;
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
 import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
+import es.fdi.iw.model.pais.eventos.Evento;
 import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
 import es.fdi.iw.model.pais.relaciones.Guerras;
 import es.fdi.iw.model.politicos.Politico;
@@ -59,6 +61,8 @@ public class Pais {
 	private List<ModificadorProduccion> modificadores;
 	private Date lastProduction;
 	
+	private List<Evento> eventos;
+	
 	public Pais(){
 		
 	}
@@ -66,11 +70,16 @@ public class Pais {
 	
 	
 	public Pais(Construcciones construcciones, String nombre,  Recursos recursos) {
+	
 		this.nombre = nombre;
 		this.construcciones = construcciones;
 		this.recursos = recursos;
+		
+		
 		this.comunidad = new ComunidadEconomica();
 		this.comunidad.setAdmin(this);
+		//this.comunidad.setPaises(new ArrayList<Pais>());
+
 		Calendar yesterday = Calendar.getInstance();
 		yesterday.add(Calendar.DATE, -1);
 		this.lastProduction = new Date(yesterday.getTimeInMillis());
@@ -110,6 +119,14 @@ public class Pais {
 		this.politicos = (List<Politico>) politicos;
 	}
 	
+	@OneToMany(targetEntity=Evento.class)
+	@JoinColumn(name="propietarioEvento") 
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = (List<Evento>) eventos;
+	}
 	
 	@OneToOne(targetEntity=Recursos.class,cascade=CascadeType.ALL)  
 	public Recursos getRecursos() {

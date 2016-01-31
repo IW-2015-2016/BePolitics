@@ -4,20 +4,27 @@ package es.fdi.iw.model.usuario;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import es.fdi.iw.model.Book;
 import es.fdi.iw.model.Genero;
 
 import es.fdi.iw.model.pais.Pais;
+import es.fdi.iw.model.pais.eventos.Evento;
 import es.fdi.iw.model.politicos.ExceptionPolitico;
 
 
@@ -56,6 +63,7 @@ public class Usuario {
 	private static BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder(); //(07-seguridad-en-web)
 	private String hashedAndSalted; //(07-seguridad-en-web)
 	
+
 	
 	//Se debe crear un constructor vacío para evitar este error: No default constructor for entity:
 	public Usuario(){}
@@ -192,6 +200,8 @@ public class Usuario {
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
+	
+	
 	public static String generateHashedAndSalted(String pass) {
 		/*
 		Código viejo: sólo 1 iteración de SHA-1. bCrypt es mucho más seguro (itera 1024 veces...)
@@ -213,5 +223,7 @@ public class Usuario {
 
 		return u;
 	}
+
+
 	
 }
