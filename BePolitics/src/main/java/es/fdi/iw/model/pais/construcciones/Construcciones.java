@@ -51,16 +51,11 @@ public class Construcciones {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public Construcciones(){}
 	
 	/**
-	 *  Crea una construccion desde cero
-	 * @param nombre
-	 * @param rec
+	 *  Crea el conjunto de construcciones para un pais
 	 */
-	//TODO porque el string
-	public Construcciones(String prueba){
+	public Construcciones(){
 		int max_construcciones =TipoConstruccion.getNumConstrucciones();
 		int max_recursos = TipoRecurso.getNumTipoRecursos();
 			this.nivel = new int[max_construcciones];

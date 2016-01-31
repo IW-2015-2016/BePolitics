@@ -396,6 +396,8 @@ public class HomeController {
 		return "crearEvento";
 	}
 
+	
+	
 	@RequestMapping(value = "/crearEven", method = RequestMethod.POST)
 	@Transactional
 	public String nuevoEvento(@RequestParam("nombreEvento") String formNombreEvento,
@@ -706,80 +708,7 @@ public class HomeController {
 		return "iniciarSesion";
 	}
 
-	// TODO crear el pais despues de crear al usuario
-
-	@RequestMapping(value = "/crearUsuario", method = RequestMethod.POST)
-	@Transactional
-	public String nuevaCuenta(@RequestParam("nombre") String formNombre,
-			@RequestParam("apellidos") String formApellidos, @RequestParam("correo") String formCorreo,
-			@RequestParam("genero") String formGenero, @RequestParam("edad") String formEdad,
-			@RequestParam("nick") String formNick, @RequestParam("contra") String formContra,
-			@RequestParam("pais") String formPais, @RequestParam("lider") String formLider,
-			@RequestParam("rol") String formRol, @RequestParam("source") String formSource,
-
-			HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) {
-
-		Pais p = null;
-		if (formRol.isEmpty()) {
-			formRol = "UsuarioRegistrado";
-		}
-
-		int edad = Integer.parseInt(formEdad);
-		Usuario u = null;
-
-		boolean isLoggedIn = session.getAttribute("rol") != null;
-
-		try {
-			formRol = formRol.toLowerCase();
-			if (formRol.equals("administrador") || formRol.equals("editor")) {
-				// agujero gordo si !isAdmin pero especifica rol admin
-
-				// TODO BORRAR
-				/*
-				 * Construcciones c= new Construcciones(" ");
-				 * entityManager.persist(c); Recursos re = new Recursos();
-				 * entityManager.persist(re); p = new Pais(c,formPais,re);
-				 * entityManager.persist(p);
-				 * 
-				 */
-
-				Rol r = formRol.equals("editor") ? Rol.Editor : Rol.Administrador;
-				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad, formNick, null,
-						TipoLider.valueOf(formLider), formContra, r);
-			} else {
-
-				Construcciones c = new Construcciones(" ");
-				entityManager.persist(c);
-				Recursos r = new Recursos();
-				entityManager.persist(r);
-				p = new Pais(c, formPais, r);
-				entityManager.persist(p);
-				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad, formNick, p,
-						TipoLider.valueOf(formLider), formContra, Rol.Administrador);
-			}
-
-			entityManager.persist(u);
-			// entityManager.flush(); // <- implicito al final de la transaccion
-
-			String rol = u.getRol().toString();
-			System.out.println(rol);
-			if (!esAdministrador(session)) {
-				session.setAttribute("rol", u);
-				getTokenForSession(session);
-			} else {
-				// String formSource = request.getParameter("formSource");
-				return "redirect:" + formSource;
-			}
-
-		} catch (ExceptionUsuario e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return "home2";
-
-	}
-
+	
 
 	@RequestMapping(value = "/eventosEditor", method = RequestMethod.GET)
 	public String eventosEditor(Locale locale, Model model, HttpSession session) {
@@ -824,9 +753,10 @@ public class HomeController {
 
 	@RequestMapping(value = "/alianzas", method = RequestMethod.GET)
 	public String alianzas(Locale locale, Model model, HttpSession session) {
-
-		session.setAttribute("user", "pedro");// session.setAttribute("user",
-												// "juan");
+		Usuario u = (Usuario) session.getAttribute("rol");
+		model.addAttribute("com",
+				entityManager.createQuery("select c from ComunidadEconomica c where c.admin.id = "+ u.getPais().getId())
+						.getResultList());
 		return "alianzas";
 	}
 	
@@ -1009,7 +939,12 @@ public class HomeController {
 				entityManager.merge(p);
 				entityManager.merge(pr);
 				entityManager.flush();
+				
+
+				response.setStatus(HttpServletResponse.SC_OK);
+				return "OK";
 			}
+			b = null;
 			/*
 			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
 			 * 
@@ -1019,16 +954,15 @@ public class HomeController {
 			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
 			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
 			 */
-			b = null;
 
-			response.setStatus(HttpServletResponse.SC_OK);
-			return "OK";
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "ERR";
 	}
 	
 	/**************************************************************/
@@ -1039,6 +973,84 @@ public class HomeController {
 	/************************** USUARIOS **************************/
 	/**************************************************************/
 
+	// TODO crear el pais despues de crear al usuario
+
+		@RequestMapping(value = "/crearUsuario", method = RequestMethod.POST)
+		@Transactional
+		public String nuevaCuenta(@RequestParam("nombre") String formNombre,
+				@RequestParam("apellidos") String formApellidos, @RequestParam("correo") String formCorreo,
+				@RequestParam("genero") String formGenero, @RequestParam("edad") String formEdad,
+				@RequestParam("nick") String formNick, @RequestParam("contra") String formContra,
+				@RequestParam("pais") String formPais, @RequestParam("lider") String formLider,
+				@RequestParam("rol") String formRol, @RequestParam("source") String formSource,
+
+				HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) {
+
+			Pais p = null;
+			if (formRol.isEmpty()) {
+				formRol = "UsuarioRegistrado";
+			}
+
+			int edad = Integer.parseInt(formEdad);
+			Usuario u = null;
+
+			boolean isLoggedIn = session.getAttribute("rol") != null;
+
+			try {
+				formRol = formRol.toLowerCase();
+				if (formRol.equals("administrador") || formRol.equals("editor")) {
+					// agujero gordo si !isAdmin pero especifica rol admin
+
+					// TODO BORRAR
+					/*
+					 * Construcciones c= new Construcciones(" ");
+					 * entityManager.persist(c); Recursos re = new Recursos();
+					 * entityManager.persist(re); p = new Pais(c,formPais,re);
+					 * entityManager.persist(p);
+					 * 
+					 */
+
+					Rol r = formRol.equals("editor") ? Rol.Editor : Rol.Administrador;
+					u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad, formNick, null,
+							TipoLider.valueOf(formLider), formContra, r);
+				} else {
+
+					Construcciones c = new Construcciones();
+					Recursos r = new Recursos();
+					p = new Pais(c, formPais, r);
+					u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad, formNick, p,
+							TipoLider.valueOf(formLider), formContra, Rol.Administrador);
+					u.setPais(p);
+					
+					entityManager.persist(c);
+					entityManager.persist(p);
+					entityManager.persist(p);
+				}
+
+				entityManager.persist(u);
+				// entityManager.flush(); // <- implicito al final de la transaccion
+
+				String rol = u.getRol().toString();
+				System.out.println(rol);
+				if (!esAdministrador(session)) {
+					session.setAttribute("rol", u);
+					getTokenForSession(session);
+				} else {
+					// String formSource = request.getParameter("formSource");
+					return "redirect:" + formSource;
+				}
+
+			} catch (ExceptionUsuario e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return "home2";
+
+		}
+
+	
+	
 	@RequestMapping(value = "/entrar", method = RequestMethod.POST)
 	@Transactional
 	public String nuevaSesion(@RequestParam("nick") String formNick, @RequestParam("contra") String formContra,
@@ -1103,14 +1115,14 @@ public class HomeController {
 			p = entityManager.find(Pais.class, p.getId());
 
 			if (formPais != "") {
-				p.setComunidad(p.getComunidad());
-				p.setConstrucciones(p.getConstrucciones());
-				p.setGuerra(p.getGuerra());
-				p.setId(p.getId());
-				p.setLastProduction(p.getLastProduction());
-				p.setModificadores(p.getModificadores());
-				p.setPoliticos(p.getPoliticos());
-				p.setRecursos(p.getRecursos());
+//				p.setComunidad(p.getComunidad());
+//				p.setConstrucciones(p.getConstrucciones());
+//				p.setGuerra(p.getGuerra());
+//				p.setId(p.getId());
+//				p.setLastProduction(p.getLastProduction());
+//				p.setModificadores(p.getModificadores());
+//				p.setPoliticos(p.getPoliticos());
+//				p.setRecursos(p.getRecursos());
 				p.setNombre(formPais);
 				u.setPais(p);
 			}
@@ -1181,7 +1193,9 @@ public class HomeController {
 		model.addAttribute("user", "pedro");
 		return "home2";
 	}
-
+	/**
+	 * Borra el editor
+	 */
 	@RequestMapping(value = "/editor/{id}", method = RequestMethod.DELETE)
 	@Transactional
 	@ResponseBody
@@ -1199,7 +1213,9 @@ public class HomeController {
 			return "ERR";
 		}
 	}
-
+	/**
+	 * Borra el usuario cuya id se visita. 
+	 */
 	@RequestMapping(value = "/usuario/{id}", method = RequestMethod.DELETE)
 	@Transactional
 	@ResponseBody
@@ -1408,12 +1424,11 @@ public class HomeController {
 		int edad = Integer.parseInt(formEdad);
 		Usuario u = null;
 
-		Construcciones c = new Construcciones(" ");
-		entityManager.persist(c);
+		Construcciones c = new Construcciones();
 		Recursos r = new Recursos();
-		entityManager.persist(r);
 		p = new Pais(c, formPais, r);
-		entityManager.persist(p);
+		
+		
 
 		try {
 
@@ -1424,8 +1439,9 @@ public class HomeController {
 			
 			Usuario editor = new Usuario("ratón", "Perez", "perez@yahoo.es", Genero.Hombre, 35, "Perez", null, null,
 					formContra, Rol.Editor);
-			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, formNick, p, TipoLider.REY,
+			Usuario ur = new Usuario("Lola", formApellidos, formCorreo, Genero.Hombre, edad, "Juani", p, TipoLider.REY,
 					formContra, Rol.UsuarioRegistrado);
+			p.setUsuario(ur);
 			
 			Politico pol;
 			pol = new Politico();
@@ -1436,7 +1452,7 @@ public class HomeController {
 			pol.setPopularidad(80);
 			pol.setPropietario(null);
 			pol.setSumaStats(30 + 34 + 99 + 80);
-			pol.setPrecio(8.00);
+			pol.setPrecio(16.00);
 
 			pol.setCita("España va Bien");
 
@@ -1456,11 +1472,17 @@ public class HomeController {
 			 * entityManager.persist(r); p = new Pais(c,formPais,r);
 			 * entityManager.persist(p);
 			 */
-
+			// Persistencia del país
+			entityManager.persist(c);
+			entityManager.persist(r);
+			entityManager.persist(p);
+			//Persistencia de las noticias
 			entityManager.persist(n);
 			entityManager.persist(n1);
 			entityManager.persist(n2);
+			//Persistencia de los políticos
 			entityManager.persist(pol);
+			//Persistencia de los usuarios
 			entityManager.persist(u);
 			entityManager.persist(editor);
 			entityManager.persist(ur);
@@ -1468,7 +1490,7 @@ public class HomeController {
 
 			// String rol = u.getRol().toString();
 
-			session.setAttribute("rol", u);
+			session.setAttribute("rol", ur);
 			getTokenForSession(session);
 
 		} catch (ExceptionUsuario e) {
@@ -1479,7 +1501,6 @@ public class HomeController {
 		return "home2";
 
 	}
-
 	/**************************************************************/
 	/********************** FIN BACK DOOR *************************/
 	/**************************************************************/
