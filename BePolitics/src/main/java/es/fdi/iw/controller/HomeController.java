@@ -974,6 +974,7 @@ public class HomeController {
 		Construcciones c = p.getConstrucciones();
 		
 		System.out.println("id user="+ u.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
+		
 		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		
 		return "produccion";

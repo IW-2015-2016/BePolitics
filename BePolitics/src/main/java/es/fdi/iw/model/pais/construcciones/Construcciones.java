@@ -39,12 +39,7 @@ public class Construcciones {
 	private Politico[] politicoAlojado;
 	private String[] nombres;
 	private int[] nivel;
-	public long getIdPais() {
-		return idPais;
-	}
-	public void setIdPais(long idPais) {
-		this.idPais = idPais;
-	}
+
 	private long idPais;
 	
 	//[TiposConstruccion][TipoRecurso]
@@ -207,5 +202,11 @@ public class Construcciones {
 	}
 	public void setProduccion_hora(int[][] produccion_hora) {
 		this.produccion_hora = produccion_hora;
+	}
+	public long getIdPais() {
+		return idPais;
+	}
+	public void setIdPais(long idPais) {
+		this.idPais = idPais;
 	}
 }
