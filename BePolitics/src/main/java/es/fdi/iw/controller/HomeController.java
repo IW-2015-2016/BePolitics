@@ -964,7 +964,7 @@ public class HomeController {
 	@Transactional
 	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
 		//TODO arreglar pérdida del css
-		System.out.println("\nAquí está llegando\n");
+		System.out.println("\n/produccion/{id}  Aquí está llegando\n");
 		Usuario u = entityManager.find(Usuario.class, id);
 		System.out.println(u.getNick());
 		Pais p = u.getPais();
@@ -1265,16 +1265,17 @@ public class HomeController {
 	/**
 	 * Sube el nivel a una construccion
 	 */
-	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.DELETE)
-	@Transactional
-	@ResponseBody
+	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.POST)
 	public String subeNivel(@PathVariable("id") long id, 
 							@PathVariable("building") int building, 
 							HttpServletResponse response, 
 							Model model) {
+		
+		System.out.println("/subeNivel, aquí llega");
+		
 		try {
 			//TODO comprobar código
-			//Obtener el usuario y 
+			
 			Usuario b = entityManager.find(Usuario.class, id);
 			b.getPais().getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(building), b.getPais().getRecursos());
 			

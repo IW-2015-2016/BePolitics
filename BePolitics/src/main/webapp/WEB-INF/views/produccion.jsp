@@ -1,7 +1,13 @@
 <%@ include file="../fragments/header.jsp"%>
 
 <%@ include file="../fragments/menu.jsp"%>
-
+<script type="text/javascript">
+	function visitaUrl(id,edificio){
+		alert("subeNivel/"+id+"/"+edificio);
+		window.location = "subeNivel/"+id+"/"+edificio;
+	}
+	
+</script>
 <div id="divCentro">
 	<div id="container">
 		<div id="superior">
@@ -16,7 +22,7 @@
 						<thead>
 							<tr>
 								<td><h2>${construcciones.nombres[loop.index]}</h2></td>
-								<td></td>
+								<td><button class="ministryButtonUno" id="${rol.id}/${loop.index}" onclick="visitaUrl(${rol.id},${loop.index})">Mejorar edificio</button></td>
 								<td><a class="linkHeader" href="subeNivel/${rol.id}/${loop.index}">Mejorar edificio</a></td>
 							</tr>
 						</thead>
