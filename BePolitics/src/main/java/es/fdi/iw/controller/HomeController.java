@@ -963,10 +963,7 @@ public class HomeController {
 	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
 	@Transactional
 	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
-		//TODO arreglar
-		
-
-		//model.addAttribute("construcciones",entityManager.createNamedQuery("construccionPorPais").setParameter("idPais", id).getSingleResult());
+		//TODO arreglar pérdida del css
 		System.out.println("\nAquí está llegando\n");
 		Usuario u = entityManager.find(Usuario.class, id);
 		System.out.println(u.getNick());
@@ -986,8 +983,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/produccion", method = RequestMethod.GET)
 	public String produccion(Locale locale, Model model, HttpSession session) {
-		//TODO no sé si tiene que devolver algo, en principio creo que no porque
-		//su redirección procede del método produccionId
+		//TODO no sé si tiene que devolver algo distinto, en principio creo que no porque
 		return "produccion";
 	}
 	
@@ -1266,6 +1262,32 @@ public class HomeController {
 		}
 		return "modificarUsuario";
 	}
+	/**
+	 * Sube el nivel a una construccion
+	 */
+	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.DELETE)
+	@Transactional
+	@ResponseBody
+	public String subeNivel(@PathVariable("id") long id, 
+							@PathVariable("building") int building, 
+							HttpServletResponse response, 
+							Model model) {
+		try {
+			//TODO comprobar código
+			//Obtener el usuario y 
+			Usuario b = entityManager.find(Usuario.class, id);
+			b.getPais().getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(building), b.getPais().getRecursos());
+			
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "redirect:produccion/"+id;
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+	}
+	
 	/**************************************************************/
 	/*********************** FIN USUARIOS *************************/
 	/**************************************************************/
@@ -1399,7 +1421,7 @@ public class HomeController {
 	/**************************************************************/
 	/*********************** BACK DOOR ****************************/
 	/**************************************************************/
-
+	//TODO borrar cuando vayamos a entregar
 	/**
 	 * Crea un administrador y redirige al home
 	 * 
@@ -1445,11 +1467,12 @@ public class HomeController {
 			
 			//Genera recursos al país del usuario registrado (p)
 			ur.getPais().getRecursos().produce(new int[] {10000,10000,10000,10000});
+/*//TODO descomentar
 			//Subo nivel a construcciones
 			for(int j=0;j<7;j++)
 				for(int i=0;i<TipoConstruccion.getNumConstrucciones();i++)
 				p.getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(i), r);
-
+*/
 
 			Politico pol;
 			pol = new Politico();

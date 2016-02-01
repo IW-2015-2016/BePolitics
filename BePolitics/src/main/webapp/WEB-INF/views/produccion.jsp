@@ -17,7 +17,7 @@
 							<tr>
 								<td><h2>${construcciones.nombres[loop.index]}</h2></td>
 								<td></td>
-								<td><a class="linkHeader" href="#">Mejorar edificio</a></td>
+								<td><a class="linkHeader" href="subeNivel/${rol.id}/${loop.index}">Mejorar edificio</a></td>
 							</tr>
 						</thead>
 						<!-- CUERPO DE LA TABLA -->
