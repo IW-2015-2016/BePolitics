@@ -54,7 +54,7 @@ public enum TipoConstruccion {
 			ret=6;
 			break;
 		case CONFERENCIA_EPISCOPAL:
-			ret=6;
+			ret=7;
 			break;
 		}
 		return ret;
@@ -128,5 +128,17 @@ public enum TipoConstruccion {
 		}
 		return ret;
         }
-	
+        public String toString() {
+            switch(this) {
+              case MINISTERIO_DE_INDUSTRIA: return "Ministerio de industria";
+              case MINISTERIO_DE_EDUCACION: return "Ministerio de educación";
+              case BOLSA_DE_VALORES: return "Bolsa de valores";
+              case MINISTERIO_DE_ECONOMIA: return "Ministerio de economía";
+              case MINISTERIO_DE_JUSTICIA: return "Ministerio de justicia";
+              case MINISTERIO_DE_SANIDAD: return "Ministerio de sanidad";
+              case PROMOTORAS_INMOBILIARIAS: return "Promotoras inmobiliarias";
+              case CONFERENCIA_EPISCOPAL: return "Conferencia episcopal";
+              default: throw new IllegalArgumentException();
+            }
+          }
 }

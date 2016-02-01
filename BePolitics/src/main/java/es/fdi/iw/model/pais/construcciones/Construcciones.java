@@ -28,37 +28,34 @@ import es.fdi.iw.model.politicos.Politico;
     @NamedQuery(name="allConstrucciones",
             query="select c from Construcciones c"),
     @NamedQuery(name="ConstruccionesById",
-    query="select c from Construcciones c where c.id = :id")
+    query="select c from Construcciones c where c.id = :id"),
+    @NamedQuery(name="construccionPorPais",
+    query="select c from Construcciones c where c.idPais = :idPais")
 })
 public class Construcciones {
 	
 	private long id;
 	//[TiposConstruccion]
 	private Politico[] politicoAlojado;
-
+	private String[] nombres;
 	private int[] nivel;
+
+	private long idPais;
 	
 	//[TiposConstruccion][TipoRecurso]
 	private int[][] coste;
 	private int[][] produccion_hora;
 
-	@Id
-    @GeneratedValue
-	public long getId() {
-		return id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+	public Construcciones(){}
 	/**
 	 *  Crea el conjunto de construcciones para un pais
 	 */
-	public Construcciones(){
+	public Construcciones(String needed){
 		int max_construcciones =TipoConstruccion.getNumConstrucciones();
 		int max_recursos = TipoRecurso.getNumTipoRecursos();
-			this.nivel = new int[max_construcciones];
+			this.nivel = new int [max_construcciones];
+			this.nombres = new String [max_construcciones];
 			this.coste = new int [max_construcciones][max_recursos];
 			this.produccion_hora = new int [max_construcciones][max_recursos];
             for(int i=0; i<max_construcciones;i++){
@@ -68,6 +65,7 @@ public class Construcciones {
                     this.coste[i][j]=1;
                     this.produccion_hora[i][j]=1;   
                 }
+                this.nombres[i]=TipoConstruccion.getConstruccion(i).toString();
             }
 	}
      
@@ -102,25 +100,28 @@ public class Construcciones {
         
         int idxConstruccion = TipoConstruccion.getIndex(t);
         // Comprueba si hay recursos
+        
         for (int i =0;i<TipoRecurso.getNumTipoRecursos();i++)
            if(this.coste[idxConstruccion][i]>r.getRecurso(i))
                return false;
-        
+       
         // Gastar recursos
         for(int i =0; i<TipoRecurso.getNumTipoRecursos();i++){
             try {
-                int idxRecurso =r.getRecurso(i);
-                if (r.getRecurso(i) < coste[idxConstruccion][idxRecurso]){
+                System.out.println("Banana");
+                if (r.getRecurso(i) < coste[idxConstruccion][i]){
                     return false;
                 }
+                System.out.println("Pepinillos");
                 if(TipoRecurso.seGasta(i)){
-                    r.sumaRecurso(TipoRecurso.getRecurso(i), (-1*coste[idxConstruccion][idxRecurso]));
+                    r.sumaRecurso(TipoRecurso.getRecurso(i), (-1*coste[idxConstruccion][i]));
                 }
                     
             } catch (IOException ex) {
                 Logger.getLogger(Construcciones.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
+            System.out.println("Barbilla");
         }
         //subir nivel
         this.nivel[idxConstruccion]++;
@@ -135,6 +136,24 @@ public class Construcciones {
         
         return true;            
     }
+    
+    
+	@Id
+    @GeneratedValue
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setNombres(String[] nombres){
+		this.nombres=nombres;
+	}
+	public String[] getNombres(){
+		return this.nombres;
+	}
+    
     /**
      * Devuelve el nivel de la construccion
      * @param t el tipo de construccion
@@ -163,5 +182,34 @@ public class Construcciones {
     									 TipoRecurso.getRecurso(r));
     }
 
-    
+	public Politico[] getPoliticoAlojado() {
+		return politicoAlojado;
+	}
+	public void setPoliticoAlojado(Politico[] politicoAlojado) {
+		this.politicoAlojado = politicoAlojado;
+	}
+	public int[] getNivel() {
+		return nivel;
+	}
+	public void setNivel(int[] nivel) {
+		this.nivel = nivel;
+	}
+	public int[][] getCoste() {
+		return coste;
+	}
+	public void setCoste(int[][] coste) {
+		this.coste = coste;
+	}
+	public int[][] getProduccion_hora() {
+		return produccion_hora;
+	}
+	public void setProduccion_hora(int[][] produccion_hora) {
+		this.produccion_hora = produccion_hora;
+	}
+	public long getIdPais() {
+		return idPais;
+	}
+	public void setIdPais(long idPais) {
+		this.idPais = idPais;
+	}
 }
