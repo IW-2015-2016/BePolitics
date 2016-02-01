@@ -973,6 +973,7 @@ public class HomeController {
 		
 		System.out.println("id user="+ u.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
 		
+		model.addAttribute("prefix", "../"); // para generar URLs relativas
 		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		
 		return "produccion";
