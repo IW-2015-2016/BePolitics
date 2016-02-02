@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,7 @@ import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
 import es.fdi.iw.model.pais.TipoRecurso;
 import es.fdi.iw.model.pais.eventos.Evento;
 import es.fdi.iw.model.pais.eventos.TipoEvento;
+import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
 import es.fdi.iw.model.politicos.ExceptionPolitico;
 import es.fdi.iw.model.politicos.Politico;
 import es.fdi.iw.model.usuario.ExceptionUsuario;
@@ -742,10 +744,13 @@ public class HomeController {
 	@RequestMapping(value = "/alianzas", method = RequestMethod.GET)
 	public String alianzas(Locale locale, Model model, HttpSession session) {
 		Usuario u = (Usuario) session.getAttribute("rol");
-		model.addAttribute("com",
-				entityManager
-						.createQuery("select c from ComunidadEconomica c where c.admin.id = " + u.getPais().getId())
-						.getResultList());
+		
+		model.addAttribute("miembros",
+				entityManager.createQuery("select ce from ComunidadEconomica ce where ce.admin.id = "
+						+ u.getPais().getId()).getSingleResult());
+		
+		//model.addAttribute("miembros", entityManager.createQuery("select p from mi_comunidad p").getResultList());
+		
 		return "alianzas";
 	}
 
@@ -929,15 +934,6 @@ public class HomeController {
 				return "OK";
 			}
 			b = null;
-			/*
-			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
-			 * 
-			 * b.setCarisma(b.getCarisma()); b.setCita(b.getCita());
-			 * b.setElocuencia(b.getElocuencia());
-			 * b.setHonestidad(b.getHonestidad()); b.setId(b.getId());
-			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
-			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
-			 */
 
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
@@ -1021,15 +1017,18 @@ public class HomeController {
 			} else {
 
 				Construcciones c = new Construcciones(" ");
+				ComunidadEconomica ce = new ComunidadEconomica();
 				Recursos r = new Recursos();
 				p = new Pais(c, formPais, r);
+				ce.setAdmin(p);
 				c.setIdPais(p.getId());
 				
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad, formNick, p,
 						TipoLider.valueOf(formLider), formContra, Rol.Administrador);
 				u.setPais(p);
-
+				p.setUsuario(u);
 				entityManager.persist(c);
+				entityManager.persist(ce);
 				entityManager.persist(p);
 				entityManager.persist(p);
 			}
@@ -1415,6 +1414,18 @@ public class HomeController {
 		return "redirect:" + "noticiasEditor";
 
 	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**************************************************************/
 	/********************** FIN NOTICIAS **************************/
@@ -1452,9 +1463,13 @@ public class HomeController {
 		Usuario u = null;
 
 		Construcciones c = new Construcciones(" ");
+		ComunidadEconomica ce = new ComunidadEconomica();
 		Recursos r = new Recursos();
 		p = new Pais(c, formPais, r);
+		ce.setAdmin(p);
 		c.setIdPais(p.getId());
+		
+		
 		
 
 		try {
@@ -1508,6 +1523,7 @@ public class HomeController {
 			// Persistencia del país
 			entityManager.persist(c);
 			entityManager.persist(r);
+			entityManager.persist(ce);
 			entityManager.persist(p);
 			// Persistencia de las noticias
 			entityManager.persist(n);
@@ -1521,8 +1537,30 @@ public class HomeController {
 			entityManager.persist(ur);
 			entityManager.flush();
 
-			// String rol = u.getRol().toString();
+			Pais nuevoPais = null;
 
+			Construcciones ca = new Construcciones(" ");
+			ComunidadEconomica cea = new ComunidadEconomica();
+			Recursos ra = new Recursos();
+			nuevoPais = new Pais(ca, "nuevo", ra);
+			cea.setAdmin(p);
+			ca.setIdPais(nuevoPais.getId());
+			entityManager.persist(cea);
+			entityManager.persist(nuevoPais);
+			entityManager.flush();
+			
+			
+			ComunidadEconomica b = entityManager.find(ComunidadEconomica.class, ce.getId());
+			System.out.println(ce.getId());
+			b.getPaises().add(nuevoPais);
+			
+			//ce.getPaises().add(nuevoPais);
+			//entityManager.merge(ce);
+			
+			
+			
+	
+			
 			session.setAttribute("rol", ur);
 			getTokenForSession(session);
 

@@ -8,10 +8,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import es.fdi.iw.model.Author;
 import es.fdi.iw.model.pais.Pais;
 
 
@@ -24,9 +29,20 @@ import es.fdi.iw.model.pais.Pais;
  *
  */
 @Entity
+@NamedQueries({
+
+    @NamedQuery(name="comunidadEconomicaByAdmin",
+        query="select ce from ComunidadEconomica ce where ce.admin = :param"),
+    @NamedQuery(name="delComunidadEconomica",
+    	query="delete from ComunidadEconomica ce where ce.id= :idParam")
+})
 public class ComunidadEconomica {
 	private long id;
+	private String nombre;
+	
 	private Pais admin;
+	
+	//Una comunidad economica se compone por varios paises
 	private List<Pais> paises;
 	
 	public ComunidadEconomica(){}
@@ -83,19 +99,27 @@ public class ComunidadEconomica {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
 	@OneToOne(targetEntity=Pais.class)
+	@JoinColumn(name="id")
 	public Pais getAdmin() {
 		return admin;
 	}
 	public void setAdmin(Pais admin) {
 		this.admin = admin;
 	}
-	@ManyToOne(targetEntity=Pais.class,cascade=CascadeType.ALL)
+	@ManyToMany(targetEntity=Pais.class, mappedBy="miComunidad")
 	public List<Pais> getPaises() {
 		return paises;
 	}
 	public void setPaises(List<Pais> paises) {
 		this.paises = paises;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	
