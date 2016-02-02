@@ -49,7 +49,6 @@ public class Evento {
 	private int porcentaje3;
 	private int porcentaje4;
 	private TipoEvento tipoEvento;
-	private Date fecha;
 	//Anado lista de ids
 	private Pais propietario_evento;
 	private boolean eligioLaPrimeraRespuesta;
@@ -73,7 +72,7 @@ public class Evento {
 	 */
 	public Evento(String tit, String desc, String opt1, String opt2, 
 			TipoRecurso tipRec1, TipoRecurso tipRec2, int porcent1, 
-			int porcent2, TipoEvento tipo,Date fecha) throws IOException{
+			int porcent2, TipoEvento tipo) throws IOException{
 		
 		if (tipo == TipoEvento.GUERRA) throw new IOException("Error, el constructor por defecto para guerra no tiene estos atributos");
 		this.eligioLaPrimeraRespuesta =false;
@@ -91,7 +90,6 @@ public class Evento {
 		this.respondido = false;
 		this.resuelto = false;
 		this.eligioLaPrimeraRespuesta = true;
-		this.fecha =fecha;
 		this.gestorEvento = null;
 		
 	}
@@ -129,6 +127,28 @@ public class Evento {
 		this.tipoEvento = tipo;
 		this.respondido = false;
 		this.resuelto = false;
+	}
+	public void EventoComunidad(String tit, String desc,TipoEvento tipo) throws IOException{
+		
+		if (tipo != TipoEvento.COMUNIDAD_ECONOMICA) throw new IOException("Error, no se puede crear un evento que no sea de Comunidad con este constructor");
+		
+	
+		this.titulo = tit;
+		this.descripcion = desc;
+		this.opcion1 = "Unirse";
+		this.opcion2 = "Rechazar";
+		
+	}
+	public void EventoGuerra(String tit, String desc,TipoEvento tipo) throws IOException{
+		
+		if (tipo != TipoEvento.GUERRA) throw new IOException("Error, no se puede crear un evento que no sea de Guerra con este constructor");
+		
+	
+		this.titulo = tit;
+		this.descripcion = desc;
+		this.opcion1 = "Luchar";
+		this.opcion2 = "Rendirse";
+		
 	}
 	
 	/**
@@ -284,13 +304,7 @@ public class Evento {
 	public TipoEvento getTipoEvento(){
 		return this.tipoEvento;
 	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-	public Date getFecha() {
-		return fecha;
-	}
-	
+
 	public boolean getRespondido(){
 		return this.respondido;
 	}

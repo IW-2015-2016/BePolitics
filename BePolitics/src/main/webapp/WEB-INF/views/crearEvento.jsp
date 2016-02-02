@@ -45,10 +45,7 @@
 				<label>Modificador </label><input type="number" name="modificador2" min="-100"
 						max="100">
 			</div>
-			<div id="parteCuatro" class="addevento">
-				<h3>Fecha de Activacion:</h3>
-				<input type="date" name="fechaActivacion">
-			</div>
+			
 		</div>
 	</form>
 </div>

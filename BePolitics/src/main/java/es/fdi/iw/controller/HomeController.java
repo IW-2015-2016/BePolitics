@@ -445,7 +445,7 @@ public class HomeController {
 			 * TipoEvento tipo, Date fecha)
 			 */
 			Evento e = new Evento(formNombreEvento, formDrecripcion, formNombreOpcion1, formNombreOpcion2, recurso1,
-					recurso2, modificador1, modificador2, evento, fecha);
+					recurso2, modificador1, modificador2, evento);
 			System.out.println(e.getTitulo());
 			entityManager.persist(e);
 			entityManager.flush();
@@ -534,9 +534,7 @@ public class HomeController {
 		if (formModificador2 != null) {
 			e.setPorcentaje1(modificador2);
 		}
-		if (formFechaActivacion != null) {
-			e.setFecha(sqlStartDate);
-		}
+	
 
 		entityManager.merge(e);
 
@@ -1668,6 +1666,8 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 					"El campo más bonito de la historia, que no es españa, pero sí lo es, tiene pepinillos verdes");
 			
 			
+			
+			//Aqui creo e inserto evento bien 
 			Evento e = new Evento();
 			
 			e.setTitulo("Rajoy la ha palmado");
@@ -1679,14 +1679,15 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			e.setOpcion2("llorar");
 			e.setRec2(TipoRecurso.APOYO_POPULAR);
 			e.setPorcentaje2(-10);
-			
+			entityManager.persist(e);
+			entityManager.flush();
 			
 
 		
 			
-			entityManager.persist(e);
+		
 			
-			p.getEventos().add(e);
+		
 			
 			/*
 			 * Construcciones c= new Construcciones(" ");
@@ -1699,7 +1700,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.persist(r);
 			entityManager.persist(ce);
 			entityManager.persist(p);
-			
+			entityManager.persist(e);
 			// Persistencia de las noticias
 			entityManager.persist(n);
 			entityManager.persist(n1);
