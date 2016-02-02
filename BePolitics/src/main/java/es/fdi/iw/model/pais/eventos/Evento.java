@@ -305,10 +305,10 @@ public class Evento {
 	}
 
 	@ManyToOne(targetEntity=Pais.class)
-	public Pais getPropietarioEvento() {
+	public Pais getPropietario_evento() {
 		return propietario_evento;
 	}
-	public void setPropietarioEvento(Pais propietarioEvento) {
+	public void setPropietario_evento(Pais propietarioEvento) {
 		this.propietario_evento = propietarioEvento;
 	}
 	

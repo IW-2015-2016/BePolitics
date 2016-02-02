@@ -158,7 +158,7 @@ public class Pais {
 		this.construcciones = construcciones;
 	}
 	@OneToMany(targetEntity=ModificadorProduccion.class)
-	@JoinColumn(name="propietario_evento") 
+	@JoinColumn(name="propietario") 
 	public List<ModificadorProduccion> getModificadores() {
 		return modificadores;
 	}
@@ -267,7 +267,7 @@ public class Pais {
 	}
 
 	@OneToMany(targetEntity=Evento.class)
-	@JoinColumn(name="propietarioEvento") 
+	@JoinColumn(name="propietario_evento") 
 	public List<Evento> getEventos() {
 		return eventos;
 	}

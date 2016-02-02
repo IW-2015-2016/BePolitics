@@ -573,7 +573,7 @@ public class HomeController {
 		Usuario u = (Usuario) session.getAttribute("rol");
 		
 		model.addAttribute("eventos",
-				entityManager.createQuery("Select e from Evento e where e.propietarioEvento = " + u.getPais().getId())
+				entityManager.createQuery("Select e from Evento e where e.propietario_evento = " + u.getPais().getId())
 						.getResultList());
 	
 		
