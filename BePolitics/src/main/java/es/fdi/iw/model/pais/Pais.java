@@ -15,15 +15,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-
-
-
+import es.fdi.iw.model.Author;
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
 import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
@@ -52,7 +51,7 @@ public class Pais {
 	private long id;
 	@Column(unique=true)
 	private String nombre;
-	private ComunidadEconomica comunidad;
+	
 	private List<Politico> politicos;
 	private Recursos recursos;
 	private Guerras guerra;
@@ -61,6 +60,17 @@ public class Pais {
 	private List<ModificadorProduccion> modificadores;
 	private Date lastProduction;
 	private Usuario usuario;
+	
+	/*Explicación:
+	 * Un libro se presta a un usuario
+	 * ====
+	 * Un pais administra una sola comunidadeconómica
+	 * */
+	//private ComunidadEconomica comunidad;
+	
+	//Un pais puede pertenecer a varias comunidades economicas
+	private List<ComunidadEconomica> miComunidad;
+	
 	public Pais(){
 		
 	}
@@ -73,15 +83,12 @@ public class Pais {
 		this.construcciones = construcciones;
 		this.recursos = recursos;
 		
-		
-		this.comunidad = new ComunidadEconomica();
-		this.comunidad.setAdmin(this);
-		//this.comunidad.setPaises(new ArrayList<Pais>());
-
 		Calendar yesterday = Calendar.getInstance();
 		yesterday.add(Calendar.DATE, -1);
 		this.lastProduction = new Date(yesterday.getTimeInMillis());
 		this.usuario = null;
+		this.miComunidad = new ArrayList<ComunidadEconomica>();
+		
 	}
 	@OneToOne(targetEntity=Usuario.class, fetch=FetchType.EAGER)
 	public Usuario getUsuario() {
@@ -156,13 +163,13 @@ public class Pais {
 		this.modificadores =  modificadores;
 	}
 	
-	@OneToOne(targetEntity=ComunidadEconomica.class,cascade=CascadeType.ALL)
+	/*@OneToOne(targetEntity=ComunidadEconomica.class,cascade=CascadeType.ALL)
 	public ComunidadEconomica getComunidad() {
 		return comunidad;
 	}
 	public void setComunidad(ComunidadEconomica comunidad) {
 		this.comunidad = comunidad;
-	}
+	}*/
 	
 	
 	/**
@@ -243,6 +250,21 @@ public class Pais {
 	public void setLastProduction(Date lastProduction) {
 		this.lastProduction = lastProduction;
 	}
+
+
+	@ManyToMany(targetEntity=ComunidadEconomica.class,fetch=FetchType.EAGER)
+	public List<ComunidadEconomica> getMiComunidad() {
+		return miComunidad;
+	}
+
+
+
+	public void setMiComunidad(List<ComunidadEconomica> miComunidad) {
+		this.miComunidad = miComunidad;
+	}
+
+
+
 	
 
 	
