@@ -403,7 +403,7 @@ public class HomeController {
 	@RequestMapping(value = "/crearEven", method = RequestMethod.POST)
 	@Transactional
 	public String nuevoEvento(@RequestParam("nombreEvento") String formNombreEvento,
-			@RequestParam("tipo") String formTipo, @RequestParam("descripcion") String formDrecripcion,
+			@RequestParam("descripcion") String formDrecripcion,
 			@RequestParam("nombreOpcion1") String formNombreOpcion1, @RequestParam("tipoRecurso1") String formRecurso1,
 			@RequestParam("modificador1") String formModificador1,
 			@RequestParam("nombreOpcion2") String formNombreOpcion2, @RequestParam("tipoRecurso2") String formRecurso2,
@@ -425,7 +425,7 @@ public class HomeController {
 
 		TipoRecurso recurso1 = TipoRecurso.stringtoRecurso(formRecurso1);
 		TipoRecurso recurso2 = TipoRecurso.stringtoRecurso(formRecurso2);
-		TipoEvento evento = TipoEvento.stringtoEvento(formTipo);
+		TipoEvento evento = TipoEvento.EVENTO_REGULAR;
 
 		System.out.println(formNombreEvento);
 		System.out.println(evento);
@@ -485,7 +485,7 @@ public class HomeController {
 	@RequestMapping(value = "/modificarEven", method = RequestMethod.POST)
 	@Transactional
 	public String modificarEven(@RequestParam("nombreEvento") String formNombreEvento,
-			@RequestParam("tipo") String formTipo, @RequestParam("descripcion") String formDrecripcion,
+			@RequestParam("descripcion") String formDrecripcion,
 			@RequestParam("nombreOpcion1") String formNombreOpcion1, @RequestParam("tipoRecurso1") String formRecurso1,
 			@RequestParam("modificador1") String formModificador1,
 			@RequestParam("nombreOpcion2") String formNombreOpcion2, @RequestParam("tipoRecurso2") String formRecurso2,
@@ -504,7 +504,6 @@ public class HomeController {
 
 		TipoRecurso recurso1 = TipoRecurso.stringtoRecurso(formRecurso1);
 		TipoRecurso recurso2 = TipoRecurso.stringtoRecurso(formRecurso2);
-		TipoEvento evento = TipoEvento.stringtoEvento(formTipo);
 		Long id = Long.parseLong(formId);
 
 		Evento e = entityManager.find(Evento.class, id);
@@ -512,9 +511,8 @@ public class HomeController {
 		if (formNombreEvento != "") {
 			e.setTitulo(formNombreEvento);
 		}
-		if (formTipo != null) {
-			e.setTipoEvento(evento);
-		}
+	
+
 		if (formDrecripcion != "") {
 			e.setDescripcion(formDrecripcion);
 		}
@@ -569,6 +567,52 @@ public class HomeController {
 			return "modificarEvento";
 		}
 		return "modificarEvento";
+	}
+	@RequestMapping(value = "/eventos", method = RequestMethod.GET)
+	public String eventos(Locale locale, Model model, HttpSession session) {
+		Usuario u = (Usuario) session.getAttribute("rol");
+		
+		model.addAttribute("eventos",
+				entityManager.createQuery("Select e from Evento e where e.propietarioEvento = " + u.getPais().getId())
+						.getResultList());
+	
+		
+		return "eventos";
+	}
+
+	@RequestMapping(value = "/opcionUno/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String opcionuno(@PathVariable("id") long id, HttpServletResponse response, Model model,
+			HttpSession session) {
+		try {
+			System.out.println("entro");
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Evento e = entityManager.find(Evento.class, id);
+			Pais p = entityManager.find(Pais.class, u.getPais().getId());
+				
+			//Tratar el evento.
+			
+
+			
+			/*
+			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
+			 * 
+			 * b.setCarisma(b.getCarisma()); b.setCita(b.getCita());
+			 * b.setElocuencia(b.getElocuencia());
+			 * b.setHonestidad(b.getHonestidad()); b.setId(b.getId());
+			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
+			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
+			 */
+
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "ERR";
 	}
 
 	/**
@@ -722,12 +766,7 @@ public class HomeController {
 		return "crearCuenta";
 	}
 
-	@RequestMapping(value = "/eventos", method = RequestMethod.GET)
-	public String eventos(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
-		return "eventos";
-	}
+
 
 	@RequestMapping(value = "/guerras", method = RequestMethod.GET)
 	public String guerras(Locale locale, Model model, HttpSession session) {
@@ -1627,6 +1666,28 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			n2.setTitulo("Hay pepinillos verdes en el campo");
 			n2.setCuerpo(
 					"El campo más bonito de la historia, que no es españa, pero sí lo es, tiene pepinillos verdes");
+			
+			
+			Evento e = new Evento();
+			
+			e.setTitulo("Rajoy la ha palmado");
+			e.setDescripcion("El  lider del pp ha muerto");
+			e.setTipoEvento(TipoEvento.EVENTO_REGULAR);
+			e.setOpcion1("Alegarse");
+			e.setRec1(TipoRecurso.APOYO_POPULAR);
+			e.setPorcentaje1(10);
+			e.setOpcion2("llorar");
+			e.setRec2(TipoRecurso.APOYO_POPULAR);
+			e.setPorcentaje2(-10);
+			
+			
+
+		
+			
+			entityManager.persist(e);
+			
+			p.getEventos().add(e);
+			
 			/*
 			 * Construcciones c= new Construcciones(" ");
 			 * entityManager.persist(c); Recursos r = new Recursos();
@@ -1638,6 +1699,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.persist(r);
 			entityManager.persist(ce);
 			entityManager.persist(p);
+			
 			// Persistencia de las noticias
 			entityManager.persist(n);
 			entityManager.persist(n1);

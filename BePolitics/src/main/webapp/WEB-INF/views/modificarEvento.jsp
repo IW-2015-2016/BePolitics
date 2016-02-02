@@ -13,12 +13,6 @@
 						value="${evento.id}" />
 		<div id="parteUno" class="addevento">
 				<label> Nombre </label><input type="text" name="nombreEvento" value="${evento.titulo}">
-						<label> Tipo Evento Antiguo: ${evento.tipoEvento} </label>
-			<select name="tipo">
-				<option>GUERRA</option>
-				<option>COMUNIDAD_ECONOMICA</option>
-				<option>EVENTO_REGULAR</option>
-			</select> 
 			<input name="submit" value="Publicar" type="submit"> <input
 				type="reset">
 		</div>

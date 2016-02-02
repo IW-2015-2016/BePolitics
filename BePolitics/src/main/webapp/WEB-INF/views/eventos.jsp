@@ -9,11 +9,61 @@
        else
           e.style.display = 'block';
     }
+
+	$(
+			function() {
+
+				$("button.ministryButtonDos")
+						.click(
+								function() {
+									var id = $(this).attr("id").substring(
+											"e_".length);
+									var row = $("#e_" + id).parent();
+									$
+											.ajax({
+												url : "${prefix}opcionUno/"
+														+ id,
+												type : "GET",
+												success : function(d) {
+													console
+															.log("ok - this worked");
+													$("#e_" + id).remove();
+												},
+												error : function(d) {
+													alert("");
+												}
+											})
+								});
+
+			})
 </script>
 <div id="divCentro">
 <div id="titulo">
 			<h1>Eventos</h1>
 		</div>	
+		
+		<c:forEach items="${eventos}" var="ev">
+			<div id="e_${ev.id}">
+					<div id="popup-box1" class ="popup-position">
+	<div id="popup-wrapper">
+	 <p><a href="javascript:void(0)" onclick="toggle_visibility('popup-box1')"><i class="fa fa-times"></i></a></p>
+			<div id="popup-container">
+			<div >
+			<h2>${ev.titulo }</h2>
+		</div>	<p>
+				${ev.descripcion }
+				</p>
+				<div class="popup-botones">
+				<button class="ministryButton" id="e_${ev.id}">${ev.opcion1 }</button>
+				<button class="ministryButtonDos" id="e_${ev.id}">${ev.opcion2 }</button>
+				</div>
+			</div>
+	
+	</div>
+
+</div>
+			</div>
+		</c:forEach>
 <div id="popup-box1" class ="popup-position">
 	<div id="popup-wrapper">
 	 <p><a href="javascript:void(0)" onclick="toggle_visibility('popup-box1')"><i class="fa fa-times"></i></a></p>

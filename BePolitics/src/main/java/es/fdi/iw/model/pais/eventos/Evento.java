@@ -50,7 +50,8 @@ public class Evento {
 	private int porcentaje4;
 	private TipoEvento tipoEvento;
 	private Date fecha;
-	
+	//Anado lista de ids
+	private Pais propietario_evento;
 	private boolean eligioLaPrimeraRespuesta;
 	private boolean resuelto;
 	private GestorEventos gestorEvento;
@@ -303,6 +304,13 @@ public class Evento {
 		this.respondido = respondido;
 	}
 
+	@ManyToOne(targetEntity=Pais.class)
+	public Pais getPropietarioEvento() {
+		return propietario_evento;
+	}
+	public void setPropietarioEvento(Pais propietarioEvento) {
+		this.propietario_evento = propietarioEvento;
+	}
 	
 	
 	

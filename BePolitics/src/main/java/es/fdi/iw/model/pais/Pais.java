@@ -26,6 +26,7 @@ import es.fdi.iw.model.Author;
 import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.construcciones.Construcciones;
 import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
+import es.fdi.iw.model.pais.eventos.Evento;
 import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
 import es.fdi.iw.model.pais.relaciones.Guerras;
 import es.fdi.iw.model.politicos.Politico;
@@ -60,6 +61,8 @@ public class Pais {
 	private List<ModificadorProduccion> modificadores;
 	private Date lastProduction;
 	private Usuario usuario;
+	
+	private List<Evento> eventos;
 	
 	/*Explicación:
 	 * Un libro se presta a un usuario
@@ -155,7 +158,7 @@ public class Pais {
 		this.construcciones = construcciones;
 	}
 	@OneToMany(targetEntity=ModificadorProduccion.class)
-	@JoinColumn(name="propietario") 
+	@JoinColumn(name="propietario_evento") 
 	public List<ModificadorProduccion> getModificadores() {
 		return modificadores;
 	}
@@ -263,7 +266,14 @@ public class Pais {
 		this.miComunidad = miComunidad;
 	}
 
-
+	@OneToMany(targetEntity=Evento.class)
+	@JoinColumn(name="propietarioEvento") 
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = (List<Evento>) eventos;
+	}
 
 	
 
