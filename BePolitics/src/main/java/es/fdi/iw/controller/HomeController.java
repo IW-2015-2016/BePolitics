@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -51,6 +53,7 @@ import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
 import es.fdi.iw.model.pais.TipoRecurso;
 import es.fdi.iw.model.pais.eventos.Evento;
 import es.fdi.iw.model.pais.eventos.TipoEvento;
+import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
 import es.fdi.iw.model.politicos.ExceptionPolitico;
 import es.fdi.iw.model.politicos.Politico;
 import es.fdi.iw.model.usuario.ExceptionUsuario;
@@ -235,6 +238,7 @@ public class HomeController {
 	@ResponseBody
 	public String rmbook(@PathVariable("id") long id, HttpServletResponse response, Model model) {
 		try {
+	 
 			Book b = entityManager.find(Book.class, id);
 			for (Author a : b.getAuthors()) {
 				a.getWritings().remove(b);
@@ -399,7 +403,7 @@ public class HomeController {
 	@RequestMapping(value = "/crearEven", method = RequestMethod.POST)
 	@Transactional
 	public String nuevoEvento(@RequestParam("nombreEvento") String formNombreEvento,
-			@RequestParam("tipo") String formTipo, @RequestParam("descripcion") String formDrecripcion,
+			@RequestParam("descripcion") String formDrecripcion,
 			@RequestParam("nombreOpcion1") String formNombreOpcion1, @RequestParam("tipoRecurso1") String formRecurso1,
 			@RequestParam("modificador1") String formModificador1,
 			@RequestParam("nombreOpcion2") String formNombreOpcion2, @RequestParam("tipoRecurso2") String formRecurso2,
@@ -421,7 +425,7 @@ public class HomeController {
 
 		TipoRecurso recurso1 = TipoRecurso.stringtoRecurso(formRecurso1);
 		TipoRecurso recurso2 = TipoRecurso.stringtoRecurso(formRecurso2);
-		TipoEvento evento = TipoEvento.stringtoEvento(formTipo);
+		TipoEvento evento = TipoEvento.EVENTO_REGULAR;
 
 		System.out.println(formNombreEvento);
 		System.out.println(evento);
@@ -435,13 +439,9 @@ public class HomeController {
 		System.out.println(fecha);
 
 		try {
-			/*
-			 * (String tit, String desc, String opt1, String opt2, TipoRecurso
-			 * tipRec1, TipoRecurso tipRec2, int porcent1, int porcent2,
-			 * TipoEvento tipo, Date fecha)
-			 */
 			Evento e = new Evento(formNombreEvento, formDrecripcion, formNombreOpcion1, formNombreOpcion2, recurso1,
-					recurso2, modificador1, modificador2, evento, fecha);
+					recurso2, modificador1, modificador2, evento);
+			
 			System.out.println(e.getTitulo());
 			entityManager.persist(e);
 			entityManager.flush();
@@ -481,7 +481,7 @@ public class HomeController {
 	@RequestMapping(value = "/modificarEven", method = RequestMethod.POST)
 	@Transactional
 	public String modificarEven(@RequestParam("nombreEvento") String formNombreEvento,
-			@RequestParam("tipo") String formTipo, @RequestParam("descripcion") String formDrecripcion,
+			@RequestParam("descripcion") String formDrecripcion,
 			@RequestParam("nombreOpcion1") String formNombreOpcion1, @RequestParam("tipoRecurso1") String formRecurso1,
 			@RequestParam("modificador1") String formModificador1,
 			@RequestParam("nombreOpcion2") String formNombreOpcion2, @RequestParam("tipoRecurso2") String formRecurso2,
@@ -500,7 +500,6 @@ public class HomeController {
 
 		TipoRecurso recurso1 = TipoRecurso.stringtoRecurso(formRecurso1);
 		TipoRecurso recurso2 = TipoRecurso.stringtoRecurso(formRecurso2);
-		TipoEvento evento = TipoEvento.stringtoEvento(formTipo);
 		Long id = Long.parseLong(formId);
 
 		Evento e = entityManager.find(Evento.class, id);
@@ -508,9 +507,8 @@ public class HomeController {
 		if (formNombreEvento != "") {
 			e.setTitulo(formNombreEvento);
 		}
-		if (formTipo != null) {
-			e.setTipoEvento(evento);
-		}
+	
+
 		if (formDrecripcion != "") {
 			e.setDescripcion(formDrecripcion);
 		}
@@ -532,9 +530,7 @@ public class HomeController {
 		if (formModificador2 != null) {
 			e.setPorcentaje1(modificador2);
 		}
-		if (formFechaActivacion != null) {
-			e.setFecha(sqlStartDate);
-		}
+	
 
 		entityManager.merge(e);
 
@@ -565,6 +561,52 @@ public class HomeController {
 			return "modificarEvento";
 		}
 		return "modificarEvento";
+	}
+	@RequestMapping(value = "/eventos", method = RequestMethod.GET)
+	public String eventos(Locale locale, Model model, HttpSession session) {
+		Usuario u = (Usuario) session.getAttribute("rol");
+		
+		model.addAttribute("eventos",
+				entityManager.createQuery("Select e from Evento e where e.propietario_evento = " + u.getPais().getId())
+						.getResultList());
+	
+		
+		return "eventos";
+	}
+
+	@RequestMapping(value = "/opcionUno/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String opcionuno(@PathVariable("id") long id, HttpServletResponse response, Model model,
+			HttpSession session) {
+		try {
+			System.out.println("entro");
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Evento e = entityManager.find(Evento.class, id);
+			Pais p = entityManager.find(Pais.class, u.getPais().getId());
+				
+			//Tratar el evento.
+			
+
+			
+			/*
+			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
+			 * 
+			 * b.setCarisma(b.getCarisma()); b.setCita(b.getCita());
+			 * b.setElocuencia(b.getElocuencia());
+			 * b.setHonestidad(b.getHonestidad()); b.setId(b.getId());
+			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
+			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
+			 */
+
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "ERR";
 	}
 
 	/**
@@ -718,12 +760,7 @@ public class HomeController {
 		return "crearCuenta";
 	}
 
-	@RequestMapping(value = "/eventos", method = RequestMethod.GET)
-	public String eventos(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
-		return "eventos";
-	}
+
 
 	@RequestMapping(value = "/guerras", method = RequestMethod.GET)
 	public String guerras(Locale locale, Model model, HttpSession session) {
@@ -742,10 +779,20 @@ public class HomeController {
 	@RequestMapping(value = "/alianzas", method = RequestMethod.GET)
 	public String alianzas(Locale locale, Model model, HttpSession session) {
 		Usuario u = (Usuario) session.getAttribute("rol");
-		model.addAttribute("com",
-				entityManager
-						.createQuery("select c from ComunidadEconomica c where c.admin.id = " + u.getPais().getId())
-						.getResultList());
+		
+		model.addAttribute("miembros",
+				entityManager.createQuery("select m from ComunidadEconomica ce JOIN ce.paises m where  ce.admin.id = "
+						+ u.getPais().getId()).getResultList());
+		
+		Query otrosPaises = entityManager.createQuery("select p from Pais p where p not in"
+				+ "(select cep from ComunidadEconomica ce JOIN ce.paises cep "
+				+ "where ce.admin.id = "
+				+ u.getPais().getId()+ ") and p.id <> "
+						+ u.getPais().getId());
+	
+		model.addAttribute("otros",otrosPaises.getResultList());
+		
+				
 		return "alianzas";
 	}
 
@@ -929,15 +976,6 @@ public class HomeController {
 				return "OK";
 			}
 			b = null;
-			/*
-			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
-			 * 
-			 * b.setCarisma(b.getCarisma()); b.setCita(b.getCita());
-			 * b.setElocuencia(b.getElocuencia());
-			 * b.setHonestidad(b.getHonestidad()); b.setId(b.getId());
-			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
-			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
-			 */
 
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
@@ -1021,15 +1059,18 @@ public class HomeController {
 			} else {
 
 				Construcciones c = new Construcciones(" ");
+				ComunidadEconomica ce = new ComunidadEconomica();
 				Recursos r = new Recursos();
 				p = new Pais(c, formPais, r);
+				ce.setAdmin(p);
 				c.setIdPais(p.getId());
 				
 				u = new Usuario(formNombre, formApellidos, formCorreo, Genero.valueOf(formGenero), edad, formNick, p,
 						TipoLider.valueOf(formLider), formContra, Rol.Administrador);
 				u.setPais(p);
-
+				p.setUsuario(u);
 				entityManager.persist(c);
+				entityManager.persist(ce);
 				entityManager.persist(p);
 				entityManager.persist(p);
 			}
@@ -1264,6 +1305,118 @@ public class HomeController {
 		return "modificarUsuario";
 	}
 	/**
+	 * Expulsar a un miembro de la comunidad económica.
+	 */
+
+	@RequestMapping(value = "/expulsar/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String expulsarPais(@PathVariable("id") long id, HttpServletResponse response, Model model,HttpSession session) {
+		try {
+			
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Query q = entityManager.createQuery("select ce from ComunidadEconomica ce where ce.admin.id = "
+					+ u.getPais().getId());
+			ComunidadEconomica miComunidadEconomica = (ComunidadEconomica) q.getSingleResult();
+			Pais paisExpulsar = entityManager.find(Pais.class, id);
+			
+			miComunidadEconomica.getPaises().remove(paisExpulsar);
+			paisExpulsar.getMiComunidad().remove(miComunidadEconomica);
+			
+			entityManager.merge(miComunidadEconomica);
+			entityManager.merge(paisExpulsar);
+			entityManager.flush();
+
+			
+			paisExpulsar = null;
+			miComunidadEconomica  = null;
+			u = null;
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "OK";
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+	}
+	
+	/***
+	 * Invitar a un nuevo pais a mi comunidad económica
+	 * @param id
+	 * @param response
+	 * @param model
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/invitar/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String invitarPais(@PathVariable("id") long id, HttpServletResponse response, Model model,HttpSession session) {
+		System.out.println(id);
+		try {
+			
+			//TODO crear un evento y enviarlo al pais correspondiente
+			Usuario u = (Usuario) session.getAttribute("rol");
+			
+			Query q = entityManager.createQuery("select ce from ComunidadEconomica ce where ce.admin.id = "
+					+ u.getPais().getId());
+			ComunidadEconomica miComunidadEconomica = (ComunidadEconomica) q.getSingleResult();
+			Pais paisInvitado = entityManager.find(Pais.class, id);
+			
+			miComunidadEconomica.getPaises().add(paisInvitado);
+			paisInvitado.getMiComunidad().add(miComunidadEconomica);
+			
+			// Evento(String tit, String desc,TipoEvento tipo, Pais propietario_evento) 
+			//TODO si no funciona da igual
+			
+			/* 
+			try {
+				Evento eventoPaisInvitado = new Evento("Nueva comunidad económica", "Tu país forma parte de la comunidad económica del país "
+						+ u.getPais().getNombre(),
+						TipoEvento.COMUNIDAD_ECONOMICA,paisInvitado);
+				paisInvitado.getEventos().add(eventoPaisInvitado);
+				
+				Evento eventoMiPais = new Evento("Nuevo país en comunidad económica",
+						"Se incorporado el país "+ paisInvitado.getNombre()+ " a tu comunidad económica",
+						TipoEvento.COMUNIDAD_ECONOMICA, u.getPais());
+				u.getPais().getEventos().add(eventoMiPais);
+				
+				entityManager.merge(eventoPaisInvitado);
+				entityManager.merge(eventoMiPais);
+				entityManager.merge(u.getPais());
+			} catch (IOException e) {
+				// 
+				e.printStackTrace();
+			}
+			*/
+			
+			
+			
+			
+			entityManager.merge(miComunidadEconomica);
+			entityManager.merge(paisInvitado);
+			entityManager.flush();
+			
+			u = null;
+			miComunidadEconomica = null;
+			paisInvitado = null;
+			model.addAttribute("prefix", "../"); // para generar URLs relativas
+			
+			System.out.println(id);
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "OK";
+			
+		} catch (NoResultException nre) {
+			logger.error("No se ha podido invitar al pais: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+	}
+	
+	
+	/**
 	 * Sube el nivel a una construccion
 	 */
 	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.POST)
@@ -1415,6 +1568,18 @@ public class HomeController {
 		return "redirect:" + "noticiasEditor";
 
 	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**************************************************************/
 	/********************** FIN NOTICIAS **************************/
@@ -1452,9 +1617,12 @@ public class HomeController {
 		Usuario u = null;
 
 		Construcciones c = new Construcciones(" ");
+		ComunidadEconomica ce = new ComunidadEconomica();
 		Recursos r = new Recursos();
 		p = new Pais(c, formPais, r);
+		ce.setAdmin(p);
 		c.setIdPais(p.getId());
+	
 		
 
 		try {
@@ -1499,16 +1667,38 @@ public class HomeController {
 			n2.setTitulo("Hay pepinillos verdes en el campo");
 			n2.setCuerpo(
 					"El campo más bonito de la historia, que no es españa, pero sí lo es, tiene pepinillos verdes");
-			/*
-			 * Construcciones c= new Construcciones(" ");
-			 * entityManager.persist(c); Recursos r = new Recursos();
-			 * entityManager.persist(r); p = new Pais(c,formPais,r);
-			 * entityManager.persist(p);
-			 */
+			
+			
+			
+			//Aqui creo e inserto evento bien 
+			Evento e = new Evento();
+			
+			e.setTitulo("Rajoy la ha palmado");
+			e.setDescripcion("El  lider del pp ha muerto");
+			e.setTipoEvento(TipoEvento.EVENTO_REGULAR);
+			e.setOpcion1("Alegarse");
+			e.setRec1(TipoRecurso.APOYO_POPULAR);
+			e.setPorcentaje1(10);
+			e.setOpcion2("llorar");
+			e.setRec2(TipoRecurso.APOYO_POPULAR);
+			e.setPorcentaje2(-10);
+			entityManager.persist(e);
+	
+			
+
+			p.getEventos().add(e);
+		
+			
 			// Persistencia del país
 			entityManager.persist(c);
 			entityManager.persist(r);
+			entityManager.persist(ce);
 			entityManager.persist(p);
+			
+			
+			e.setPropietario_evento(p);
+			entityManager.merge(e);
+		
 			// Persistencia de las noticias
 			entityManager.persist(n);
 			entityManager.persist(n1);
@@ -1521,8 +1711,43 @@ public class HomeController {
 			entityManager.persist(ur);
 			entityManager.flush();
 
-			// String rol = u.getRol().toString();
+			Pais nuevoPais = null;
 
+			Construcciones ca = new Construcciones(" ");
+			ComunidadEconomica cea = new ComunidadEconomica();
+			Recursos ra = new Recursos();
+			nuevoPais = new Pais(ca, "nuevo", ra);
+			cea.setAdmin(p);
+			ca.setIdPais(nuevoPais.getId());
+			entityManager.persist(cea);
+			entityManager.persist(nuevoPais);
+			entityManager.flush();
+			
+			Pais otroPais = null;
+			
+
+			Construcciones cao = new Construcciones(" ");
+			ComunidadEconomica ceao = new ComunidadEconomica();
+			Recursos rao = new Recursos();
+			otroPais = new Pais(cao, "otro", rao);
+			cea.setAdmin(p);
+			ca.setIdPais(otroPais.getId());
+			entityManager.persist(ceao);
+			entityManager.persist(otroPais);
+			entityManager.flush();
+			
+			
+			ComunidadEconomica b = entityManager.find(ComunidadEconomica.class, ce.getId());
+			b.getPaises().add(nuevoPais);
+			nuevoPais.getMiComunidad().add(ce);
+			entityManager.merge(b);
+			entityManager.merge(nuevoPais);
+			entityManager.flush();
+			
+			
+			
+	
+			
 			session.setAttribute("rol", ur);
 			getTokenForSession(session);
 

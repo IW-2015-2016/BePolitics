@@ -4,43 +4,36 @@
 
 <script type="text/javascript">
 	$(function() {
-		$(".linkHeader").click(function() {
-			// en un manejador de eventos jquery, el "this" inicial es el elemento DOM sobre el que se lanza el evento
-			// por tanto, $(this) es el elemento JQuery que lo envuelve 
-			var target = $(this);
-			// el id del libro cuyos autores buscamos
-			var id = $(this).attr("id").substring("b_".length);
+		$("button.ministryButton").click(function() {
+			var id = $(this).attr("id").substring("m_".length);
+			var row = $("#m_" + id).parent();
 			$.ajax({
-				dataType : "json",
-				url : "${prefix}bookAuthors",
-				type : "POST",
-				data : "id=" + id,
+				url : "${prefix}expulsar/" + id,
+				type : "GET",
 				success : function(d) {
-					refreshAuthors(target, d);
+					console.log("ok - this worked");
+					$("#e_" + id).remove();
+					location.href = "alianzas";
 				}
 			})
+		});
+		$("button.ministryButtonDos").click(function() {
+			var id = $(this).attr("id").substring("i_".length);
+			var row = $("#i_" + id).parent();
+			$.ajax({
+				url : "${prefix}invitar/" + id,
+				type : "GET",
+				success : function(i) {
+					console.log("ok - this worked");
+					$("#ot_" + id).remove();
+					location.href = "alianzas";
+				}
+			})
+// 			location.href = "${prefix}modificarPolitico/" + id;
 		})
 	})
-	function refreshAuthors(target, authorData) {
-		// 'authorData' contiene un array de objetos
-		// ejemplo: [ {id : "1", familyName: "Adams", lastName: "Adam"} ]
-		var list = $("<ul>"); // creo una lista HTML, todavia no insertada en el documento
-		console.log(authorData);
-		// llama a la funcion con i=indice y o=objeto para cada elemento del array authorData
-		console.log(authorData);
-		$.each(authorData, function(i, o) {
-			var li = $("<li>");
-			li.append(authorToLink(o));
-			list.append(li)
-		})
-		target.replaceWith(list); // reemplazo el boton por la lista
-	}
-
-	function authorToLink(author) {
-		return $("<a href='${prefix}author/" + author.id + "'>"
-				+ author.familyName + ", " + author.lastName + "</a>");
-	}
 </script>
+
 <div id="divCentro">
 	<div id="container">
 
@@ -53,54 +46,53 @@
 
 
 			<div id="arriba">
-				<table>
-					<thead>
-						<tr>
-							<th><h1>Miembros</h1></th>
-						</tr>
-						<tr>
-							
-							<th>Pa&iacute;s</th>
-							<th>Gestión</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${com.paises}" var="r">
-							<tr>
-								<td>${r.nombre}</td>
-								<td><a class="ministryButton" href="#">Expulsar</a></td>
+				<c:choose>
+					<c:when test="${not empty miembros}">
+						<table>
+							<thead>
+								<tr>
+									<th><h1>Eres líder de esta comunidads</h1></th>
+								</tr>
+								<tr>
 
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+									<th>Pa&iacute;s</th>
+									<th>Gestión</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${miembros}" var="b">
+									<tr id="e_${b.id}">
+										<td>${b.nombre}</td>
+										<td><button class="ministryButton" id="m_${b.id}">Expulsar</button></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:when>
+					<c:otherwise>
+						<h4>No tiene miembros en su comunidad económica</h4>
+					</c:otherwise>
+				</c:choose>
 			</div>
 
 
 
 			<div id="abajo">
-
-
-				<%-- 				<table>
+				<table>
 					<thead>
 						<tr>
-							<h1>Eres líder de esta comunidad</h1>
+							<h1>Otros Países</h1>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td><textarea>B&uacute;squeda</textarea></td>
-						<tr>
-							<td>authors</td>
-							<td><button id="b_${book.id}" class="pideAutores">Ver
-									autores</button></td>
+						<c:forEach items="${otros}" var="o">
+						<tr id="ot_${o.id}">
+							<td>${o.nombre}</td>
+							<td><button class="ministryButtonDos" id="i_${o.id}"> Invitar a la alianza</button></td>
 						</tr>
-						<td>
-							<button class="linkHeader">Invitar a la alianza</button>
-						</td>
-						</tr>
+						</c:forEach>
 					</tbody>
-				</table> --%>
+				</table>
 
 
 
