@@ -15,13 +15,14 @@
 				$("button.ministryButtonDos")
 						.click(
 								function() {
+									var tipo = document.getElementById("mySelect").value;
 									var id = $(this).attr("id").substring(
 											"m_".length);
 									var row = $("#m_" + id).parent();
 									$
 											.ajax({
 												url : "${prefix}contratarPoli/"
-														+ id,
+														+ id + tipo,
 												type : "GET",
 												success : function(d) {
 													console
@@ -29,7 +30,7 @@
 													$("#e_" + id).remove();
 												},
 												error : function(d) {
-													alert("No se puede contratar a este político (Revisa tu PIB)");
+													alert("No se puede contratar a este polÃ­tico (Revisa tu PIB)");
 												}
 											})
 								});
@@ -39,7 +40,7 @@
 
 <div id="divCentro">
 	<div id="titulo">
-		<h1>Mercado de políticos</h1>
+		<h1>Mercado de polÃ­ticos</h1>
 	</div>
 	<c:forEach items="${politicos}" var="b">
 		<div id="${b.id}" class="popup-position">
@@ -64,7 +65,7 @@
 								<th colspan="4">Stats</th>
 							</tr>
 							<tr>
-	
+
 								<th>Honestidad</th>
 								<th>Carisma</th>
 								<th>Elocuencia</th>
@@ -98,8 +99,17 @@
 				<li class="evento" id="e_${b.id}"><i class="fa fa-btc"></i> <a
 					href="javascript:void(0)" onclick="toggle_visibility('${b.id}')">
 						${b.nombre} </a> <a href="javascript:void(0)"
-					onclick="toggle_visibility('${b.id}')"> Coste: ${b.precio}
-						PIB</a>
+					onclick="toggle_visibility('${b.id}')"> Coste: ${b.precio} PIB</a>
+					<select name="tipoRecurso1" id="mySelect">
+						<option>MINISTERIO_DE_INDUSTRIA</option>
+						<option>MINISTERIO_DE_EDUCACION</option>
+						<option>BOLSA_DE_VALORES</option>
+						<option>MINISTERIO_DE_ECONOMIA</option>
+						<option>MINISTERIO_DE_JUSTICIA</option>
+						<option>MINISTERIO_DE_SANIDAD</option>
+						<option>PROMOTORAS_INMOBILIARIAS</option>
+						<option>CONFERENCIA_EPISCOPAL</option>
+				</select>
 					<div class="contratar">
 						<button class="ministryButtonDos" id="m_${b.id}">Contratar</button>
 					</div></li>
