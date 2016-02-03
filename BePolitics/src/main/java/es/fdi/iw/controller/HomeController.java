@@ -1446,7 +1446,6 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		
 		try {
 			//TODO comprobar código
-			System.out.println("/subeNivel, recibiendo amor");
 			Usuario b = (Usuario) session.getAttribute("rol");
 			//Usuario b = entityManager.find(Usuario.class, id);
 			//if(a.getId() != b.getId()) return "ERR";
@@ -1462,7 +1461,9 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.flush();
 			
 			response.setStatus(HttpServletResponse.SC_OK);
-			System.out.println("¿IRÁ TODO BIEN?");
+			
+			model.addAttribute("recursos", b.getPais().getRecursos());
+			
 			return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../../produccion\"></head></html>";
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
@@ -1505,6 +1506,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		if(u==null) return "login";
 		System.out.println("/produccion, con el usuario "+u.getNick());
 		
+		model.addAttribute("recursos", u.getPais().getRecursos());
 		model.addAttribute("prefix", "../"); // para generar URLs relativas
 		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		return "produccion";
@@ -1524,7 +1526,6 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		Usuario b = null;
 		try {
 			//TODO comprobar código
-			System.out.println("/subeNivel, recibiendo amor");
 			b = (Usuario) session.getAttribute("rol");
 			if(b==null) return "ERR";
 			Pais p = b.getPais();
@@ -1549,8 +1550,8 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			logger.error("Error, no se pudo producir, posiblemente hoy ya se haya producido "+ e.getMessage());
 		}
 		if(b==null) return "ERR";
-		
-		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../produccion\""+b.getPais().getId()+"></head></html>";
+		model.addAttribute("recursos", b.getPais().getRecursos());
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../../produccion\""+b.getPais().getId()+"></head></html>";
 		//return "produccion";
 	}
 	
