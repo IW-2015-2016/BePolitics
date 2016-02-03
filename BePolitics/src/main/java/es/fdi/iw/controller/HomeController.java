@@ -1060,7 +1060,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 
 	/**
 	 * Agrega al modelo las construcciones de un pais
-	 */
+	 *//*
 	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
 	@Transactional
 	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
@@ -1078,7 +1078,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		
 		return "produccion";
-	}
+	}*/
 	
 	/**
 	 * Accede a produccion
@@ -1086,6 +1086,11 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	@RequestMapping(value = "/produccion", method = RequestMethod.GET)
 	public String produccion(Locale locale, Model model, HttpSession session) {
 		//TODO no sé si tiene que devolver algo distinto, en principio creo que no porque
+		Usuario u = (Usuario)session.getAttribute("rol");	
+		System.out.println(u.getNick());
+		
+		model.addAttribute("prefix", "../"); // para generar URLs relativas
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		return "produccion";
 	}
 	
@@ -1482,7 +1487,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	/**
 	 * Sube el nivel a una construccion
 	 */
-	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.POST)
+	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.GET)
 	public String subeNivel(@PathVariable("id") long id, 
 							@PathVariable("building") int building, 
 							HttpServletResponse response, 
@@ -1497,13 +1502,13 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			b.getPais().getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(building), b.getPais().getRecursos());
 			
 			response.setStatus(HttpServletResponse.SC_OK);
-			return "redirect:produccion/"+id;
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
+		return "redirect:produccion/"+id;
 	}
 	
 	/**************************************************************/
@@ -1803,12 +1808,9 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.merge(b);
 			entityManager.merge(nuevoPais);
 			entityManager.flush();
-			
-			
-			
 	
-
-			session.setAttribute("rol", u);
+			//TODO aquí es donde se dice el usuario
+			session.setAttribute("rol", ur);
 			getTokenForSession(session);
 
 		} catch (ExceptionUsuario e) {

@@ -67,49 +67,6 @@
 
 
 		</div>
-		<!-- 
-		<div id="inferior">
-			<table>
-				<thead>
-					<tr>
-						<td></td>
-						<td><h3>Edificios</h3></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</thead>
-
-				<tbody>
-					<tr>
-						<td><h2>Ministerio de Industria</h2></td>
-						<td><h2>Ministerio de educaci&oacute;n</h2></td>
-						<td><h2>Bolsa de valores</h2></td>
-						<td><h2>Ministerio de economia</h2></td>
-					</tr>
-					<tr>
-						<td><a class="linkHeader" href="#">icono</a></td>
-						<td><a class="linkHeader" href="#">icono</a></td>
-						<td><a class="linkHeader" href="#">icono</a></td>
-						<td><a class="linkHeader" href="#">icono</a></td>
-					</tr>
-					<tr>
-						<td><h2>Ministerio de Justicia</h2></td>
-						<td><h2>Promotoras inmobiliarias</h2></td>
-						<td><h2>Ministerio de sanidad</h2></td>
-						<td><h2>Conferencia episcopal</h2></td>
-					</tr>
-					<tr>
-						<td><a class="linkHeader" href="#">icono</a></td>
-						<td><a class="linkHeader" href="#">icono</a></td>
-						<td><a class="linkHeader" href="#">icono</a></td>
-						<td><a class="linkHeader" href="#">icono</a></td>
-					</tr>
-				</tbody>
-
-			</table>
-
-
-		</div>-->
 	</div>
 
 
