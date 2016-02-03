@@ -56,17 +56,17 @@
 							<tr>
 							<tr>
 								<td>Apoyo popular</td>
-								<td>${construcciones.coste[loop.index][1]}%</td>
+								<td>${construcciones.coste[loop.index][1]}</td>
 								<td>${construcciones.produccion_hora[loop.index][1]}</td>
 							<tr>
 							<tr>
 								<td>Energ&iacute;a</td>
-								<td>${construcciones.coste[loop.index][2]}%</td>
+								<td>${construcciones.coste[loop.index][2]}</td>
 								<td>${construcciones.produccion_hora[loop.index][2]}</td>
 							<tr>
 							<tr>
 								<td>Poblaci&oacute;n</td>
-								<td>${construcciones.coste[loop.index][3]}%</td>
+								<td>${construcciones.coste[loop.index][3]}</td>
 								<td>${construcciones.produccion_hora[loop.index][3]}</td>
 								<td>Nivel del edificio: ${construcciones.nivel[loop.index]}</td>
 							<tr>
