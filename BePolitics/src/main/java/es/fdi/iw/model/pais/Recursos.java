@@ -36,8 +36,14 @@ public class Recursos {
 	private int resources[];
 	private static final int minimo = 10;
 	
+	public void setResources(int[] resources){
+		if(resources.length==TipoRecurso.getNumTipoRecursos())
+			this.resources = resources;
+	}
 	
-	
+	public int[] getResources(){
+		return this.resources;
+	}
 	/**
 	 * Inicializa los recursos al m�nimo
 	 */

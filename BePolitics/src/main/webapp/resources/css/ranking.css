@@ -1,8 +1,8 @@
 #container {
-    
+    background: #FFFFFF;
     clear: both;
-     margin-top: 10px;
-    margin-left: 3px;
+    margin-top: 10px;
+    margin-left: 0px;
 }
 #container input {
  height: 30px;
