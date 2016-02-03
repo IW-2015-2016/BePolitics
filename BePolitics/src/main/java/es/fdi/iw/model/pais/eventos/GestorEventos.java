@@ -28,13 +28,15 @@ public class GestorEventos{
 	private Evento eventoActual;
 	private  TipoEvento tipoEvento;
 	
-	public GestorEventos(){}
+	public GestorEventos(){
+		
+	}
 	/**
 	 * Constructor por defecto, inicializa las listas
 	 * 
 	 */
 	public GestorEventos(TipoEvento tipo){
-		//this.eventos = new List<Evento>();
+		this.eventos = new ArrayList<Evento>();
 		this.eventoActual = null;
 		this.tipoEvento = tipo;
 	}
