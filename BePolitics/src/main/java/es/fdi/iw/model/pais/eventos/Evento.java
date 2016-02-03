@@ -172,17 +172,6 @@ public class Evento {
 		this.propietario_evento = propietario_evento;
 		
 	}
-	public void EventoGuerra(String tit, String desc,TipoEvento tipo) throws IOException{
-		
-		if (tipo != TipoEvento.GUERRA) throw new IOException("Error, no se puede crear un evento que no sea de Guerra con este constructor");
-		
-	
-		this.titulo = tit;
-		this.descripcion = desc;
-		this.opcion1 = "Luchar";
-		this.opcion2 = "Rendirse";
-		
-	}
 	
 	/**
 	 * respuesta del evento, si no es de tipo guerra, además se añade el modificador de producción
