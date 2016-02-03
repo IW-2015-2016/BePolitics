@@ -15,7 +15,7 @@
 			var id = $(this).attr("id").substring("e_".length);
 			var row = $("#e_" + id).parent();
 			$.ajax({
-				url : "${prefix}opcionUno/" + id,
+				url : "${prefix}opcionDos/" + id,
 				type : "GET",
 				success : function(d) {
 					console.log("ok - this worked");

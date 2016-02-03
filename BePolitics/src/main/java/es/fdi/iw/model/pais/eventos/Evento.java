@@ -156,8 +156,8 @@ public class Evento {
 	 * 
 	 * @param respuestaElegida el número de respuesta, tiene que ser 1 o 2, si no es ninguno, se elige 1 por defecto
 	 */
-	public void respondeEvento(int respuestaElegida){
-		
+	public ModificadorProduccion respondeEvento(int respuestaElegida){
+		ModificadorProduccion m1=null;
 		if(respuestaElegida == 1)
 			this.eligioLaPrimeraRespuesta =true;
 		else if( respuestaElegida == 2)
@@ -182,11 +182,13 @@ public class Evento {
 				
 				
 			}	
+			this.respondido = true;
 			String tituloModif = "Modificacion";
 			String descrModif = "Durante el evento "+ this.titulo +", la elección de la opción \"" + s +"\" causa esta modificación.";
-		
-			ModificadorProduccion m1 = new ModificadorProduccion(rec, porcent, tituloModif, descrModif, today, finEvento);	
+			m1 = new ModificadorProduccion(rec, porcent, tituloModif, descrModif, today, finEvento);
+			
 		}
+		return 	m1;
 		
 	}
 	/**

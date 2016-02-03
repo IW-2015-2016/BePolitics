@@ -45,6 +45,7 @@ import es.fdi.iw.model.Author;
 import es.fdi.iw.model.Book;
 import es.fdi.iw.model.Genero;
 import es.fdi.iw.model.User;
+import es.fdi.iw.model.modificadores.ModificadorProduccion;
 //import es.fdi.iw.model.modificadores.ModificadorProduccion;
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.Recursos;
@@ -408,20 +409,12 @@ public class HomeController {
 			@RequestParam("modificador1") String formModificador1,
 			@RequestParam("nombreOpcion2") String formNombreOpcion2, @RequestParam("tipoRecurso2") String formRecurso2,
 			@RequestParam("modificador2") String formModificador2,
-			@RequestParam("fechaActivacion") String formFechaActivacion, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response, Model model, HttpSession session) throws ParseException, IOException {
 
 		int modificador1 = Integer.parseInt(formModificador1);
 		int modificador2 = Integer.parseInt(formModificador2);
 
-		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-		Date fechajava = null;
-		try {
-			fechajava = formato.parse(formFechaActivacion);
-		} catch (ParseException ex) {
-			System.out.println(ex);
-		}
-		java.sql.Date fecha = new java.sql.Date(fechajava.getTime());
 
 		TipoRecurso recurso1 = TipoRecurso.stringtoRecurso(formRecurso1);
 		TipoRecurso recurso2 = TipoRecurso.stringtoRecurso(formRecurso2);
@@ -436,7 +429,6 @@ public class HomeController {
 		System.out.println(formNombreOpcion2);
 		System.out.println(recurso2);
 		System.out.println(modificador2);
-		System.out.println(fecha);
 
 		try {
 			/*
@@ -449,6 +441,30 @@ public class HomeController {
 			System.out.println(e.getTitulo());
 			entityManager.persist(e);
 			entityManager.flush();
+			
+			//Aqui hay que añadir el evento a todos los jugadores
+			
+			@SuppressWarnings("unchecked")
+			List<Usuario> us = (List<Usuario>) entityManager.createQuery("select u from Usuario u ").getResultList();
+			
+			if(us.size()!=0){
+				int i = 1;
+				while (i<=us.size()){
+					if(us.get(i).getRol() == Rol.UsuarioRegistrado){
+						System.out.println(us.get(i).getNombre());
+						Pais p = us.get(i).getPais();
+						p.getEventos().add(e);
+						entityManager.persist(p);
+						
+						e.setPropietario_evento(p);
+						entityManager.merge(e);
+						entityManager.flush();
+						System.out.println("Nombre " +us.get(i).getNombre());
+						i++;
+					}
+				}
+			}
+			
 			return "redirect:" + "vistaAdminEventos";
 
 		} catch (IOException e) {
@@ -490,17 +506,14 @@ public class HomeController {
 			@RequestParam("modificador1") String formModificador1,
 			@RequestParam("nombreOpcion2") String formNombreOpcion2, @RequestParam("tipoRecurso2") String formRecurso2,
 			@RequestParam("modificador2") String formModificador2,
-			@RequestParam("fechaActivacion") String formFechaActivacion, @RequestParam("source") String formId,
+			@RequestParam("source") String formId,
 			HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session)
 					throws ExceptionPolitico, ParseException {
 
 		int modificador1 = Integer.parseInt(formModificador1);
 		int modificador2 = Integer.parseInt(formModificador2);
-		System.out.println(formFechaActivacion);
+		
 
-		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-		java.util.Date date = sdf1.parse(formFechaActivacion);
-		java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
 
 		TipoRecurso recurso1 = TipoRecurso.stringtoRecurso(formRecurso1);
 		TipoRecurso recurso2 = TipoRecurso.stringtoRecurso(formRecurso2);
@@ -588,20 +601,52 @@ public class HomeController {
 			Usuario u = (Usuario) session.getAttribute("rol");
 			Evento e = entityManager.find(Evento.class, id);
 			Pais p = entityManager.find(Pais.class, u.getPais().getId());
+			
 				
 			//Tratar el evento.
 			
-
+			ModificadorProduccion m = e.respondeEvento(1);
+			entityManager.merge(m);
+			entityManager.merge(e);
+			entityManager.flush();
+			p.addModificador(m);
 			
-			/*
-			 * if(p.getRecursos().getPIB() >= b.getPrecio()){
-			 * 
-			 * b.setCarisma(b.getCarisma()); b.setCita(b.getCita());
-			 * b.setElocuencia(b.getElocuencia());
-			 * b.setHonestidad(b.getHonestidad()); b.setId(b.getId());
-			 * b.setNombre(b.getNombre()); b.setPopularidad(b.getPopularidad());
-			 * b.setPrecio(b.getPrecio()); b.setPropietario(p); }
-			 */
+			entityManager.merge(p);
+			entityManager.flush();
+			
+
+		} catch (NoResultException nre) {
+			logger.error("No existe ese politico: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "ERR";
+	}
+	@RequestMapping(value = "/opcionDos/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String opciondos(@PathVariable("id") long id, HttpServletResponse response, Model model,
+			HttpSession session) {
+		try {
+			System.out.println("entro");
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Evento e = entityManager.find(Evento.class, id);
+			Pais p = entityManager.find(Pais.class, u.getPais().getId());
+			
+				
+			//Tratar el evento.
+			
+			ModificadorProduccion m = e.respondeEvento(2);
+			entityManager.merge(m);
+			entityManager.merge(e);
+			entityManager.flush();
+			p.addModificador(m);
+			
+			entityManager.merge(p);
+			entityManager.flush();
+			
 
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
@@ -1753,7 +1798,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			
 	
 			
-			session.setAttribute("rol", ur);
+			session.setAttribute("rol", u);
 			getTokenForSession(session);
 
 		} catch (ExceptionUsuario e) {
