@@ -29,7 +29,7 @@
 													$("#e_" + id).remove();
 												},
 												error : function(d) {
-													alert("No se puede contratar a este político (Revisa tu PIB)");
+													alert("No se puede contratar a este polÃ­tico (Revisa tu PIB)");
 												}
 											})
 								});
@@ -39,7 +39,7 @@
 
 <div id="divCentro">
 	<div id="titulo">
-		<h1>Mercado de políticos</h1>
+		<h1>Mercado de polÃ­ticos</h1>
 	</div>
 	<c:forEach items="${politicos}" var="b">
 		<div id="${b.id}" class="popup-position">
@@ -98,7 +98,7 @@
 				<li class="evento" id="e_${b.id}"><i class="fa fa-btc"></i> <a
 					href="javascript:void(0)" onclick="toggle_visibility('${b.id}')">
 						${b.nombre} </a> <a href="javascript:void(0)"
-					onclick="toggle_visibility('popup-box1')"> Coste: ${b.precio}
+					onclick="toggle_visibility('${b.id}')"> Coste: ${b.precio}
 						PIB</a>
 					<div class="contratar">
 						<button class="ministryButtonDos" id="m_${b.id}">Contratar</button>

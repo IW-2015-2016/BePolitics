@@ -14,6 +14,7 @@
 					console.log("ok - this worked");
 					$("#e_" + id).remove();
 					location.href = "alianzas";
+
 				}
 			})
 		});
@@ -27,6 +28,7 @@
 					console.log("ok - this worked");
 					$("#ot_" + id).remove();
 					location.href = "alianzas";
+
 				}
 			})
 // 			location.href = "${prefix}modificarPolitico/" + id;
