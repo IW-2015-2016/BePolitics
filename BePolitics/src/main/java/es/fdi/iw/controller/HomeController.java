@@ -1110,6 +1110,7 @@ public class HomeController {
 		int edad = Integer.parseInt(formEdad);
 		Usuario u = null;
 		
+		
 		// TODO si funciona, borrar
 		//boolean isLoggedIn = (session.getAttribute("rol") != null);
 
