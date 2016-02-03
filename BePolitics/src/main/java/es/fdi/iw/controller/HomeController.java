@@ -1618,8 +1618,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		p = new Pais(c, formPais, r);
 		ce.setAdmin(p);
 		c.setIdPais(p.getId());
-		
-		
+	
 		
 
 		try {
@@ -1680,14 +1679,13 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			e.setRec2(TipoRecurso.APOYO_POPULAR);
 			e.setPorcentaje2(-10);
 			entityManager.persist(e);
-			entityManager.flush();
+	
 			
 
-		
+			p.getEventos().add(e);
 			
 		
 			
-		
 			
 			/*
 			 * Construcciones c= new Construcciones(" ");
@@ -1700,7 +1698,11 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.persist(r);
 			entityManager.persist(ce);
 			entityManager.persist(p);
-			entityManager.persist(e);
+			
+			
+			e.setPropietario_evento(p);
+			entityManager.merge(e);
+		
 			// Persistencia de las noticias
 			entityManager.persist(n);
 			entityManager.persist(n1);
