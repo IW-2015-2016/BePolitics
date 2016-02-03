@@ -1551,7 +1551,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		}
 		if(b==null) return "ERR";
 		model.addAttribute("recursos", b.getPais().getRecursos());
-		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../../produccion\""+b.getPais().getId()+"></head></html>";
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../produccion\""+b.getPais().getId()+"></head></html>";
 		//return "produccion";
 	}
 	
