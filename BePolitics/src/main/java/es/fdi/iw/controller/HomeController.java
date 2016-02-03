@@ -1916,13 +1916,15 @@ public class HomeController {
 			entityManager.persist(ceao);
 			entityManager.persist(otroPais);
 			entityManager.flush();
-			 
 			
+			System.out.println("hau");
 			ComunidadEconomica b = entityManager.find(ComunidadEconomica.class, ce.getId());
 
 			System.out.println(ce.getId());
 			b.getPaises().add(nuevoPais);
+			System.out.println("hau2");
 			nuevoPais.getMiComunidad().add(ce);
+			System.out.println("hau3");
 			entityManager.merge(b);
 			entityManager.merge(nuevoPais);
 			entityManager.flush();
