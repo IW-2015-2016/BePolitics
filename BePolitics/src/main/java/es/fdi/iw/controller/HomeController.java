@@ -833,8 +833,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/ministerios", method = RequestMethod.GET)
 	public String ministerios(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
+		Usuario u = (Usuario) session.getAttribute("rol");
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		return "ministerios";
 	}
 
@@ -1888,9 +1888,12 @@ public class HomeController {
 			entityManager.persist(editor);
 			entityManager.persist(ur);
 			entityManager.flush();
+			
+			
+			//c.setPolitico(pol, TipoConstruccion.MINISTERIO_DE_INDUSTRIA);
 
 			Pais nuevoPais = null;
-
+			
 			Construcciones ca = new Construcciones(" ");
 			ComunidadEconomica cea = new ComunidadEconomica();
 			Recursos ra = new Recursos();
