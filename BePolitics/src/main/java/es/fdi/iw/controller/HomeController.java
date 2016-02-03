@@ -655,7 +655,7 @@ public class HomeController {
 			ModificadorProduccion m = new ModificadorProduccion(e.getRec2(), e.getPorcentaje2(), tituloModif, descrModif, null, null);
 			
 			
-			System.out.print(m.getTitulo());
+			//System.out.print(m.getTitulo());
 			m.setPropietario(p);
 			entityManager.persist(m);
 			entityManager.flush();
