@@ -440,24 +440,26 @@ public class HomeController {
 			
 			//Aqui hay que añadir el evento a todos los jugadores
 			
+			
+			
 			@SuppressWarnings("unchecked")
-			List<Usuario> us = (List<Usuario>) entityManager.createQuery("select u from Usuario u ").getResultList();
+			List<Usuario> us = (List<Usuario>) entityManager.createNamedQuery("allUsuarioRol").setParameter("rolParam", Rol.UsuarioRegistrado).getResultList();
 			
 			if(us.size()!=0){
 				int i = 1;
 				while (i<=us.size()){
-					if(us.get(i).getRol() == Rol.UsuarioRegistrado){
-						System.out.println(us.get(i).getNombre());
-						Pais p = us.get(i).getPais();
+					
+						System.out.println(us.get(i-1).getNombre());
+						Pais p = us.get(i-1).getPais();
 						p.getEventos().add(e);
 						entityManager.persist(p);
 						
 						e.setPropietario_evento(p);
 						entityManager.merge(e);
 						entityManager.flush();
-						System.out.println("Nombre " +us.get(i).getNombre());
+						System.out.println("Nombre " +us.get(i-1).getNombre());
 						i++;
-					}
+					
 				}
 			}
 			
@@ -583,10 +585,9 @@ public class HomeController {
 				entityManager.createQuery("Select e from Evento e where e.propietario_evento = " + u.getPais().getId())
 						.getResultList());
 	
-		
 		return "eventos";
 	}
-
+	
 	@RequestMapping(value = "/opcionUno/{id}", method = RequestMethod.GET)
 	@Transactional
 	@ResponseBody
@@ -602,11 +603,12 @@ public class HomeController {
 			//Tratar el evento.
 			
 			ModificadorProduccion m = e.respondeEvento(1);
+			System.out.print(m.getTitulo());
 			entityManager.merge(m);
-			entityManager.merge(e);
+			//entityManager.merge(e);
 			entityManager.flush();
 			p.addModificador(m);
-			
+			p.getEventos().remove(e);
 			entityManager.merge(p);
 			entityManager.flush();
 			
@@ -617,8 +619,8 @@ public class HomeController {
 
 			return "ERR";
 		}
-		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		return "ERR";
+		//response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "eventos";
 	}
 	@RequestMapping(value = "/opcionDos/{id}", method = RequestMethod.GET)
 	@Transactional
@@ -635,6 +637,7 @@ public class HomeController {
 			//Tratar el evento.
 			
 			ModificadorProduccion m = e.respondeEvento(2);
+			System.out.print(m.getTitulo());
 			entityManager.merge(m);
 			entityManager.merge(e);
 			entityManager.flush();

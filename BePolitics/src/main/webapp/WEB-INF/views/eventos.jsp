@@ -11,11 +11,11 @@
 
 	$(function() {
 
-		$("button.ministryButtonDos").click(function() {
+		$("button.ministryButton").click(function() {
 			var id = $(this).attr("id").substring("e_".length);
 			var row = $("#e_" + id).parent();
 			$.ajax({
-				url : "${prefix}opcionDos/" + id,
+				url : "${prefix}opcionUno/" + id,
 				type : "GET",
 				success : function(d) {
 					console.log("ok - this worked");
@@ -48,6 +48,10 @@
 						</div>
 						<p>${ev.descripcion }</p>
 						<div class="popup-botones">
+						<a class="linkHeader"
+                  href="${prefix}opcionUno/${ev.id}">${ev.opcion1 }</a>
+				<a class="linkHeader"
+                  href="${prefix}/opcionDos/${ev.id}">${ev.opcion2 }</a>
 							<button class="ministryButton" id="e_${ev.id}">${ev.opcion1 }</button>
 							<button class="ministryButtonDos" id="e_${ev.id}">${ev.opcion2 }</button>
 						</div>
