@@ -1425,25 +1425,31 @@ public class HomeController {
 		
 			Pair miPair = new Pair();
 			entityManager.persist(miPair);
+			entityManager.flush();
 			
 			GestorEventos miGE = new GestorEventos(TipoEvento.GUERRA);
 			entityManager.persist(miGE);
+			entityManager.flush();
 			
 			miPair.setIzquierda(paisEnemigo);
 			miPair.setDerecha(miGE);
 			miPair.setGuerra(miPais.getGuerra());
+			entityManager.flush();
 			
 			miPais.getGuerra().getGuerrasYEventos().add(miPair);
 			
 			Pair enemigoPair = new Pair();
 			entityManager.persist(enemigoPair);
-
+			entityManager.flush();
+			
 			GestorEventos enemigoGE = new GestorEventos(TipoEvento.GUERRA);
 			entityManager.persist(enemigoGE);
+			entityManager.flush();
 			
 			enemigoPair.setDerecha(enemigoGE);
 			enemigoPair.setIzquierda(miPais);
-			enemigoPair.setGuerra(miPais.getGuerra());
+			enemigoPair.setGuerra(paisEnemigo.getGuerra());
+			entityManager.flush();
 			
 			paisEnemigo.getGuerra().getGuerrasYEventos().add(enemigoPair);
 			
@@ -1483,20 +1489,21 @@ public class HomeController {
 	@ResponseBody
 	public String rendirsePais(@PathVariable("id") long id, HttpServletResponse response, Model model,HttpSession session) {
 		try {
-		
+			System.out.println(id);
 			Usuario u = (Usuario) session.getAttribute("rol");
 			Pais miPais  = entityManager.find(Pais.class, u.getPais().getId());
 			Pais paisEnemigo = entityManager.find(Pais.class, id);
 			
-			Query miPair = entityManager.createQuery("select pa from Pair pa where pa.izquierda.id = "
-					+id+ " and pa.guerra.propietario.id = " + miPais.getId());
+			System.out.println(paisEnemigo.getNombre());
+			Query miPair = entityManager.createQuery("select pa from Pair pa where pa.izquierda = "
+					+paisEnemigo.getId()+ " and pa.guerra = " + miPais.getId());
 			
 			miPais.getGuerra().getGuerrasYEventos().remove(miPair.getSingleResult());
 			
 
 
-			Query enemigoPair = entityManager.createQuery("select pa from Pair pa where pa.izquierda.id = "
-					+miPais.getId()+ " and pa.guerra.propietario.id = " + paisEnemigo.getId());
+			Query enemigoPair = entityManager.createQuery("select pa from Pair pa where pa.izquierda = "
+					+miPais.getId()+ " and pa.guerra = " + paisEnemigo.getId());
 			
 			paisEnemigo.getGuerra().getGuerrasYEventos().remove(enemigoPair.getSingleResult());
 			
