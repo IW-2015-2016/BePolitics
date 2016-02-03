@@ -178,55 +178,68 @@ public class Pais {
 	
 	}
 
-
 	/**
 	 * Produce los recursos del pa�s, s�lo una vez al d�a
+	 * 
 	 * @return true si ha producido, false si hoy ya se hab�a producido
 	 */
-	public boolean produce(){
-	
-		//Si hoy se ha producido, no se produce m�s
+	public boolean produce() {
+
+		// Si hoy se ha producido, no se produce m�s
 		Date today = new Date(Calendar.getInstance().getTimeInMillis());
-		if(this.lastProduction.compareTo(today) == 0) return false;
-		//Si no se ha producido, se actualiza la fecha 
+		if (this.lastProduction.compareTo(today) == 0)
+			return false;
+
+		// Si no se ha producido, se actualiza la fecha
 		this.lastProduction = today;
-		
-		
+
 		int cantidades[] = new int[TipoRecurso.getNumTipoRecursos()];
-		for(int i=0;i<TipoRecurso.getNumTipoRecursos();i++){
-			cantidades[i]=0;
+		for (int i = 0; i < TipoRecurso.getNumTipoRecursos(); i++) {
+			cantidades[i] = 0;
 		}
-		
+		System.out.println("LLega2");
+
 		int percentModify[] = this.calculaModificadores();
-		
-		for(int i =0;i<TipoConstruccion.getNumConstrucciones();i++){
-			for(int j=0; j<TipoRecurso.getNumTipoRecursos();j++){
-				//La producci�n de cada edificio se suma ponderada con su modificador 
-				cantidades[j]+= this.construcciones.getProduccionRecurso(i, j) *(100-percentModify[j]);
+
+		for (int i = 0; i < TipoConstruccion.getNumConstrucciones(); i++) {
+			for (int j = 0; j < TipoRecurso.getNumTipoRecursos(); j++) {
+				// La producci�n de cada edificio se suma ponderada con su
+				// modificador
+				cantidades[j] += this.construcciones.getProduccionRecurso(i, j) * (100 - percentModify[j]);
 			}
 		}
+
 		this.recursos.produce(cantidades);
+
 		return true;
 	}
+
 	/**
 	 * Calcula los modificadores de producci�n
+	 * 
 	 * @return
 	 */
-	private int[] calculaModificadores(){
+	private int[] calculaModificadores() {
+
 		int porcentajes[] = new int[TipoRecurso.getNumTipoRecursos()];
-		for(int i=0;i<TipoRecurso.getNumTipoRecursos();i++){
-			porcentajes[i]=0;
+		for (int i = 0; i < TipoRecurso.getNumTipoRecursos(); i++) {
+			porcentajes[i] = 0;
 		}
+		System.out.println("llega");
 		
-		Iterator<ModificadorProduccion> iterador = this.modificadores.iterator();
+		Iterator<ModificadorProduccion> iterador = null;
+		if (this.modificadores == null || this.modificadores.size()<1 || (iterador = this.modificadores.iterator())==null){
+			return new int[] { 0, 0, 0, 0 };
+		}
+
+		
 		while (iterador.hasNext()) {
 			ModificadorProduccion p = ((ModificadorProduccion) iterador);
 			int tipo = TipoRecurso.getIndice(p.getTipo());
-			porcentajes[tipo] += p.getPorcentaje(); 
+			porcentajes[tipo] += p.getPorcentaje();
 		}
-		
+
 		return porcentajes;
-		
 	}
 	public void addModificador(ModificadorProduccion m){
 		this.modificadores.add(m);
