@@ -1794,7 +1794,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.persist(ceao);
 			entityManager.persist(otroPais);
 			entityManager.flush();
-			
+			 
 			
 			ComunidadEconomica b = entityManager.find(ComunidadEconomica.class, ce.getId());
 
