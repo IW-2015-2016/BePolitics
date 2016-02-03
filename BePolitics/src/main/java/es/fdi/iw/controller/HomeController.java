@@ -1057,42 +1057,6 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	/**************************************************************/
 	/************************** USUARIOS **************************/
 	/**************************************************************/
-
-	/**
-	 * Agrega al modelo las construcciones de un pais
-	 *//*
-	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
-	@Transactional
-	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
-		//TODO arreglar pérdida del css
-		System.out.println("\n/produccion/{id}  Aquí está llegando\n");
-		Usuario u = entityManager.find(Usuario.class, id);
-		System.out.println(u.getNick());
-		Pais p = u.getPais();
-		System.out.println(p.getNombre());
-		Construcciones c = p.getConstrucciones();
-		
-		System.out.println("id user="+ u.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
-		
-		model.addAttribute("prefix", "../"); // para generar URLs relativas
-		model.addAttribute("construcciones", u.getPais().getConstrucciones());
-		
-		return "produccion";
-	}*/
-	
-	/**
-	 * Accede a produccion
-	 */
-	@RequestMapping(value = "/produccion", method = RequestMethod.GET)
-	public String produccion(Locale locale, Model model, HttpSession session) {
-		//TODO no sé si tiene que devolver algo distinto, en principio creo que no porque
-		Usuario u = (Usuario)session.getAttribute("rol");	
-		System.out.println(u.getNick());
-		
-		model.addAttribute("prefix", "../"); // para generar URLs relativas
-		model.addAttribute("construcciones", u.getPais().getConstrucciones());
-		return "produccion";
-	}
 	
 	
 	@RequestMapping(value = "/crearUsuario", method = RequestMethod.POST)
@@ -1435,34 +1399,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			
 			miComunidadEconomica.getPaises().add(paisInvitado);
 			paisInvitado.getMiComunidad().add(miComunidadEconomica);
-			
-			// Evento(String tit, String desc,TipoEvento tipo, Pais propietario_evento) 
-			//TODO si no funciona da igual
-			
-			/* 
-			try {
-				Evento eventoPaisInvitado = new Evento("Nueva comunidad económica", "Tu país forma parte de la comunidad económica del país "
-						+ u.getPais().getNombre(),
-						TipoEvento.COMUNIDAD_ECONOMICA,paisInvitado);
-				paisInvitado.getEventos().add(eventoPaisInvitado);
-				
-				Evento eventoMiPais = new Evento("Nuevo país en comunidad económica",
-						"Se incorporado el país "+ paisInvitado.getNombre()+ " a tu comunidad económica",
-						TipoEvento.COMUNIDAD_ECONOMICA, u.getPais());
-				u.getPais().getEventos().add(eventoMiPais);
-				
-				entityManager.merge(eventoPaisInvitado);
-				entityManager.merge(eventoMiPais);
-				entityManager.merge(u.getPais());
-			} catch (IOException e) {
-				// 
-				e.printStackTrace();
-			}
-			*/
-			
-			
-			
-			
+	
 			entityManager.merge(miComunidadEconomica);
 			entityManager.merge(paisInvitado);
 			entityManager.flush();
@@ -1483,32 +1420,139 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		}
 	}
 	
+	/*** //TODO cosas 
+	 * página de error
+	 */
+	@RequestMapping(value = "/error", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String error(){
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=/BePolitics\"></head></html>";
+	}
 	
 	/**
 	 * Sube el nivel a una construccion
 	 */
 	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
 	public String subeNivel(@PathVariable("id") long id, 
 							@PathVariable("building") int building, 
 							HttpServletResponse response, 
-							Model model) {
+							Model model,
+							HttpSession session) {
 		
 		System.out.println("/subeNivel, aquí llega");
 		
 		try {
 			//TODO comprobar código
+			Usuario b = (Usuario) session.getAttribute("rol");
+			//Usuario b = entityManager.find(Usuario.class, id);
+			//if(a.getId() != b.getId()) return "ERR";
+			Pais p = b.getPais();
+			Recursos r = p.getRecursos();
+			Construcciones c = p.getConstrucciones();
+			c.subeNivel(TipoConstruccion.getConstruccion(building), r);
 			
-			Usuario b = entityManager.find(Usuario.class, id);
-			b.getPais().getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(building), b.getPais().getRecursos());
+			
+			entityManager.merge(c);
+			entityManager.merge(r);
+			entityManager.merge(p);
+			entityManager.flush();
 			
 			response.setStatus(HttpServletResponse.SC_OK);
+			
+			model.addAttribute("recursos", b.getPais().getRecursos());
+			
+			return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../../produccion\"></head></html>";
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
-		return "redirect:produccion/"+id;
+		
+		//return "produccion";
+	}
+	
+	/**
+	 * Agrega al modelo las construcciones de un pais
+	 */
+	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
+	@Transactional
+	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
+
+		System.out.println("\n/produccion/{id}  Aquí está llegando\n");
+		
+		Usuario u = (Usuario) session.getAttribute("rol");
+		if(u==null) return "login";
+		System.out.println(u.getNick());
+		model.addAttribute("recursos", u.getPais().getRecursos());
+		model.addAttribute("prefix", "../"); // para generar URLs relativas
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
+		
+		return "produccion";
+	}
+	
+	
+	/**
+	 * Accede a produccion
+	 */
+	@RequestMapping(value = "/produccion", method = RequestMethod.GET)
+	@Transactional
+	public String produccion(Locale locale, Model model, HttpSession session) {
+		//TODO no sé si tiene que devolver algo distinto, en principio creo que no porque
+		Usuario u = (Usuario)session.getAttribute("rol");	
+		if(u==null) return "login";
+		System.out.println("/produccion, con el usuario "+u.getNick());
+		
+		model.addAttribute("recursos", u.getPais().getRecursos());
+		model.addAttribute("prefix", "../"); // para generar URLs relativas
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
+		return "produccion";
+	}
+	
+	/**
+	 * Sube el nivel a una construccion
+	 */
+	@RequestMapping(value = "/producir", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String producir(HttpServletResponse response, 
+							Model model,
+							HttpSession session) {
+		
+		System.out.println("/Producir, aquí llega");
+		Usuario b = null;
+		try {
+			//TODO comprobar código
+			b = (Usuario) session.getAttribute("rol");
+			if(b==null) return "ERR";
+			Pais p = b.getPais();
+			Recursos r = p.getRecursos();
+			if(!p.produce()) throw new Exception();
+			
+			//c.subeNivel(TipoConstruccion.getConstruccion(building), r);
+			
+			
+			//entityManager.merge(c);
+			entityManager.merge(r);
+			entityManager.merge(p);
+			entityManager.flush();
+			model.addAttribute("recursos", r);
+			response.setStatus(HttpServletResponse.SC_OK);
+			System.out.println("¿IRÁ TODO BIEN?");
+	
+		} catch (NoResultException nre) {
+			logger.error("No se puede producir", nre.getMessage());
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		} catch (Exception e) {
+			logger.error("Error, no se pudo producir, posiblemente hoy ya se haya producido "+ e.getMessage());
+		}
+		if(b==null) return "ERR";
+		model.addAttribute("recursos", b.getPais().getRecursos());
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../produccion\""+b.getPais().getId()+"></head></html>";
+		//return "produccion";
 	}
 	
 	/**************************************************************/
@@ -1603,6 +1647,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			logger.error("No such usuario: {}", id);
 		} else {
 			model.addAttribute("noticia", n);
+			//TODO quitar
 			System.out.println(n.getId());
 
 			model.addAttribute("prefix", "../"); // para generar URLs relativas
@@ -1655,7 +1700,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	@Transactional
 	public String backDoorAdmin(HttpServletRequest request, HttpServletResponse response, Model model,
 			HttpSession session) {
-
+		System.out.println("\n***********************\nInicio del BACKDOOR\n***********************\n");
 		String formNombre = "peter";
 		String formApellidos = "perez frogger";
 		String formCorreo = "mike@wach.es";
@@ -1819,7 +1864,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		}
 		
 		System.out.println("id user="+ ur.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
-		System.out.println("Fin del BackDoor");
+		System.out.println("\n***********************\nFin del BackDoor\n***********************\n");
 		return "home2";
 
 	}

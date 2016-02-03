@@ -104,36 +104,31 @@ public class Construcciones {
         for (int i =0;i<TipoRecurso.getNumTipoRecursos();i++)
            if(this.coste[idxConstruccion][i]>r.getRecurso(i))
                return false;
-       
+       System.out.println("Tiene recursos");
         // Gastar recursos
         for(int i =0; i<TipoRecurso.getNumTipoRecursos();i++){
             try {
-                System.out.println("Banana");
-                if (r.getRecurso(i) < coste[idxConstruccion][i]){
-                    return false;
-                }
-                System.out.println("Pepinillos");
-                if(TipoRecurso.seGasta(i)){
+                if(TipoRecurso.seGasta(i))
                     r.sumaRecurso(TipoRecurso.getRecurso(i), (-1*coste[idxConstruccion][i]));
-                }
-                    
+                  
             } catch (IOException ex) {
                 Logger.getLogger(Construcciones.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
-            System.out.println("Barbilla");
+           
         }
+        System.out.println("Sube el nivel");
         //subir nivel
         this.nivel[idxConstruccion]++;
         //Multiplicador de coste
         for(int i =0; i<TipoRecurso.getNumTipoRecursos();i++)
             this.coste[idxConstruccion][i]*=TipoConstruccion.multiplicadorCoste[idxConstruccion];
-        
+        System.out.println("Sube el coste");
             
         //Multiplicador de produccion
         for(int i =0;i<TipoRecurso.getNumTipoRecursos();i++)
             this.produccion_hora[idxConstruccion][i]*=TipoConstruccion.multiplicadorProduccion[i];
-        
+        System.out.println("Sube la produccion");
         return true;            
     }
     

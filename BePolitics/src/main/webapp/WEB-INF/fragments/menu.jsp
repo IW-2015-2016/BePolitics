@@ -25,7 +25,7 @@
 							<a href="guerras">Guerras</a>
 						</li>
 						<li>
-							<a href="produccion">Producción de recursos</a>
+							<a href="produccion/${rol.id}">Producción de recursos</a>
 						</li>
 					</ul>
 			
