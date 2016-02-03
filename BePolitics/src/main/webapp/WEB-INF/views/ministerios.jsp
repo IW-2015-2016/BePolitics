@@ -90,7 +90,7 @@
 						<td><a href="javascript:void(0)"
 							onclick="toggle_visibility('${b.id}')" class="ministryButton">VER
 								EDIFICIO</a></td>
-						<td><a class="ministryButton" href="#">ver edificio</a></td>
+						
 						
 					</tr>
 				
