@@ -1427,7 +1427,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	@Transactional
 	@ResponseBody
 	public String error(){
-		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=/BePolitics\"></head></html>";
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N\"; URL=\"localhost:8080/BePolitics/\"></head></html>";
 	}
 	
 	/**
