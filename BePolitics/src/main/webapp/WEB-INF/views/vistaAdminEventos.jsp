@@ -12,7 +12,6 @@ $(function() {
 				console.log("ok - this worked");
 				$("#e_"+id).remove();
 			}
-<<<<<<< HEAD
 		})
 	});
 	$("button.ministryButtonDos").click(function(){
@@ -21,22 +20,11 @@ $(function() {
 		location.href = "${prefix}modificarEvento/"+id;
 	})
 })
-=======
-  		})
- 	})	
- 	});
-	$("button.ministryButtonDos").click(function(){
- 		var id = $(this).attr("id").substring("m_".length); 
- 		var row = $("#m_"+id).parent();
- 		location.href = "${prefix}modificarEvento/"+id;
- 	})
-  })
 
->>>>>>> refs/remotes/origin/contratar-politico
 </script>
 <div id="divCentro">
 	<div id="titulo">
-		<h1>GestiÃ³n Eventos</h1>
+		<h1>Gestión Eventos</h1>
 	</div>
 	<div  class="contratar">
 		<a href="crearEvento" class= "ministryButton">Crear Evento</a>
@@ -50,10 +38,7 @@ $(function() {
 		${e.titulo}
 		<div class="contratar"><button  class="ministryButton" id="d_${e.id}">Eliminar</button></div>
 		<div class="contratar"><button  class= "ministryButtonDos"id="m_${e.id}">Modificar</button></div>
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/origin/contratar-politico
 </c:forEach>
 
 
