@@ -1060,13 +1060,15 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 
 	/**
 	 * Agrega al modelo las construcciones de un pais
-	 *//*
+	 */
 	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
 	@Transactional
 	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
 		//TODO arreglar pérdida del css
 		System.out.println("\n/produccion/{id}  Aquí está llegando\n");
-		Usuario u = entityManager.find(Usuario.class, id);
+		
+		//Usuario u = entityManager.find(Usuario.class, id);
+		Usuario u = (Usuario) session.getAttribute("rol");
 		System.out.println(u.getNick());
 		Pais p = u.getPais();
 		System.out.println(p.getNombre());
@@ -1078,7 +1080,8 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		
 		return "produccion";
-	}*/
+	}
+	
 	
 	/**
 	 * Accede a produccion
@@ -1087,12 +1090,13 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	public String produccion(Locale locale, Model model, HttpSession session) {
 		//TODO no sé si tiene que devolver algo distinto, en principio creo que no porque
 		Usuario u = (Usuario)session.getAttribute("rol");	
-		System.out.println(u.getNick());
+		System.out.println("/produccion, con el usuario "+u.getNick());
 		
 		model.addAttribute("prefix", "../"); // para generar URLs relativas
 		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		return "produccion";
 	}
+	
 	
 	
 	@RequestMapping(value = "/crearUsuario", method = RequestMethod.POST)
@@ -1488,18 +1492,32 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	 * Sube el nivel a una construccion
 	 */
 	@RequestMapping(value = "/subeNivel/{id}/{building}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
 	public String subeNivel(@PathVariable("id") long id, 
 							@PathVariable("building") int building, 
 							HttpServletResponse response, 
-							Model model) {
+							Model model,
+							HttpSession session) {
 		
 		System.out.println("/subeNivel, aquí llega");
 		
 		try {
 			//TODO comprobar código
+			System.out.println("/subeNivel, recibiendo amor");
+			Usuario b = (Usuario) session.getAttribute("rol");
+			//Usuario b = entityManager.find(Usuario.class, id);
+			//if(a.getId() != b.getId()) return "ERR";
+			Pais p = b.getPais();
+			Recursos r = p.getRecursos();
+			Construcciones c = p.getConstrucciones();
+			c.subeNivel(TipoConstruccion.getConstruccion(building), r);
 			
-			Usuario b = entityManager.find(Usuario.class, id);
-			b.getPais().getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(building), b.getPais().getRecursos());
+			
+			entityManager.merge(c);
+			entityManager.merge(r);
+			entityManager.merge(p);
+			entityManager.flush();
 			
 			response.setStatus(HttpServletResponse.SC_OK);
 		} catch (NoResultException nre) {
@@ -1508,8 +1526,10 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 
 			return "ERR";
 		}
-		return "redirect:produccion/"+id;
+
+		return "produccion/"+id;
 	}
+	
 	
 	/**************************************************************/
 	/*********************** FIN USUARIOS *************************/
@@ -1603,6 +1623,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			logger.error("No such usuario: {}", id);
 		} else {
 			model.addAttribute("noticia", n);
+			//TODO quitar
 			System.out.println(n.getId());
 
 			model.addAttribute("prefix", "../"); // para generar URLs relativas
@@ -1655,7 +1676,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	@Transactional
 	public String backDoorAdmin(HttpServletRequest request, HttpServletResponse response, Model model,
 			HttpSession session) {
-
+		System.out.println("\n***********************\nInicio del BACKDOOR\n***********************\n");
 		String formNombre = "peter";
 		String formApellidos = "perez frogger";
 		String formCorreo = "mike@wach.es";
@@ -1819,7 +1840,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		}
 		
 		System.out.println("id user="+ ur.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
-		System.out.println("Fin del BackDoor");
+		System.out.println("\n***********************\nFin del BackDoor\n***********************\n");
 		return "home2";
 
 	}

@@ -11,8 +11,6 @@
 <div id="divCentro">
 	<div id="container">
 		<div id="superior">
-
-
 			<!-- CADA MINISTERIO -->
 
 			<c:forEach begin="0" end="7" varStatus="loop">
@@ -20,10 +18,11 @@
 					<table id="construccion${loop.index}">
 						<!-- TITULO TABLA -->
 						<thead>
+						 <form action="./subeNivel/${rol.id}/${loop.index}" method="POST"><input name="submit" value="Sube nivel" type="submit"></form>
 							<tr>
 								<td><h2>${construcciones.nombres[loop.index]}</h2></td>
-								<td><button class="ministryButtonUno" id="${rol.id}/${loop.index}" onclick="visitaUrl(${rol.id},${loop.index})">Mejorar edificio</button></td>
-								<td><a class="linkHeader" href="subeNivel/${rol.id}/${loop.index}">Mejorar edificio</a></td>
+								 <td></td>
+								<td><a class="linkHeader" href="./subeNivel/${rol.id}/${loop.index}">Mejorar edificio</a></td>
 							</tr>
 						</thead>
 						<!-- CUERPO DE LA TABLA -->
