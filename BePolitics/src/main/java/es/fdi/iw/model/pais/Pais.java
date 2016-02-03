@@ -80,6 +80,7 @@ public class Pais {
 		this.usuario = null;
 		this.miComunidad = new ArrayList<ComunidadEconomica>();
 		this.eventos = new ArrayList<Evento>();
+		this.modificadores = new ArrayList<ModificadorProduccion>();
 
 	}
 
