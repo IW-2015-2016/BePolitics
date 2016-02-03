@@ -25,7 +25,7 @@ import es.fdi.iw.model.pais.Pais;
  * un pais administrador podra echar a miembros o salir, un miembro solo puede salir
  * 
  * 
- * @author Ismael
+ * @author futurDrama
  *
  */
 @Entity

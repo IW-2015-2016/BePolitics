@@ -2,7 +2,7 @@ package es.fdi.iw.model.usuario;
 /**
  *Excepciones que se pueden generar a la hora de crear un usuario nuevo en el sistema
  * 
- * @author Julia
+ * @author futurDrama
  *
  */
 public class ExceptionUsuario extends Exception {

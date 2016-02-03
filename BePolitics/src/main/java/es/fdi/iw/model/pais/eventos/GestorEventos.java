@@ -18,7 +18,7 @@ import es.fdi.iw.model.pais.Pais;
  * Contiene una lista de eventos pasados y un evento actual para la guerra con un país. 
  * Deberá poder resolver eventos
  * 
- * @author Ismael
+ * @author futurDrama
  *
  */
 @Entity

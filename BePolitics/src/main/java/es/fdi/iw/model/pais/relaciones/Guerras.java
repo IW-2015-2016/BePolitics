@@ -26,7 +26,8 @@ import es.fdi.iw.model.politicos.Politico;
  * cada guerra tiene asociada una clase EventosGuerra que contendrá todos los eventos de esa guerra pasados
  * y el evento activo
  * 
- * @author Ismael
+ *  
+ * @author futurDrama
  * @see Pair<L,R>
  * @see Pais
  * @see EventosGuerra

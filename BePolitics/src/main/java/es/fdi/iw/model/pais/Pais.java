@@ -35,7 +35,7 @@ import es.fdi.iw.model.usuario.Usuario;
 /**
  * Representa un pa�s
  * 
- * 
+ * @author futurDrama
  */
 
 @Entity

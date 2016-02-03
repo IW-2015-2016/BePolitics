@@ -1,15 +1,15 @@
 package es.fdi.iw.model.politicos;
 /**
- * Guarda los stats que puede existir. Además los ordena.
+ * Guarda los stats que puede existir. Ademï¿½s los ordena.
  * 
  * 1 = HONESTIDAD
  * 2 = CARISMA
  * 3 = ELOCUENCIA
  * 4 = POPULARIDAD
  * 
- * Existen métodos que obtienen el indice o el stat por el índice
+ * Existen mï¿½todos que obtienen el indice o el stat por el ï¿½ndice
  * 
- * @author Ismael
+ * @author futurDrama
  *
  */
 public enum StatsPolitico {
@@ -19,14 +19,14 @@ public enum StatsPolitico {
 		return 4;
 	}
 	/**
-	 * Devuelve el índice del parámetro, de 0 a 4, siendo
+	 * Devuelve el ï¿½ndice del parï¿½metro, de 0 a 4, siendo
 	 * 1 = HONESTIDAD
 	 * 2 = CARISMA
 	 * 3 = ELOCUENCIA
 	 * 4 = POPULARIDAD
 	 * 
 	 * @param s el stat a comprobar
-	 * @return un número de 0 a 4
+	 * @return un nï¿½mero de 0 a 4
 	 */
 	static int getIndex(StatsPolitico s){
 		int ret =-1;
@@ -48,14 +48,14 @@ public enum StatsPolitico {
 	}
 	
 	/**
-	 * Devuelve el stat determinado por el índice del parámetro, de 0 a 4, siendo
+	 * Devuelve el stat determinado por el ï¿½ndice del parï¿½metro, de 0 a 4, siendo
 	 * 1 = HONESTIDAD
 	 * 2 = CARISMA
 	 * 3 = ELOCUENCIA
 	 * 4 = POPULARIDAD
 	 * 
-	 * @param s el índice stat a comprobar
-	 * @return un stat del enumerado, null si el índice no era correcto
+	 * @param s el ï¿½ndice stat a comprobar
+	 * @return un stat del enumerado, null si el ï¿½ndice no era correcto
 	 */
 	static StatsPolitico getIndex(int s){
 		StatsPolitico ret = null;
