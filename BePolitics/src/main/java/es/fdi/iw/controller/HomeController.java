@@ -68,7 +68,6 @@ import es.fdi.iw.noticias.Noticia;
  */
 @Controller
 public class HomeController {
-
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@PersistenceContext
