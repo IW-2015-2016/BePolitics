@@ -91,6 +91,7 @@ public class Pais {
 		this.lastProduction = new Date(yesterday.getTimeInMillis());
 		this.usuario = null;
 		this.miComunidad = new ArrayList<ComunidadEconomica>();
+		this.eventos = new ArrayList<Evento>();
 		
 	}
 	@OneToOne(targetEntity=Usuario.class, fetch=FetchType.EAGER)
