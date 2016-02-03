@@ -4,11 +4,13 @@ package es.fdi.iw.model.pais.relaciones;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import java.util.List;
 import es.fdi.iw.model.pais.Pais;
@@ -24,7 +26,8 @@ import es.fdi.iw.model.politicos.Politico;
  * cada guerra tiene asociada una clase EventosGuerra que contendrá todos los eventos de esa guerra pasados
  * y el evento activo
  * 
- * @author Ismael
+ *  
+ * @author futurDrama
  * @see Pair<L,R>
  * @see Pais
  * @see EventosGuerra
@@ -37,7 +40,9 @@ public class Guerras {
 	private List<Pair> guerrasYEventos;
 	private Pais propietario;
 	
-	public Guerras(){}
+	public Guerras(){
+		this.guerrasYEventos = new ArrayList<Pair>();
+	}
 	
 	/**
 	 * Se debe entregar el paÃ­s al que pertenece la alianza
@@ -46,7 +51,6 @@ public class Guerras {
 	 * @throws IOException si el paÃ­s estÃ¡ vacÃ­o
 	 */
 	public Guerras(Pais pais) throws IOException{
-		this.setGuerrasYEventos(new ArrayList<Pair>());
 		if (pais == null) throw new IOException();
 		this.propietario = pais;
 		
@@ -161,13 +165,23 @@ public class Guerras {
 				).getEventos();	
 	}
 	@OneToMany(targetEntity=Pair.class)
-	@JoinColumn(name="guerra") 
-	private List<Pair> getGuerrasYEventos() {
+	public List<Pair> getGuerrasYEventos() {
 		return  guerrasYEventos;
 	}
-
-	private void setGuerrasYEventos(List<Pair> guerrasYEventos) {
+	public void setGuerrasYEventos(List<Pair> guerrasYEventos) {
 		this.guerrasYEventos =  guerrasYEventos;
 	}
+
+	@OneToOne(targetEntity=Pais.class,cascade=CascadeType.ALL)
+	public Pais getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(Pais propietario) {
+		this.propietario = propietario;
+	}
+
+	
+
 
 }

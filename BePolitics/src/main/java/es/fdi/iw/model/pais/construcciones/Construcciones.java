@@ -20,7 +20,7 @@ import es.fdi.iw.model.politicos.Politico;
  * Esta clase representa todas las construcciones que puede haber en un país. En ella
  * hay métodos para subir el nivel o la producción, está guardado un multiplicador de costes
  * y de producciones, que será el factor de aumento cuando suba de nivel
- * @author Ismael
+ * @author futurDrama
  *
  */
 @Entity

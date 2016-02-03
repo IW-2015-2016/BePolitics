@@ -2,29 +2,29 @@ package es.fdi.iw.model.politicos;
 
 import java.io.IOException;
 /**
- * Excepciones de políticos, que se generarán al realizar operaciones incorrectas de entrada-salida
- * con un político
+ * Excepciones de polï¿½ticos, que se generarï¿½n al realizar operaciones incorrectas de entrada-salida
+ * con un polï¿½tico
  * 
- * @author Ismael
+ * @author futurDrama
  *
  */
 public class ExceptionPolitico extends IOException{
 
 	
 	/**
-	 * Valor autogenerado UID de la excepción
+	 * Valor autogenerado UID de la excepciï¿½n
 	 */
 	private static final long serialVersionUID = 6243510840435623132L;
 
 	/**
 	 * Crea la excepcionPolitico con el mensaje:
-	 * "Error al crear el político. Los valores asignados deben estar entre 0 y 100"
+	 * "Error al crear el polï¿½tico. Los valores asignados deben estar entre 0 y 100"
 	 */
 	public ExceptionPolitico(){
-		super("Error al crear el político. Los valores asignados deben estar entre 0 y 100");
+		super("Error al crear el polï¿½tico. Los valores asignados deben estar entre 0 y 100");
 	}
 	/**
-	 * Constructor de excepción, llama al constructor de IOException
+	 * Constructor de excepciï¿½n, llama al constructor de IOException
 	 * @param message
 	 * @see IOException(String message)
 	 */
@@ -32,7 +32,7 @@ public class ExceptionPolitico extends IOException{
 		super(message);
 	}
 	/**
-	 * Constructor de excepción, llama al constructor de IOException
+	 * Constructor de excepciï¿½n, llama al constructor de IOException
 	 * @param message
 	 * @param cause
 	 * @see IOException(String message, Throwable cause)

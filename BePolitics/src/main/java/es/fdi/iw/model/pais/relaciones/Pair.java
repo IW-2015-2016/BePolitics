@@ -1,5 +1,6 @@
 package es.fdi.iw.model.pais.relaciones;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.OneToOne;
 
 import es.fdi.iw.model.pais.Pais;
 import es.fdi.iw.model.pais.eventos.GestorEventos;
+import es.fdi.iw.model.pais.eventos.TipoEvento;
 
 /**
  * Relaciona dos objetos. El de la izquierda ser� inmutable pero el de la derecha se puede
@@ -29,7 +31,9 @@ public class Pair {
 	  private GestorEventos derecha;
 	  private Guerras guerra;
 	  
-	  public Pair(){}
+	  public Pair(){
+		 
+	  }
 @Id
 @GeneratedValue
 public long getId() {
@@ -48,14 +52,14 @@ public Pais getIzquierda() {
 	  return izquierda; 
 }
 
-public void setIzquierda(Pais left) {
-	this.izquierda = left;
+public void setIzquierda(Pais izquierda) {
+	this.izquierda = izquierda;
 }
 /**
  * Obtiene el par�metro de la derecha
  * @return un objeto del tipo parametrizado
  */
-@OneToOne(targetEntity=GestorEventos.class)
+@OneToOne(targetEntity=GestorEventos.class, cascade = CascadeType.ALL)
 public GestorEventos getDerecha() { 
 	  return derecha; 
 }
@@ -63,10 +67,10 @@ public GestorEventos getDerecha() {
  * Permite modificar el par�metro right, es posible introducir null
  * @param right un par�metro del tipo <R>
  */
-public void setDerecha(GestorEventos right){
-	  this.derecha = right;
+public void setDerecha(GestorEventos derecha){
+	  this.derecha = derecha;
 }
-@ManyToOne(targetEntity=Guerras.class)
+@ManyToOne(targetEntity=Guerras.class, cascade = CascadeType.ALL)
 public Guerras getGuerra() {
 	return guerra;
 }
@@ -80,9 +84,9 @@ public void setGuerra(Guerras guerra) {
 	   * @param left un par�metro que ser� inmutable
 	   * @param right un par�metro modificable
 	   */
-	  public Pair(Pais left, GestorEventos right) {
-	    this.izquierda = left;
-	    this.derecha = right;
+	  public Pair(Pais izquierda, GestorEventos derecha) {
+	    this.izquierda = izquierda;
+	    this.derecha = derecha;
 	  }
 
 

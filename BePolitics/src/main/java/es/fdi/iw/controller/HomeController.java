@@ -54,8 +54,10 @@ import es.fdi.iw.model.pais.construcciones.Construcciones;
 import es.fdi.iw.model.pais.construcciones.TipoConstruccion;
 import es.fdi.iw.model.pais.TipoRecurso;
 import es.fdi.iw.model.pais.eventos.Evento;
+import es.fdi.iw.model.pais.eventos.GestorEventos;
 import es.fdi.iw.model.pais.eventos.TipoEvento;
 import es.fdi.iw.model.pais.relaciones.ComunidadEconomica;
+import es.fdi.iw.model.pais.relaciones.Pair;
 import es.fdi.iw.model.politicos.ExceptionPolitico;
 import es.fdi.iw.model.politicos.Politico;
 import es.fdi.iw.model.usuario.ExceptionUsuario;
@@ -832,15 +834,28 @@ public class HomeController {
 
 	@RequestMapping(value = "/guerras", method = RequestMethod.GET)
 	public String guerras(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
+		Usuario u = (Usuario) session.getAttribute("rol");
+	Query misEnemigos = entityManager.createQuery("select p from Pais p where p in "
+			+ "(select gye.izquierda from Guerras g JOIN g.guerrasYEventos gye"
+				+ " where g.propietario.id = "+  u.getPais().getId()+")");
+	model.addAttribute("misEnemigos",misEnemigos.getResultList());
+
+	Query enPaz = entityManager.createQuery("select p from Pais p where p.id != "
+			+ u.getPais().getId()+" and p not in "
+					+ "(select gye.izquierda from Guerras g JOIN g.guerrasYEventos gye"
+					+ " where g.propietario.id = "+u.getPais().getId()+") and p not in "
+							+ "(select cep from ComunidadEconomica ce JOIN ce.paises cep "
+				+ "where ce.admin.id = "
+				+ u.getPais().getId()+ ")");
+	
+	model.addAttribute("enPaz",enPaz.getResultList());
 		return "guerras";
 	}
 
 	@RequestMapping(value = "/ministerios", method = RequestMethod.GET)
 	public String ministerios(Locale locale, Model model, HttpSession session) {
-		// session.setAttribute("user", "juan");
-		session.setAttribute("user", "pedro");
+		Usuario u = (Usuario) session.getAttribute("rol");
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
 		return "ministerios";
 	}
 
@@ -851,26 +866,7 @@ public class HomeController {
 		model.addAttribute("miembros",
 				entityManager.createQuery("select m from ComunidadEconomica ce JOIN ce.paises m where  ce.admin.id = "
 						+ u.getPais().getId()).getResultList());
-		
 
-		
-		
-/*		model.addAttribute("paises", entityManager.createQuery("select p from pais where p not in "
-				+ "(select )"));*/
-		/*model.addAttribute("aux",
-				entityManager.createQuery("select ce from ComunidadEconomica ce").getResultList());
-		*/
-		/*Query q = em.createQuery("SELECT x FROM Magazine x");
-List<Magazine> results = (List<Magazine>) q.getResultList()*/
-	/*	
-		Query  q = entityManager.createQuery("select ce.admin from ComunidadEconomica ce where ce.admin.id = "
-				+ u.getPais().getId());
-		List <Long> result = (List <Long>) q.getResultList();
-		
-		Query w = entityManager.createQuery("select e from Pais p JOIN p.miComunidad e where p.id = "
-				+ u.getPais().getId());
-		w.getResultList();
-	*/
 
 		Query otrosPaises = entityManager.createQuery("select p from Pais p where p not in"
 				+ "(select cep from ComunidadEconomica ce JOIN ce.paises cep "
@@ -1081,7 +1077,91 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 	/**************************************************************/
 	/************************** USUARIOS **************************/
 	/**************************************************************/
+
+	/**
+	 * Agrega al modelo las construcciones de un pais
+	 */
+	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
+	@Transactional
+	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
+		//TODO arreglar pérdida del css
+		System.out.println("\n/produccion/{id}  Aquí está llegando\n");
+		//Usuario u = entityManager.find(Usuario.class, id);
+		Usuario u = (Usuario)session.getAttribute("rol");	
+		System.out.println(u.getNick());
+		Pais p = u.getPais();
+		System.out.println(p.getNombre());
+		Construcciones c = p.getConstrucciones();
+		
+		System.out.println("id user="+ u.getId()+"\nid pais="+ p.getId()+"\nid construcciones=" + c.getIdPais());
+		
+		model.addAttribute("prefix", "../"); // para generar URLs relativas
+		model.addAttribute("recursos", u.getPais().getRecursos());
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
+		
+		return "produccion";
+	}
 	
+
+	/**
+	 * Accede a produccion
+	 */
+	@RequestMapping(value = "/produccion", method = RequestMethod.GET)
+	@Transactional
+	public String produccion(Locale locale, Model model, HttpSession session) {
+		//TODO no sé si tiene que devolver algo distinto, en principio creo que no porque
+		Usuario u = (Usuario)session.getAttribute("rol");	
+		if(u==null) return "login";
+		System.out.println("/produccion, con el usuario "+u.getNick());
+		
+		model.addAttribute("recursos", u.getPais().getRecursos());
+		model.addAttribute("prefix", "../"); // para generar URLs relativas
+		model.addAttribute("construcciones", u.getPais().getConstrucciones());
+		return "produccion";
+	}
+	
+	/**
+	 * Sube el nivel a una construccion
+	 */
+	@RequestMapping(value = "/producir", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String producir(HttpServletResponse response, 
+							Model model,
+							HttpSession session) {
+		
+		System.out.println("/Producir, aquí llega");
+		Usuario b = null;
+		try {
+			//TODO comprobar código
+			b = (Usuario) session.getAttribute("rol");
+			if(b==null) return "ERR";
+			Pais p = b.getPais();
+			Recursos r = p.getRecursos();
+			if(!p.produce()) throw new Exception();
+			
+			//c.subeNivel(TipoConstruccion.getConstruccion(building), r);
+			
+			
+			//entityManager.merge(c);
+			entityManager.merge(r);
+			entityManager.merge(p);
+			entityManager.flush();
+			model.addAttribute("recursos", r);
+			response.setStatus(HttpServletResponse.SC_OK);
+			System.out.println("¿IRÁ TODO BIEN?");
+	
+		} catch (NoResultException nre) {
+			logger.error("No se puede producir", nre.getMessage());
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		} catch (Exception e) {
+			logger.error("Error, no se pudo producir, posiblemente hoy ya se haya producido "+ e.getMessage());
+		}
+		if(b==null) return "ERR";
+		model.addAttribute("recursos", b.getPais().getRecursos());
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../produccion\""+b.getPais().getId()+"></head></html>";
+		//return "produccion";
+	}
 	
 	@RequestMapping(value = "/crearUsuario", method = RequestMethod.POST)
 	@Transactional
@@ -1101,6 +1181,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 
 		int edad = Integer.parseInt(formEdad);
 		Usuario u = null;
+		
 		
 		// TODO si funciona, borrar
 		//boolean isLoggedIn = (session.getAttribute("rol") != null);
@@ -1302,7 +1383,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			response.setStatus(HttpServletResponse.SC_OK);
 			return "OK";
 		} catch (NoResultException nre) {
-			logger.error("No existe ese politico: {}", id, nre);
+			logger.error("No existe ese editor: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
@@ -1323,7 +1404,7 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			response.setStatus(HttpServletResponse.SC_OK);
 			return "OK";
 		} catch (NoResultException nre) {
-			logger.error("No existe ese politico: {}", id, nre);
+			logger.error("No existe ese usuario: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
@@ -1390,12 +1471,138 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			response.setStatus(HttpServletResponse.SC_OK);
 			return "OK";
 		} catch (NoResultException nre) {
+			logger.error("No existe ese pais: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Iniciar una guerra.
+	 */
+
+	@RequestMapping(value = "/guerra/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String guerraPais(@PathVariable("id") long id, HttpServletResponse response, Model model,HttpSession session) {
+		try {
+			
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Pais miPais  = entityManager.find(Pais.class, u.getPais().getId());
+			Pais paisEnemigo = entityManager.find(Pais.class, id);
+		
+			Pair miPair = new Pair();
+			entityManager.persist(miPair);
+			entityManager.flush();
+			
+			GestorEventos miGE = new GestorEventos(TipoEvento.GUERRA);
+			entityManager.persist(miGE);
+			entityManager.flush();
+			
+			miPair.setIzquierda(paisEnemigo);
+			miPair.setDerecha(miGE);
+			miPair.setGuerra(miPais.getGuerra());
+			entityManager.flush();
+			
+			miPais.getGuerra().getGuerrasYEventos().add(miPair);
+			
+			Pair enemigoPair = new Pair();
+			entityManager.persist(enemigoPair);
+			entityManager.flush();
+			
+			GestorEventos enemigoGE = new GestorEventos(TipoEvento.GUERRA);
+			entityManager.persist(enemigoGE);
+			entityManager.flush();
+			
+			enemigoPair.setDerecha(enemigoGE);
+			enemigoPair.setIzquierda(miPais);
+			enemigoPair.setGuerra(paisEnemigo.getGuerra());
+			entityManager.flush();
+			
+			paisEnemigo.getGuerra().getGuerrasYEventos().add(enemigoPair);
+			
+			
+
+			entityManager.merge(miPair);
+			entityManager.merge(enemigoPair);
+			entityManager.merge(miPais);
+			entityManager.merge(paisEnemigo);
+			entityManager.flush();
+			
+			u=null;
+			miPais=null;
+			paisEnemigo=null;
+			miPair=null;
+			enemigoPair=null;
+			miGE=null;
+			enemigoGE=null;
+			
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "OK";
+		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
 	}
+	
+	
+	/**
+	 * Rendirse.
+	 */
+
+	@RequestMapping(value = "/rendirse/{id}", method = RequestMethod.GET)
+	@Transactional
+	@ResponseBody
+	public String rendirsePais(@PathVariable("id") long id, HttpServletResponse response, Model model,HttpSession session) {
+		try {
+			System.out.println(id);
+			Usuario u = (Usuario) session.getAttribute("rol");
+			Pais miPais  = entityManager.find(Pais.class, u.getPais().getId());
+			Pais paisEnemigo = entityManager.find(Pais.class, id);
+			
+			System.out.println(paisEnemigo.getNombre());
+			Query miPair = entityManager.createQuery("select pa from Pair pa where pa.izquierda = "
+					+paisEnemigo.getId()+ " and pa.guerra = " + miPais.getId());
+			
+			miPais.getGuerra().getGuerrasYEventos().remove(miPair.getSingleResult());
+			
+
+
+			Query enemigoPair = entityManager.createQuery("select pa from Pair pa where pa.izquierda = "
+					+miPais.getId()+ " and pa.guerra = " + paisEnemigo.getId());
+			
+			paisEnemigo.getGuerra().getGuerrasYEventos().remove(enemigoPair.getSingleResult());
+			
+			
+
+			entityManager.merge(miPais);
+			entityManager.merge(paisEnemigo);
+			entityManager.flush();
+			
+			u=null;
+			miPais=null;
+			paisEnemigo=null;
+			miPair=null;
+			enemigoPair=null;
+			
+			response.setStatus(HttpServletResponse.SC_OK);
+			return "OK";
+		} catch (NoResultException nre) {
+			logger.error("No existe ese pair: {}", id, nre);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+			return "ERR";
+		}
+	}
+	
+
 	
 	/***
 	 * Invitar a un nuevo pais a mi comunidad económica
@@ -1423,7 +1630,34 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			
 			miComunidadEconomica.getPaises().add(paisInvitado);
 			paisInvitado.getMiComunidad().add(miComunidadEconomica);
-	
+			
+			// Evento(String tit, String desc,TipoEvento tipo, Pais propietario_evento) 
+			//TODO si no funciona da igual
+			
+			/* 
+			try {
+				Evento eventoPaisInvitado = new Evento("Nueva comunidad económica", "Tu país forma parte de la comunidad económica del país "
+						+ u.getPais().getNombre(),
+						TipoEvento.COMUNIDAD_ECONOMICA,paisInvitado);
+				paisInvitado.getEventos().add(eventoPaisInvitado);
+				
+				Evento eventoMiPais = new Evento("Nuevo país en comunidad económica",
+						"Se incorporado el país "+ paisInvitado.getNombre()+ " a tu comunidad económica",
+						TipoEvento.COMUNIDAD_ECONOMICA, u.getPais());
+				u.getPais().getEventos().add(eventoMiPais);
+				
+				entityManager.merge(eventoPaisInvitado);
+				entityManager.merge(eventoMiPais);
+				entityManager.merge(u.getPais());
+			} catch (IOException e) {
+				// 
+				e.printStackTrace();
+			}
+			*/
+			
+			
+			
+			
 			entityManager.merge(miComunidadEconomica);
 			entityManager.merge(paisInvitado);
 			entityManager.flush();
@@ -1444,15 +1678,6 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		}
 	}
 	
-	/*** //TODO cosas 
-	 * página de error
-	 */
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	@Transactional
-	@ResponseBody
-	public String error(){
-		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=/BePolitics\"></head></html>";
-	}
 	
 	/**
 	 * Sube el nivel a una construccion
@@ -1470,6 +1695,12 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 		
 		try {
 			//TODO comprobar código
+			/*
+			Usuario b = entityManager.find(Usuario.class, id);
+			b.getPais().getConstrucciones().subeNivel(TipoConstruccion.getConstruccion(building), b.getPais().getRecursos());
+			
+			response.setStatus(HttpServletResponse.SC_OK);*/
+			
 			Usuario b = (Usuario) session.getAttribute("rol");
 			//Usuario b = entityManager.find(Usuario.class, id);
 			//if(a.getId() != b.getId()) return "ERR";
@@ -1478,105 +1709,21 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			Construcciones c = p.getConstrucciones();
 			c.subeNivel(TipoConstruccion.getConstruccion(building), r);
 			
-			
 			entityManager.merge(c);
 			entityManager.merge(r);
 			entityManager.merge(p);
 			entityManager.flush();
 			
-			response.setStatus(HttpServletResponse.SC_OK);
-			
-			model.addAttribute("recursos", b.getPais().getRecursos());
+model.addAttribute("recursos", b.getPais().getRecursos());
 			
 			return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../../produccion\"></head></html>";
+			
 		} catch (NoResultException nre) {
 			logger.error("No existe ese politico: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
-		
-		//return "produccion";
-	}
-	
-	/**
-	 * Agrega al modelo las construcciones de un pais
-	 */
-	@RequestMapping(value = "/produccion/{id}", method = RequestMethod.GET)
-	@Transactional
-	public String produccionId(@PathVariable("id") long id, Locale locale, Model model, HttpSession session) {
-
-		System.out.println("\n/produccion/{id}  Aquí está llegando\n");
-		
-		Usuario u = (Usuario) session.getAttribute("rol");
-		if(u==null) return "login";
-		System.out.println(u.getNick());
-		model.addAttribute("recursos", u.getPais().getRecursos());
-		model.addAttribute("prefix", "../"); // para generar URLs relativas
-		model.addAttribute("construcciones", u.getPais().getConstrucciones());
-		
-		return "produccion";
-	}
-	
-	
-	/**
-	 * Accede a produccion
-	 */
-	@RequestMapping(value = "/produccion", method = RequestMethod.GET)
-	@Transactional
-	public String produccion(Locale locale, Model model, HttpSession session) {
-		//TODO no sé si tiene que devolver algo distinto, en principio creo que no porque
-		Usuario u = (Usuario)session.getAttribute("rol");	
-		if(u==null) return "login";
-		System.out.println("/produccion, con el usuario "+u.getNick());
-		
-		model.addAttribute("recursos", u.getPais().getRecursos());
-		model.addAttribute("prefix", "../"); // para generar URLs relativas
-		model.addAttribute("construcciones", u.getPais().getConstrucciones());
-		return "produccion";
-	}
-	
-	/**
-	 * Sube el nivel a una construccion
-	 */
-	@RequestMapping(value = "/producir", method = RequestMethod.GET)
-	@Transactional
-	@ResponseBody
-	public String producir(HttpServletResponse response, 
-							Model model,
-							HttpSession session) {
-		
-		System.out.println("/Producir, aquí llega");
-		Usuario b = null;
-		try {
-			//TODO comprobar código
-			b = (Usuario) session.getAttribute("rol");
-			if(b==null) return "ERR";
-			Pais p = b.getPais();
-			Recursos r = p.getRecursos();
-			if(!p.produce()) throw new Exception();
-			
-			//c.subeNivel(TipoConstruccion.getConstruccion(building), r);
-			
-			
-			//entityManager.merge(c);
-			entityManager.merge(r);
-			entityManager.merge(p);
-			entityManager.flush();
-			model.addAttribute("recursos", r);
-			response.setStatus(HttpServletResponse.SC_OK);
-			System.out.println("¿IRÁ TODO BIEN?");
-	
-		} catch (NoResultException nre) {
-			logger.error("No se puede producir", nre.getMessage());
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		} catch (Exception e) {
-			logger.error("Error, no se pudo producir, posiblemente hoy ya se haya producido "+ e.getMessage());
-		}
-		if(b==null) return "ERR";
-		model.addAttribute("recursos", b.getPais().getRecursos());
-		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../produccion\""+b.getPais().getId()+"></head></html>";
-		//return "produccion";
 	}
 	
 	/**************************************************************/
@@ -1671,7 +1818,6 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			logger.error("No such usuario: {}", id);
 		} else {
 			model.addAttribute("noticia", n);
-			//TODO quitar
 			System.out.println(n.getId());
 
 			model.addAttribute("prefix", "../"); // para generar URLs relativas
@@ -1842,9 +1988,12 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.persist(editor);
 			entityManager.persist(ur);
 			entityManager.flush();
+			
+			
+			//c.setPolitico(pol, TipoConstruccion.MINISTERIO_DE_INDUSTRIA);
 
 			Pais nuevoPais = null;
-
+			
 			Construcciones ca = new Construcciones(" ");
 			ComunidadEconomica cea = new ComunidadEconomica();
 			Recursos ra = new Recursos();
@@ -1867,13 +2016,15 @@ List<Magazine> results = (List<Magazine>) q.getResultList()*/
 			entityManager.persist(ceao);
 			entityManager.persist(otroPais);
 			entityManager.flush();
-			 
 			
+			System.out.println("hau");
 			ComunidadEconomica b = entityManager.find(ComunidadEconomica.class, ce.getId());
 
 			System.out.println(ce.getId());
 			b.getPaises().add(nuevoPais);
+			System.out.println("hau2");
 			nuevoPais.getMiComunidad().add(ce);
+			System.out.println("hau3");
 			entityManager.merge(b);
 			entityManager.merge(nuevoPais);
 			entityManager.flush();

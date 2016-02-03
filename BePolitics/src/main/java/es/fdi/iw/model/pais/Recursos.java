@@ -20,7 +20,7 @@ import javax.persistence.OneToOne;
  * ENERGIA,
  * POBLACION
  * 
- * @author Ismael
+ * @author futurDrama
  * @see TipoRecurso
  *
  */

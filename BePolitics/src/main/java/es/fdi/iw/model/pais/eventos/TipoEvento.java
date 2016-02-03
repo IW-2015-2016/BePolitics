@@ -3,7 +3,7 @@ package es.fdi.iw.model.pais.eventos;
  * 
  * Indica los tipos de evento que puede haber
  * 
- * @author Ismael
+ * @author futurDrama
  *
  */
 public enum TipoEvento {

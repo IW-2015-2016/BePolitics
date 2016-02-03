@@ -17,7 +17,7 @@ import es.fdi.iw.model.pais.Pais;
  * el enumerado StatsPol�tico 
  * 
  * 
- * @author Ismael
+ * @author futurDrama
  * @see ExcepcionPolitico
  * @see StatsPol�tico
  */

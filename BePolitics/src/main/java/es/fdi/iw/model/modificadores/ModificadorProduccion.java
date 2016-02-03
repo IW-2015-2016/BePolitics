@@ -19,7 +19,7 @@ import es.fdi.iw.model.pais.TipoRecurso;
  * una descripci�n, y una fecha de inicio y otra de fin. tienen como objetivo almacenar
  * las modificaciones de producci�n que sufre un pa�s por cualquier motivo.
  * 
- * @author Ismael
+ * @author futurDrama
  * @see Date
  */
 @Entity

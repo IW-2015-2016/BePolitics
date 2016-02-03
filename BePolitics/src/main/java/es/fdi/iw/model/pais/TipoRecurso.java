@@ -9,10 +9,10 @@ import java.io.IOException;
  * 2 = ENERGIA
  * 3 = POBLACION
  * 
- * Existen métodos para obtener la cantidad de recursos y los índices de cada Tipo del enumerado. 
- * También se puede obtener el enumerado por el índice.
+ * Existen mï¿½todos para obtener la cantidad de recursos y los ï¿½ndices de cada Tipo del enumerado. 
+ * Tambiï¿½n se puede obtener el enumerado por el ï¿½ndice.
  * 
- * @author Ismael
+ * @author futurDrama
  *
  */
 public enum TipoRecurso {
