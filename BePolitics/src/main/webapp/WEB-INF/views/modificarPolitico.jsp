@@ -21,7 +21,7 @@
 					</div>
 					<div class="nick-pass">
 						<label>Precio</label><input type="number" name="precio"
-							step="00.01" value="${politico.precio}">
+							step="00.01" value="${politico.precio}">&euro;
 					</div>
 					<div class="nick-pass">
 						<label>Honestidad</label><input type="number" name="honestidad"

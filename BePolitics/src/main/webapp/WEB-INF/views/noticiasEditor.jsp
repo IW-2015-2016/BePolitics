@@ -35,7 +35,7 @@
 				success : function(m) {
 					console.log("ok - this worked");
 					$.ajax({
-						url : "${prefix}borraNoticia/" + ID,
+						url : "${prefix}borraNoticia/" + id,
 					})
 				}
 			})
@@ -92,8 +92,8 @@
 				<tr>
 					<td><i class="ministryButton" href="javascript:void(0)"
 						onclick="toggle_visibility('popup-box1')">Crear Noticia</i>
-					<td><input type="text" value="Introduce tu búsqueda"></td>
-					<td><a class="ministryButton">Buscar</a></td>
+<!-- 					<td><input type="text" value="Introduce tu búsqueda"></td> -->
+<!-- 					<td><a class="ministryButton">Buscar</a></td> -->
 				</tr>
 			</tbody>
 		</table>
