@@ -9,25 +9,6 @@
 			e.style.display = 'block';
 	}
 
-	$(function() {
-
-		$("button.ministryButton").click(function() {
-			var id = $(this).attr("id").substring("e_".length);
-			var row = $("#e_" + id).parent();
-			$.ajax({
-				url : "${prefix}opcionUno/" + id,
-				type : "GET",
-				success : function(d) {
-					console.log("ok - this worked");
-					$("#e_" + id).remove();
-				},
-				error : function(d) {
-					alert("");
-				}
-			})
-		});
-
-	})
 </script>
 <div id="divCentro">
 	<div id="titulo">
@@ -51,9 +32,7 @@
 						<a class="linkHeader"
                   href="${prefix}opcionUno/${ev.id}">${ev.opcion1 }</a>
 				<a class="linkHeader"
-                  href="${prefix}/opcionDos/${ev.id}">${ev.opcion2 }</a>
-							<button class="ministryButton" id="e_${ev.id}">${ev.opcion1 }</button>
-							<button class="ministryButtonDos" id="e_${ev.id}">${ev.opcion2 }</button>
+                  href="${prefix}opcionDos/${ev.id}">${ev.opcion2 }</a>	
 						</div>
 					</div>
 

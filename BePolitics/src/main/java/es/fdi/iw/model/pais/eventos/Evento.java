@@ -188,7 +188,7 @@ public class Evento {
 		
 		
 		// Se añade el modificador del evento
-		if (this.tipoEvento != TipoEvento.EVENTO_REGULAR){
+		if (this.tipoEvento == TipoEvento.EVENTO_REGULAR){
 			
 			Date today = new Date(Calendar.getInstance().getTimeInMillis());
 			Calendar aux = Calendar.getInstance();

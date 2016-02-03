@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -594,33 +595,45 @@ public class HomeController {
 	public String opcionuno(@PathVariable("id") long id, HttpServletResponse response, Model model,
 			HttpSession session) {
 		try {
-			System.out.println("entro");
-			Usuario u = (Usuario) session.getAttribute("rol");
-			Evento e = entityManager.find(Evento.class, id);
-			Pais p = entityManager.find(Pais.class, u.getPais().getId());
 			
+			System.out.println("entroUno");
+			Usuario u = (Usuario) session.getAttribute("rol");
+			System.out.println(u.getNombre());
+			Evento e = entityManager.find(Evento.class, id);
+			System.out.println(e.getTitulo());
+			Pais p = u.getPais();
+			System.out.println(p.getNombre());
 				
 			//Tratar el evento.
 			
-			ModificadorProduccion m = e.respondeEvento(1);
+			String tituloModif = "Modificacion";
+			String descrModif = "Durante el evento "+ e.getTitulo() +", la elección de la opción \"" +e.getOpcion1() +"\" causa esta modificación.";
+		
+			ModificadorProduccion m = new ModificadorProduccion(e.getRec1(), e.getPorcentaje1(), tituloModif, descrModif, null, null);
+			
+			
 			System.out.print(m.getTitulo());
+			
+			entityManager.persist(m);
+			m.setPropietario(p);
 			entityManager.merge(m);
-			//entityManager.merge(e);
 			entityManager.flush();
-			p.addModificador(m);
+			
+			p.getModificadores().add(m);
 			p.getEventos().remove(e);
 			entityManager.merge(p);
 			entityManager.flush();
 			
-
+			
 		} catch (NoResultException nre) {
-			logger.error("No existe ese politico: {}", id, nre);
+			logger.error("No existe ese evento: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
 		//response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		return "eventos";
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../../eventos\"></head></html>";
+		
 	}
 	@RequestMapping(value = "/opcionDos/{id}", method = RequestMethod.GET)
 	@Transactional
@@ -628,34 +641,42 @@ public class HomeController {
 	public String opciondos(@PathVariable("id") long id, HttpServletResponse response, Model model,
 			HttpSession session) {
 		try {
-			System.out.println("entro");
+			System.out.println("entroUno");
 			Usuario u = (Usuario) session.getAttribute("rol");
+			//System.out.println(u.getNombre());
 			Evento e = entityManager.find(Evento.class, id);
-			Pais p = entityManager.find(Pais.class, u.getPais().getId());
-			
+			//System.out.println(e.getTitulo());
+			Pais p = u.getPais();
+			//System.out.println(p.getNombre());
 				
 			//Tratar el evento.
 			
-			ModificadorProduccion m = e.respondeEvento(2);
-			System.out.print(m.getTitulo());
-			entityManager.merge(m);
-			entityManager.merge(e);
-			entityManager.flush();
-			p.addModificador(m);
+			String tituloModif = "Modificacion";
+			String descrModif = "Durante el evento "+ e.getTitulo() +", la elección de la opción \"" +e.getOpcion2() +"\" causa esta modificación.";
+		
+			ModificadorProduccion m = new ModificadorProduccion(e.getRec2(), e.getPorcentaje2(), tituloModif, descrModif, null, null);
 			
+			
+			//System.out.print(m.getTitulo());
+			m.setPropietario(p);
+			entityManager.persist(m);
+			entityManager.flush();
+			
+			p.getModificadores().add(m);
+			p.getEventos().remove(e);
 			entityManager.merge(p);
 			entityManager.flush();
 			
 
 
 		} catch (NoResultException nre) {
-			logger.error("No existe ese politico: {}", id, nre);
+			logger.error("No existe ese evento: {}", id, nre);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return "ERR";
 		}
-		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		return "ERR";
+		//response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return "<html><head><meta http-equiv=\"refresh\" content=\"N; URL=../../eventos\"></head></html>";
 	}
 
 	/**
