@@ -21,6 +21,9 @@
 				<div class="entra-registro"> 
 					<input name="submit"  value="Entrar" type="submit">    
 					<input type="reset" value="Restablecer">
+						<p><a href="vistaAdmin" >Entrar como Administrador</a></p>
+						<p><a href="vistaEditor" >Entrar como Editor</a>	</p>
+						<p><a href="vistaJugador" >Entrar como Jugador</a>	</p>	
 				</div>
 			</form>
 		</div>
